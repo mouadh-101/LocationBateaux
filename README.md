@@ -86,3 +86,4 @@ The application also includes a **multi-role access system**:
 ---
 
 > This README will be updated as development progresses.
+
