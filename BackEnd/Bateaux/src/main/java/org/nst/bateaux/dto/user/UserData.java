@@ -1,0 +1,17 @@
+package org.nst.bateaux.dto.user;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.nst.bateaux.entity.Role;
+
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserData {
+    public Long id;
+    public String email;
+    public Role role;
+    public Boolean isActive;
+}
