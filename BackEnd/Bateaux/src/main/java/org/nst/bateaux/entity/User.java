@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -23,6 +25,12 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
     private boolean isActive= true;
+
+    @OneToMany(mappedBy = "utilisateur",cascade = CascadeType.ALL)
+    private List<Reservation> reservations;
+
+    @OneToMany(mappedBy = "proprietaire",cascade = CascadeType.ALL)
+    private List<Bateaux> bateaux;
 
 }
 
