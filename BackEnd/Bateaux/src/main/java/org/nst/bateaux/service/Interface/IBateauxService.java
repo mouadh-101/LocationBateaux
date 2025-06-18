@@ -10,9 +10,9 @@ import java.util.Optional;
 public interface IBateauxService {
 
 
-    Bateaux ajouterBateaux(BateauData bateaux,Long adminId) ;
+    BateauData ajouterBateaux(BateauData bateaux,Long adminId) ;
     void supprimerBateaux(Long id);
-    Bateaux updateBateaux(Long id,Bateaux bateaux);
-    Optional<Bateaux> chercherBateaux(Long id);
-    List<Bateaux> getAll();
+    BateauData updateBateaux(Long id,BateauData bateaux);
+    BateauData getBateauxById(Long id);
+    List<BateauData> getAll();
 }
