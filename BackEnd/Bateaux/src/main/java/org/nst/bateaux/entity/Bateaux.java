@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,16 +23,11 @@ public class Bateaux {
     String nom ;
     String description ;
     double prix ;
-
-
-
     @ManyToOne
     private User proprietaire;
-
     @OneToMany(mappedBy = "bateau", cascade = CascadeType.ALL)
-    private List<Image> images;
-
+    private List<Image> images=new ArrayList<>();
     @OneToMany(mappedBy = "bateau",cascade = CascadeType.ALL)
-    private List<Reservation> reservations;
+    private List<Reservation> reservations=new ArrayList<>();
 
 }

@@ -18,7 +18,6 @@ public class Image {
 
     Long ImageId ;
     String url ;
-
     @ManyToOne
     private Bateaux bateau;
 

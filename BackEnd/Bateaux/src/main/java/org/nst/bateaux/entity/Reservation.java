@@ -23,14 +23,10 @@ public class Reservation {
     LocalDateTime DateFin ;
     @Enumerated(EnumType.STRING)
     StatusRes status ;
-
-
     @ManyToOne
     private User utilisateur;
-
     @ManyToOne
     private Bateaux bateau;
-
     @OneToOne(mappedBy = "reservation",cascade = CascadeType.ALL)
     private Paiement paiement;
 }
