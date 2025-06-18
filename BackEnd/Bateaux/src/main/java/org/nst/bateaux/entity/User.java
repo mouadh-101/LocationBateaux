@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,12 +26,11 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
     private boolean isActive= true;
-
     @OneToMany(mappedBy = "utilisateur",cascade = CascadeType.ALL)
-    private List<Reservation> reservations;
-
+    private List<Reservation> reservations=new ArrayList<>();
     @OneToMany(mappedBy = "proprietaire",cascade = CascadeType.ALL)
-    private List<Bateaux> bateaux;
+    private List<Bateaux> bateaux = new ArrayList<>();
+
 
 }
 

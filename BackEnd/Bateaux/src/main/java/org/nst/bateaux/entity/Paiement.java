@@ -22,7 +22,6 @@ public class Paiement {
     MéthodePai methode ;
     @Enumerated(EnumType.STRING)
     StatusRes status ;
-
     @OneToOne
     private Reservation reservation;
 
