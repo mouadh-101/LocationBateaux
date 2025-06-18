@@ -3,10 +3,7 @@ package org.nst.bateaux.controller;
 import lombok.AllArgsConstructor;
 import org.nst.bateaux.dto.bateau.BateauData;
 import org.nst.bateaux.dto.user.UserData;
-import org.nst.bateaux.entity.Bateaux;
-import org.nst.bateaux.entity.Reservation;
 import org.nst.bateaux.service.Implimentation.BateauxService;
-import org.nst.bateaux.service.Implimentation.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -27,32 +23,35 @@ public class BateauxController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    Bateaux ajouterBateaux (@RequestBody BateauData bateaux) {
+    public ResponseEntity<BateauData> ajouterBateaux(@RequestBody BateauData bateaux) {
         UserData loggedInUser = (UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return bateauxService.ajouterBateaux(bateaux,loggedInUser.getId());
+        BateauData saved = bateauxService.ajouterBateaux(bateaux, loggedInUser.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
-
     @DeleteMapping(path = "/{id}")
-    void supprimerBateaux(@PathVariable Long id)
-    {
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> supprimerBateaux(@PathVariable Long id) {
         bateauxService.supprimerBateaux(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping(path = "/{id}")
-    Bateaux updateBateaux(@PathVariable Long id,@RequestBody Bateaux bateaux)
-    {
-        return bateauxService.updateBateaux(id,bateaux);
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<BateauData> updateBateaux(@PathVariable Long id, @RequestBody BateauData bateaux) {
+        BateauData updated = bateauxService.updateBateaux(id, bateaux);
+        return ResponseEntity.ok(updated);
     }
 
     @GetMapping(path = "/{id}")
-    Optional<Bateaux> chercherBateaux(@PathVariable Long id)
-    {return bateauxService.chercherBateaux(id);}
-
-    @GetMapping("/list")
-    public ResponseEntity<List<Bateaux>> getAll() {
-        return new ResponseEntity<>(bateauxService.getAll(), HttpStatus.CREATED);
-
+    public ResponseEntity<BateauData> getBateauxById(@PathVariable Long id) {
+        BateauData bateau = bateauxService.getBateauxById(id);
+        return ResponseEntity.ok(bateau);
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<List<BateauData>> getAll() {
+        List<BateauData> bateaux = bateauxService.getAll();
+        return ResponseEntity.ok(bateaux);
+    }
 }

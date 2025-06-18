@@ -25,7 +25,7 @@ public class BateauxService implements IBateauxService {
     UserRepository userRepository;
 
     @Override
-    public Bateaux ajouterBateaux(BateauData bateaux , Long adminId)
+    public BateauData ajouterBateaux(BateauData bateaux , Long adminId)
     {
         User user=userRepository.findById(adminId).orElseThrow(()->new RuntimeException("user not found"));
         Bateaux newBat=new Bateaux();
@@ -40,7 +40,7 @@ public class BateauxService implements IBateauxService {
             im.setBateau(newBat);
             newBat.getImages().add(im);
         }
-        return bateauxRepository.save(newBat);
+        return mapToDto(bateauxRepository.save(newBat));
     }
 
     @Override
@@ -50,21 +50,51 @@ public class BateauxService implements IBateauxService {
     }
 
     @Override
-    public Bateaux updateBateaux(Long id,Bateaux bateaux)
+    public BateauData updateBateaux(Long id, BateauData bateauxDto) {
+        Bateaux b = bateauxRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Bateau not found"));
+
+        b.setNom(bateauxDto.getNom());
+        b.setDescription(bateauxDto.getDescription());
+        b.setPrix(bateauxDto.getPrix());
+        b.getImages().clear();
+        for (ImageDto i : bateauxDto.getImages()) {
+            Image im = new Image();
+            im.setUrl(i.getUrl());
+            im.setBateau(b); // Set back-reference
+            b.getImages().add(im);
+        }
+
+        return mapToDto(bateauxRepository.save(b));
+    }
+
+
+    @Override
+    public BateauData getBateauxById(Long id)
     {
-        Bateaux i=bateauxRepository.findById(id).orElse(null);
-        i.setNom(bateaux.getNom());
-        i.setDescription(bateaux.getDescription());
-        i.setPrix(bateaux.getPrix());
-        return bateauxRepository.save(i);
+        return mapToDto(bateauxRepository.findById(id).orElse(null));
     }
 
     @Override
-    public Optional<Bateaux> chercherBateaux(Long id)
-    {
-        return bateauxRepository.findById(id);
+    public List<BateauData> getAll() {
+        List<Bateaux> bateauxList = bateauxRepository.findAll();
+        return bateauxList.stream().map(this::mapToDto).toList();
     }
 
-    @Override
-    public List<Bateaux> getAll() {return bateauxRepository.findAll();}
+
+
+
+    private BateauData mapToDto(Bateaux bateau) {
+        List<ImageDto> images = bateau.getImages().stream()
+                .map(img -> new ImageDto(img.getImageId(), img.getUrl()))
+                .toList();
+
+        return new BateauData(
+                bateau.getBateauxId(),
+                bateau.getNom(),
+                bateau.getDescription(),
+                bateau.getPrix(),
+                images
+        );
+    }
 }

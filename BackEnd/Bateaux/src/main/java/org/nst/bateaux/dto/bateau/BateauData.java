@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BateauData {
+    long BateauxId;
     String nom ;
     String description ;
     double prix ;
