@@ -33,25 +33,26 @@ public class BateauxController {
     }
 
 
-    @DeleteMapping(path = "/Bateaux/{id}")
+    @DeleteMapping(path = "/{id}")
     void supprimerBateaux(@PathVariable Long id)
     {
         bateauxService.supprimerBateaux(id);
     }
 
-    @PutMapping(path = "/Bateaux/update/{id}")
+    @PutMapping(path = "/{id}")
     Bateaux updateBateaux(@PathVariable Long id,@RequestBody Bateaux bateaux)
     {
         return bateauxService.updateBateaux(id,bateaux);
     }
 
-    @GetMapping(path = "/Bateaux/{id}")
+    @GetMapping(path = "/{id}")
     Optional<Bateaux> chercherBateaux(@PathVariable Long id)
     {return bateauxService.chercherBateaux(id);}
 
     @GetMapping("/list")
     public ResponseEntity<List<Bateaux>> getAll() {
         return new ResponseEntity<>(bateauxService.getAll(), HttpStatus.CREATED);
+
     }
 
 }
