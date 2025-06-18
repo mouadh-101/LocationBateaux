@@ -52,6 +52,7 @@ public class BateauxController {
     @GetMapping("/list")
     public ResponseEntity<List<Bateaux>> getAll() {
         return new ResponseEntity<>(bateauxService.getAll(), HttpStatus.CREATED);
+
     }
 
 }
