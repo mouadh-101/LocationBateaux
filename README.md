@@ -43,6 +43,8 @@ The application also includes a **multi-role access system**:
 - `Users (id, name, email, password, role)`
 - `Boats (id, name, description, price, availability, images)`
 - `Reservations (id, user_id, boat_id, date, status)`
+- `Paiement (id, montant, méthode, status)`
+- `Image (id, url)`
 
 ---
 
