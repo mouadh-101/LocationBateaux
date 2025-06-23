@@ -15,3 +15,4 @@ public class BateauData {
     double prix ;
     List<ImageDto> images;
 }
+

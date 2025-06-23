@@ -31,6 +31,9 @@ public class User {
     @OneToMany(mappedBy = "proprietaire",cascade = CascadeType.ALL)
     private List<Bateaux> bateaux = new ArrayList<>();
 
+    @OneToMany(mappedBy = "utilisateur",cascade = CascadeType.ALL)
+    private List<Avis> avis = new ArrayList<>();
+
 
 }
 

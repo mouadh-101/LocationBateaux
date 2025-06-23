@@ -23,11 +23,16 @@ public class Bateaux {
     String nom ;
     String description ;
     double prix ;
+    boolean disponible ;
     @ManyToOne
     private User proprietaire;
     @OneToMany(mappedBy = "bateau", cascade = CascadeType.ALL)
     private List<Image> images=new ArrayList<>();
     @OneToMany(mappedBy = "bateau",cascade = CascadeType.ALL)
     private List<Reservation> reservations=new ArrayList<>();
+    @OneToMany(mappedBy = "bateau",cascade = CascadeType.ALL)
+    private List<Avis> avis=new ArrayList<>();
+    @OneToMany(mappedBy = "bateau",cascade = CascadeType.ALL)
+    private List<Maintenance> maintenances=new ArrayList<>();
 
 }

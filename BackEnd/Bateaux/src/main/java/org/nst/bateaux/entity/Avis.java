@@ -6,26 +6,26 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Paiement {
-
+public class Avis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    Long PaiementId ;
-    double Montant ;
-    LocalDateTime datePaiement ;
-    @Enumerated(EnumType.STRING)
-    MéthodePai methode ;
-    @Enumerated(EnumType.STRING)
-    StatusRes status ;
-    @OneToOne
-    private Reservation reservation;
+    Long AvisId ;
+    Integer note ;
+    String commentaire ;
+    LocalDateTime dateCreation ;
+    @ManyToOne
+    private User utilisateur;
+    @ManyToOne
+    private Bateaux bateau;
 
 }

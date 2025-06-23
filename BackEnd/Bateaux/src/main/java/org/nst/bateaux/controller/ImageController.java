@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/Image")
+@RequestMapping("/api/Image")
 public class ImageController {
 
     @Autowired
@@ -25,19 +25,19 @@ public class ImageController {
     Image ajouterImage (@RequestBody Image image) {return imageService.ajouterImage(image);}
 
 
-    @DeleteMapping(path = "/Image/{id}")
+    @DeleteMapping(path = "/{id}")
     void supprimerImage(@PathVariable Long id)
     {
         imageService.supprimerImage(id);
     }
 
-    @PutMapping(path = "/Image/update/{id}")
+    @PutMapping(path = "/{id}")
     Image updateImage(@PathVariable Long id,@RequestBody Image image)
     {
         return imageService.updateImage(id,image);
     }
 
-    @GetMapping(path = "/Image/{id}")
+    @GetMapping(path = "/{id}")
     Optional<Image> chercherImage(@PathVariable Long id)
     {return imageService.chercherImage(id);}
 
