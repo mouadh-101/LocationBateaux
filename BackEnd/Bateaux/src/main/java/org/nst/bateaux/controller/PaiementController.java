@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/Paiement")
+@RequestMapping("/api/Paiement")
 public class PaiementController {
 
     @Autowired
@@ -26,19 +26,19 @@ public class PaiementController {
     Paiement ajouterPaiement (@RequestBody Paiement paiement) {return paiementService.ajouterPaiement(paiement);}
 
 
-    @DeleteMapping(path = "/Paiement/{id}")
+    @DeleteMapping(path = "/{id}")
     void supprimerPaiement(@PathVariable Long id)
     {
         paiementService.supprimerPaiement(id);
     }
 
-    @PutMapping(path = "/Paiement/update/{id}")
+    @PutMapping(path = "/{id}")
     Paiement updatePaiement(@PathVariable Long id,@RequestBody Paiement paiement)
     {
         return paiementService.updatePaiement(id,paiement);
     }
 
-    @GetMapping(path = "/Bateaux/{id}")
+    @GetMapping(path = "/{id}")
     Optional<Paiement> chercherPaiement(@PathVariable Long id)
     {return paiementService.chercherPaiement(id);}
 
