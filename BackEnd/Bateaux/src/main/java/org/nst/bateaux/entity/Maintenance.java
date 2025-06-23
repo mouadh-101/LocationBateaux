@@ -13,19 +13,16 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Paiement {
+public class Maintenance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    Long PaiementId ;
-    double Montant ;
-    LocalDateTime datePaiement ;
-    @Enumerated(EnumType.STRING)
-    MéthodePai methode ;
-    @Enumerated(EnumType.STRING)
-    StatusRes status ;
-    @OneToOne
-    private Reservation reservation;
+    Long MaintenanceId ;
+    String description ;
+    LocalDateTime dateDebut ;
+    LocalDateTime dateFin ;
+    @ManyToOne
+    private Bateaux bateau;
 
 }

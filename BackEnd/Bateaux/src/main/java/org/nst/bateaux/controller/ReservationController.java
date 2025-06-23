@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/Resrvation")
+@RequestMapping("/api/Resrvation")
 public class ReservationController {
     @Autowired
     ReservationService reservationService;
@@ -21,19 +21,19 @@ public class ReservationController {
     Reservation ajouterReservation (@RequestBody Reservation reservation) {return reservationService.ajouterReservation(reservation);}
 
 
-    @DeleteMapping(path = "/Reservation/{id}")
+    @DeleteMapping(path = "/{id}")
     void supprimerReservation(@PathVariable Long id)
     {
         reservationService.supprimerReservation(id);
     }
 
-    @PutMapping(path = "/Reservation/update/{id}")
+    @PutMapping(path = "/{id}")
     Reservation updateReservation(@PathVariable Long id,@RequestBody Reservation reservation)
     {
         return reservationService.updateReservation(id,reservation);
     }
 
-    @GetMapping(path = "/Reservation/{id}")
+    @GetMapping(path = "/{id}")
     Optional<Reservation> chercherReservation(@PathVariable Long id)
     {return reservationService.chercherReservation(id);}
 
