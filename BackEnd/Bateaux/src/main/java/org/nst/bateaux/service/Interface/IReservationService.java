@@ -1,5 +1,7 @@
 package org.nst.bateaux.service.Interface;
 
+import org.nst.bateaux.dto.reservation.ReservationAdd;
+import org.nst.bateaux.dto.reservation.ReservationData;
 import org.nst.bateaux.entity.Reservation;
 
 import java.util.List;
@@ -7,11 +9,13 @@ import java.util.Optional;
 
 public interface IReservationService {
 
-    Reservation ajouterReservation(Reservation reservation) ;
+    ReservationData ajouterReservation(ReservationAdd reservation,Long bateauId,Long userId) ;
 
     void supprimerReservation(Long id);
-    Reservation updateReservation(Long id,Reservation reservation);
-    Optional<Reservation> chercherReservation(Long id);
-    List<Reservation> getAll();
+    ReservationData updateReservation(Long id,ReservationData reservation);
+    ReservationData getReservationById(Long id);
+    List<ReservationData> getAll();
+    ReservationData mapToDto(Reservation reservation);
+    List <ReservationData> getCurrentUserReservations(Long userId);
 
 }

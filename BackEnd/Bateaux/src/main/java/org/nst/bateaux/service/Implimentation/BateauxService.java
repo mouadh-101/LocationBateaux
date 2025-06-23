@@ -25,8 +25,7 @@ public class BateauxService implements IBateauxService {
     UserRepository userRepository;
 
     @Override
-    public BateauData ajouterBateaux(BateauData bateaux , Long adminId)
-    {
+    public BateauData ajouterBateaux(BateauData bateaux , Long adminId) {
         User user=userRepository.findById(adminId).orElseThrow(()->new RuntimeException("user not found"));
         Bateaux newBat=new Bateaux();
         newBat.setNom(bateaux.getNom());
@@ -81,10 +80,8 @@ public class BateauxService implements IBateauxService {
         return bateauxList.stream().map(this::mapToDto).toList();
     }
 
-
-
-
-    private BateauData mapToDto(Bateaux bateau) {
+    @Override
+    public BateauData mapToDto(Bateaux bateau) {
         List<ImageDto> images = bateau.getImages().stream()
                 .map(img -> new ImageDto(img.getImageId(), img.getUrl()))
                 .toList();

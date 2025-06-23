@@ -13,4 +13,5 @@ public interface IPaiementService {
     Paiement updatePaiement(Long id,Paiement paiement);
     Optional<Paiement> chercherPaiement(Long id);
     List<Paiement> getAll();
+
 }
