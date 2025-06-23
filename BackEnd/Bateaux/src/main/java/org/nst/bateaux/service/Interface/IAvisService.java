@@ -1,12 +1,16 @@
 package org.nst.bateaux.service.Interface;
+import org.nst.bateaux.dto.avis.AviData;
 import org.nst.bateaux.entity.Avis;
 import java.util.List;
-import java.util.Optional;
+
 public interface IAvisService {
 
-    Avis ajouterAvis(Avis avis) ;
+    AviData ajouterAvis(AviData avis, Long bateauId, Long userId); ;
     void supprimerAvis(Long id);
-    Avis updateAvis(Long id,Avis avis);
-    Optional<Avis> chercherAvis(Long id);
-    List<Avis> getAll();
+    AviData updateAvis(Long id,AviData avis);
+    AviData getAvisById(Long id);
+    List<AviData> getAll();
+    AviData mapToDto(Avis avis);
+    List<AviData> getAllAvisByBataeuxId(Long bateauId);
+
 }

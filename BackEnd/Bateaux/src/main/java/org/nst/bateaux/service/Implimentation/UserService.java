@@ -155,6 +155,16 @@ public class UserService implements IUserService {
         userData.setIsActive(user.isActive());
         return userData;
     }
+    @Override
+    public UserDataWithName mapToDtoWithName(User user) {
+        UserDataWithName userDataWithName = new UserDataWithName();
+        userDataWithName.setId(user.getId());
+        userDataWithName.setEmail(user.getEmail());
+        userDataWithName.setRole(user.getRole());
+        userDataWithName.setIsActive(user.isActive());
+        userDataWithName.setName(user.getName());
+        return userDataWithName;
+    }
 
 
 }

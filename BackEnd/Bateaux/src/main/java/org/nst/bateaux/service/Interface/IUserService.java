@@ -24,4 +24,5 @@ public interface IUserService {
     void unBanUser(Long userId);
     void changePassword(Long id, ChangePasswordRequest request);
     UserData mapToDto(User user);
+    UserDataWithName mapToDtoWithName(User user);
 }
