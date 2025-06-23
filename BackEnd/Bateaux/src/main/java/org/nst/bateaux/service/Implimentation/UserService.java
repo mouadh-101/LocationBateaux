@@ -146,6 +146,15 @@ public class UserService implements IUserService {
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
     }
+    @Override
+    public UserData mapToDto(User user) {
+        UserData userData = new UserData();
+        userData.setId(user.getId());
+        userData.setEmail(user.getEmail());
+        userData.setRole(user.getRole());
+        userData.setIsActive(user.isActive());
+        return userData;
+    }
 
 
 }

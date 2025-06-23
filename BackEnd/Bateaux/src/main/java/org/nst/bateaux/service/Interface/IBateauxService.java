@@ -15,4 +15,5 @@ public interface IBateauxService {
     BateauData updateBateaux(Long id,BateauData bateaux);
     BateauData getBateauxById(Long id);
     List<BateauData> getAll();
+    BateauData mapToDto(Bateaux bateau);
 }
