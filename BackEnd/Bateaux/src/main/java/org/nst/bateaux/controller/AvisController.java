@@ -1,17 +1,16 @@
 package org.nst.bateaux.controller;
 
 import lombok.AllArgsConstructor;
-import org.nst.bateaux.entity.Avis;
-import org.nst.bateaux.entity.Image;
+import org.nst.bateaux.dto.avis.AviData;
+import org.nst.bateaux.dto.user.UserData;
 import org.nst.bateaux.service.Implimentation.AvisService;
-import org.nst.bateaux.service.Implimentation.BateauxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -21,29 +20,39 @@ public class AvisController {
     @Autowired
     AvisService avisService;
 
-    @PostMapping(path = "/AddAvis")
-    Avis ajouterAvis (@RequestBody Avis avis) {return avisService.ajouterAvis(avis);}
+    @PostMapping("/{bateauxId}")
+    public ResponseEntity<AviData> ajouterAvis(@RequestBody AviData avis, @PathVariable("bateauxId") Long bateauxId) {
+        UserData loggedInUser = (UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AviData created = avisService.ajouterAvis(avis, bateauxId, loggedInUser.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
 
-
-    @DeleteMapping(path = "/{id}")
-    void supprimerAvis(@PathVariable Long id)
-    {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> supprimerAvis(@PathVariable Long id) {
         avisService.supprimerAvis(id);
+        return ResponseEntity.noContent().build();
     }
 
-    @PutMapping(path = "/{id}")
-    Avis updateAvis(@PathVariable Long id,@RequestBody Avis avis)
-    {
-        return avisService.updateAvis(id,avis);
+    @PutMapping("/{id}")
+    public ResponseEntity<AviData> updateAvis(@PathVariable Long id, @RequestBody AviData avis) {
+        AviData updated = avisService.updateAvis(id, avis);
+        return ResponseEntity.ok(updated);
     }
 
-    @GetMapping(path = "/{id}")
-    Optional<Avis> chercherAvis(@PathVariable Long id)
-    {return avisService.chercherAvis(id);}
+    @GetMapping("/{id}")
+    public ResponseEntity<AviData> getAvisById(@PathVariable Long id) {
+        AviData avis = avisService.getAvisById(id);
+        return ResponseEntity.ok(avis);
+    }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Avis>> getAll() {
-        return new ResponseEntity<>(avisService.getAll(), HttpStatus.CREATED);
+    public ResponseEntity<List<AviData>> getAll() {
+        List<AviData> avisList = avisService.getAll();
+        return ResponseEntity.ok(avisList);
     }
-
+    @GetMapping("/bateaux/{bateauxId}")
+    public ResponseEntity<List<AviData>> getAllAvisByBateauxId(@PathVariable Long bateauxId) {
+        List<AviData> avisList = avisService.getAllAvisByBataeuxId(bateauxId);
+        return ResponseEntity.ok(avisList);
+    }
 }
