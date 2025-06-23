@@ -10,12 +10,14 @@
 This project aims to develop a **web platform for boat rental**, allowing users to:
 
 - Search for boats based on filters (type, price, availability)
-- Book boats by selecting dates
+- View detailed boat profiles (photos, descriptions, price, maintenance status
+- Book a boat with start and end dates
 - View booking history from their user dashboard
 - Simulate payments (future integrations: Clicktopay Tunisia, PayPal Dubai)
+- Track reservation history and statuses
 
 The application also includes a **multi-role access system**:  
-`Guest`, `Client`, `Manager`, `Administrator`.
+`Client`, `Manager`, `Administrator`.
 
 ---
 
@@ -23,17 +25,23 @@ The application also includes a **multi-role access system**:
 
 ### 👤 User Features (Frontend - Angular)
 
-- Sign up / Login (via email & password or social login)
-- Search for boats (filters: type, price, availability)
-- View boat details (photos, description, price, status)
-- Make reservations (choose dates, simulate payment)
-- View reservation history from dashboard
+- **Authentication**: Register / Login (email-password)
+- **Boat Search**: Filters by type, availability, and price
+- **Boat Details**: View photos, description, maintenance status, and reviews
+- **Reservation**: Choose date range and book a boat
+- **Simulated Payment**: Choose method and process payment (status managed)
+- **User Dashboard**: View reservation history and status
+- **Reviews**: Submit and read comments on boats
+- **Notifications**: Receive updates about reservation status
 
 ### 👨‍💼 Admin Features (Backend - Spring Boot)
 
-- Boat Management (CRUD: Create, Read, Update, Delete)
-- Reservation Validation (Accept / Reject)
-- User Management (list, block if needed)
+
+- **Boat Management**: CRUD operations on boats
+- **User Management**: View, block, or update user roles
+- **Reservation Validation**: Accept or reject pending reservations
+- **Maintenance Tracking**: Add or update boat maintenance records
+- **Notification System**: Send reservation or system notifications
 
 ---
 
@@ -45,6 +53,9 @@ The application also includes a **multi-role access system**:
 - `Reservations (id, user_id, boat_id, date, status)`
 - `Paiement (id, montant, méthode, status)`
 - `Image (id, url)`
+- `Avis(id, note, commentaire, dateCreation)`
+- `Maintenance(id, description, dateDebut, dateFin)`
+- `Notification(id, message, dateEnvoi)`
 
 ---
 
