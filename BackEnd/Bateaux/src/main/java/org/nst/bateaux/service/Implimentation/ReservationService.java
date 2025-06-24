@@ -3,6 +3,7 @@ package org.nst.bateaux.service.Implimentation;
 import lombok.AllArgsConstructor;
 import org.nst.bateaux.dto.reservation.ReservationAdd;
 import org.nst.bateaux.dto.reservation.ReservationData;
+import org.nst.bateaux.entity.Bateaux;
 import org.nst.bateaux.entity.Reservation;
 import org.nst.bateaux.entity.StatusRes;
 import org.nst.bateaux.repository.BateauxRepository;
@@ -37,15 +38,21 @@ public class ReservationService implements IReservationService {
     @Override
     public ReservationData ajouterReservation(ReservationAdd reservation,Long bateauId,Long userId)
     {
+        Bateaux bat= bateauxRepository.findById(bateauId)
+                .orElseThrow(() -> new RuntimeException("Bateau not found"));
+        if(bat.isDisponible()) {
+            Reservation res = new Reservation();
+            res.setDateDebut(reservation.getDateDebut());
+            res.setDateFin(reservation.getDateFin());
+            res.setStatus(StatusRes.EN_ATTENTE);
+            res.setBateau(bat);
+            res.setUtilisateur(userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found")));
 
-        Reservation res = new Reservation();
-        res.setDateDebut(reservation.getDateDebut());
-        res.setDateFin(reservation.getDateFin());
-        res.setStatus(StatusRes.EN_ATTENTE);
-        res.setBateau(bateauxRepository.findById(bateauId).orElseThrow(() -> new RuntimeException("Bateau not found")));
-        res.setUtilisateur(userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found")));
-        
-        return mapToDto(reservationRepository.save(res));
+            return mapToDto(reservationRepository.save(res));
+        }
+        else {
+            throw new RuntimeException("Bateau not disponible");
+        }
     }
 
     @Override

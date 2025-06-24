@@ -15,5 +15,6 @@ public class BateauData {
     String description ;
     double prix ;
     List<ImageDto> images;
+    boolean disponible;
 }
 
