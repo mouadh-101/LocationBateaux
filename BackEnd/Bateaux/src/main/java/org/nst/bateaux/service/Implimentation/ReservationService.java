@@ -34,8 +34,6 @@ public class ReservationService implements IReservationService {
     IUserService userService;
 
 
-
-
     @Override
     public ReservationData ajouterReservation(ReservationAdd reservation,Long bateauId,Long userId)
     {
