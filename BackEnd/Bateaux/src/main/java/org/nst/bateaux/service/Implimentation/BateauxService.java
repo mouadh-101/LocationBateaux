@@ -32,6 +32,7 @@ public class BateauxService implements IBateauxService {
         newBat.setDescription(bateaux.getDescription());
         newBat.setPrix(bateaux.getPrix());
         newBat.setProprietaire(user);
+        newBat.setDisponible(true);
         for (ImageDto i : bateaux.getImages())
         {
             Image im =new Image();
@@ -91,7 +92,8 @@ public class BateauxService implements IBateauxService {
                 bateau.getNom(),
                 bateau.getDescription(),
                 bateau.getPrix(),
-                images
+                images,
+                bateau.isDisponible()
         );
     }
 }
