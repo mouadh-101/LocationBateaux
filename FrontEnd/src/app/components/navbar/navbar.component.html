@@ -1,1 +1,22 @@
-<p>navbar works!</p>
+<nav class="navbar">
+  <!-- Logo -->
+  <div class="navbar-left">
+    <img src="assets/logo.png" alt="Logo" class="logo" />
+  </div>
+
+  <!-- Menu hamburger -->
+  <div class="menu-icon" (click)="toggleMenu()">
+    ☰
+  </div>
+
+  <!-- Liens + bouton -->
+  <div class="navbar-right" [ngClass]="{ 'active': menuOpen }">
+    <ul class="navbar-links">
+      <li><a routerLink="/bateaux">Nos bateaux</a></li>
+      <li><a routerLink="/aide">Aide</a></li>
+      <li><a routerLink="/login">Se connecter</a></li>
+      <li><a routerLink="/register">S’inscrire</a></li>
+    </ul>
+    <a routerLink="/ajouter-bateau" class="add-boat-button">Ajouter mon bateau</a>
+  </div>
+</nav>
