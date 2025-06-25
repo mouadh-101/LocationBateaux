@@ -1,0 +1,66 @@
+.footer {
+  background-color: #003344;
+  color: white;
+  padding: 40px 20px 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer-left {
+  max-width: 300px;
+}
+
+.footer-logo {
+  height: 40px;
+  margin-bottom: 10px;
+}
+
+.footer-description {
+  font-size: 14px;
+  color: #cccccc;
+}
+
+.footer-links h4,
+.footer-contact h4 {
+  margin-bottom: 10px;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 8px;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #cccccc;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #00c9ff;
+}
+
+.footer-contact p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid #225566;
+  font-size: 13px;
+  color: #aaaaaa;
+}
