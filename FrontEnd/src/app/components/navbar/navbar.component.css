@@ -1,101 +1,40 @@
-/* Base layout */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 32px;
-  background-color: white;
-  border-bottom: 1px solid #e0e0e0;
+/* Styles supplémentaires si nécessaire */
+.navbar-brand {
+  background: linear-gradient(135deg, #02537d 0%, #0184a9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animation pour le menu mobile */
+.mobile-menu-enter {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.mobile-menu-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Effet de survol personnalisé pour les liens */
+.nav-link {
   position: relative;
-  z-index: 1000;
 }
 
-/* Logo */
-.logo {
-  height: 45px;
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 50%;
+  background: linear-gradient(90deg, #0184a9, #01bfc4);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
 }
 
-/* Hamburger icon */
-.menu-icon {
-  font-size: 26px;
-  cursor: pointer;
-  display: none;
-}
-
-/* Right section */
-.navbar-right {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-}
-
-/* Links */
-.navbar-links {
-  list-style: none;
-  display: flex;
-  gap: 24px;
-  margin: 0;
-  padding: 0;
-}
-
-.navbar-links li a {
-  text-decoration: none;
-  color: #003344;
-  font-weight: 500;
-  transition: color 0.3s;
-}
-
-.navbar-links li a:hover {
-  color: #00aacc;
-}
-
-/* Button */
-.add-boat-button {
-  padding: 10px 16px;
-  border: 2px solid #00aacc;
-  border-radius: 6px;
-  color: #00aacc;
-  font-weight: bold;
-  text-decoration: none;
-  transition: all 0.3s;
-}
-
-.add-boat-button:hover {
-  background-color: #00aacc;
-  color: white;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .menu-icon {
-    display: block;
-  }
-
-  .navbar-right {
-    position: absolute;
-    top: 70px;
-    right: 0;
-    background: white;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-    padding: 20px;
-    width: 200px;
-    border-left: 1px solid #ccc;
-    display: none;
-  }
-
-  .navbar-right.active {
-    display: flex;
-  }
-
-  .navbar-links {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .add-boat-button {
-    width: 100%;
-    text-align: center;
-  }
+.nav-link:hover::after {
+  width: 100%;
 }

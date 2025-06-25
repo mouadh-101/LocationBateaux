@@ -1,0 +1,26 @@
+<section class="py-20 bg-pale">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+      <h2 class="text-4xl sm:text-5xl font-serif font-bold text-primary mb-6">
+        Nos Partenaires de Confiance
+      </h2>
+      <p class="text-xl text-secondary max-w-3xl mx-auto leading-relaxed">
+        Nous collaborons avec les meilleurs acteurs de l'industrie maritime
+        pour vous offrir une expérience exceptionnelle
+      </p>
+    </div>
+
+    <div #scrollContainer class="flex overflow-x-auto no-scrollbar space-x-8 py-6">
+      <ng-container *ngFor="let partner of partners.concat(partners); trackBy: trackByPartnerId">
+        <div
+          class="flex-shrink-0 group flex flex-col items-center justify-center p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 min-w-[150px]">
+          <img [src]="partner.logo"
+            class="h-16 w-auto mx-auto mb-3 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
+
+        </div>
+      </ng-container>
+    </div>
+
+  </div>
+</section>

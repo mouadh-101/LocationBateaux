@@ -1,0 +1,46 @@
+<section class="relative h-screen flex items-center justify-center overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0 z-0">
+      <img 
+        src="/assets/img/hero.jpg" 
+        alt="Yacht de luxe naviguant au coucher du soleil"
+        class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-r from-primary/80 via-secondary/60 to-accent/40"></div>
+    </div>
+  
+    <!-- Content -->
+    <div class="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+      <h1 class="text-4xl sm:text-5xl lg:text-7xl font-serif font-bold mb-6 leading-tight">
+        <span class="block">Naviguez avec Élégance</span>
+      </h1>
+      
+      <p class="text-xl sm:text-2xl lg:text-3xl mb-4 font-light">
+        Vivez l'Expérience
+      </p>
+      
+      <p class="text-lg sm:text-xl mb-12 text-white max-w-2xl mx-auto leading-relaxed">
+        Découvrez notre flotte de yachts de luxe et créez des souvenirs inoubliables 
+        sur les plus belles eaux de la Méditerranée
+      </p>
+  
+      <button 
+        (click)="scrollToBoats()"
+        class="group bg-accent hover:bg-mint text-white hover:text-primary font-semibold py-4 px-8 sm:py-5 sm:px-12 rounded-full text-lg sm:text-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
+        <span class="flex items-center justify-center">
+          Rejoignez l'Aventure
+          <svg class="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </span>
+      </button>
+    </div>
+  
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
+      <div class="animate-bounce">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
+      </div>
+    </div>
+  </section>
