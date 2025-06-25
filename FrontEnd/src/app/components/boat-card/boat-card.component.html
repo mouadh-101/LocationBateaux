@@ -1,0 +1,49 @@
+<div
+  class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+  <!-- Image Container -->
+  <div class="relative overflow-hidden">
+    <img [src]="boat.images[0]?.url" [alt]="boat.nom"
+      class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+
+    <!-- Availability Badge -->
+    <div class="absolute top-4 right-4">
+      <span [class]="boat.disponible ? 
+            'bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium' : 
+            'bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium'">
+        {{ boat.disponible ? 'Disponible' : 'Indisponible' }}
+      </span>
+    </div>
+
+    <!-- Price Badge -->
+    <div class="absolute bottom-4 left-4">
+      <div class="bg-secondary/50 backdrop-blur-sm text-white px-4 py-2 rounded-lg">
+        <span class="text-2xl font-bold">{{ boat.prix }} TND</span>
+        <span class="text-sm opacity-90">/jour</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="p-6">
+    <h3
+      class="text-2xl font-serif font-bold text-primary mb-3 group-hover:text-secondary transition-colors duration-300">
+      {{ boat.nom }}
+    </h3>
+
+    <p class="text-gray-600 mb-6 leading-relaxed">
+      {{ boat.description }}
+    </p>
+
+    <!-- Action Button -->
+    <a (click)="onSeeMore()" [class]="boat.disponible
+    ? 'text-primary hover:text-secondary font-semibold cursor-pointer transition-colors duration-300 flex items-center gap-1'
+    : 'text-gray-400 font-semibold cursor-not-allowed pointer-events-none flex items-center gap-1'">
+      {{ boat.disponible ? 'Voir Plus' : 'Non Disponible' }}
+      <svg *ngIf="boat.disponible" class="w-4 h-4 stroke-current" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+      </svg>
+    </a>
+
+
+  </div>
+</div>

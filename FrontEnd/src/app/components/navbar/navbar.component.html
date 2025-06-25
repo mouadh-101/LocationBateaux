@@ -1,1 +1,82 @@
-<p>navbar works!</p>
+<nav class="bg-white shadow-lg border-b-2 border-accent">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <!-- Logo et nom de marque -->
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <img src="assets/logo.webp" alt="Logo" class="w-20">
+          </div>
+          <div class="ml-3">
+            <h1 class="text-2xl font-bold text-primary">TuniBoat</h1>
+          </div>
+        </div>
+  
+        <!-- Menu de navigation (desktop) -->
+        <div class="hidden md:block">
+          <div class="ml-10 flex items-baseline space-x-8">
+            <a href="#" class="text-primary hover:text-secondary transition-colors duration-200 px-3 py-2 text-sm font-medium">
+              Accueil
+            </a>
+            <a href="#" class="text-primary hover:text-secondary transition-colors duration-200 px-3 py-2 text-sm font-medium">
+              Services
+            </a>
+            <a href="#" class="text-primary hover:text-secondary transition-colors duration-200 px-3 py-2 text-sm font-medium">
+              À propos
+            </a>
+            <a href="#" class="text-primary hover:text-secondary transition-colors duration-200 px-3 py-2 text-sm font-medium">
+              Contact
+            </a>
+          </div>
+        </div>
+  
+        <!-- Boutons de connexion (desktop) -->
+        <div class="hidden md:flex items-center space-x-4">
+          <button 
+            (click)="onLogin()"
+            class="text-primary hover:text-secondary border border-primary hover:border-secondary transition-all duration-200 px-4 py-2 rounded-lg text-sm font-medium hover:scale-105">
+            Joiniez-nous
+          </button>
+        </div>
+  
+        <!-- Bouton menu mobile -->
+        <div class="md:hidden">
+          <button 
+            (click)="toggleMenu()"
+            class="text-primary hover:text-secondary focus:outline-none focus:text-secondary transition-colors duration-200">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path *ngIf="!isMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              <path *ngIf="isMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Menu mobile -->
+    <div class="md:hidden" [class.hidden]="!isMenuOpen">
+      <div class="px-2 pt-2 pb-3 space-y-1 bg-pale border-t border-mint">
+        <a href="#" class="text-primary hover:text-secondary hover:bg-mint block px-3 py-2 rounded-md text-base font-medium transition-all duration-200">
+          Accueil
+        </a>
+        <a href="#" class="text-primary hover:text-secondary hover:bg-mint block px-3 py-2 rounded-md text-base font-medium transition-all duration-200">
+          Services
+        </a>
+        <a href="#" class="text-primary hover:text-secondary hover:bg-mint block px-3 py-2 rounded-md text-base font-medium transition-all duration-200">
+          À propos
+        </a>
+        <a href="#" class="text-primary hover:text-secondary hover:bg-mint block px-3 py-2 rounded-md text-base font-medium transition-all duration-200">
+          Contact
+        </a>
+        
+        <!-- Boutons mobile -->
+        <div class="pt-4 pb-2 space-y-2">
+          <button 
+            (click)="onLogin()"
+            class="w-full text-primary hover:text-secondary border border-primary hover:border-secondary transition-all duration-200 px-4 py-2 rounded-lg text-sm font-medium">
+            Joiniez-nous
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </nav>

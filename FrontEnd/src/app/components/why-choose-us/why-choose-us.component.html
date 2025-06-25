@@ -1,0 +1,42 @@
+<section class="py-20 bg-gradient-to-br from-primary to-secondary">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Section Header -->
+      <div class="text-center mb-16">
+        <h2 class="text-4xl sm:text-5xl font-serif font-bold text-white mb-6">
+          Pourquoi Nous Choisir ?
+        </h2>
+        <p class="text-xl text-mint max-w-3xl mx-auto leading-relaxed">
+          Notre engagement envers l'excellence nous distingue dans l'industrie 
+          de la location de yachts de luxe
+        </p>
+      </div>
+  
+      <!-- Benefits Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div 
+          *ngFor="let benefit of benefits; trackBy: trackByBenefitId"
+          class="group text-center">
+          
+          <!-- Icon Container -->
+          <div class="w-20 h-20 bg-white bg-opacity-20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-opacity-30 group-hover:scale-110 transition-all duration-300">
+            <svg class="w-10 h-10 text-pale" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="getIconPath(benefit.icone)"/>
+            </svg>
+          </div>
+  
+          <!-- Content -->
+          <h3 class="text-2xl font-semibold text-white mb-4 group-hover:text-mint transition-colors duration-300">
+            {{ benefit.titre }}
+          </h3>
+          
+          <p class="text-mint leading-relaxed">
+            {{ benefit.description }}
+          </p>
+  
+          <!-- Decorative Element -->
+          <div class="mt-6 w-16 h-1 bg-mint rounded-full mx-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
