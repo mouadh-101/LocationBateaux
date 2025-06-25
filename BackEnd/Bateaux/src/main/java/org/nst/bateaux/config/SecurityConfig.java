@@ -43,6 +43,8 @@ public class SecurityConfig {
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfig);
+
+
         http
                 .cors(cors -> cors.configurationSource(source))
                 .csrf(csrf -> csrf.disable())
