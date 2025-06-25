@@ -1,60 +1,60 @@
 /* Animations personnalisées */
 @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-  }
-  
-  .float-animation {
-    animation: float 6s ease-in-out infinite;
-  }
-  
-  /* Effet de survol pour les liens */
-  .footer-link {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .footer-link::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.5s;
-  }
-  
-  .footer-link:hover::before {
-    left: 100%;
-  }
-  
-  /* Style pour les icônes sociales */
-  .social-icon {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .social-icon:hover {
-    transform: translateY(-2px) scale(1.1);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-  }
-  
-  /* Animation pour le formulaire newsletter */
-  .newsletter-input:focus {
-    transform: scale(1.02);
-  }
-  
-  /* Effet de particules en arrière-plan */
-  .footer::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      radial-gradient(circle at 20% 80%, rgba(169, 232, 219, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(1, 191, 196, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 40% 40%, rgba(1, 132, 169, 0.1) 0%, transparent 50%);
-    pointer-events: none;
-  }
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Effet de survol pour les liens */
+.footer-link {
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.footer-link:hover::before {
+  left: 100%;
+}
+
+/* Style pour les icônes sociales */
+.social-icon {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.social-icon:hover {
+  transform: translateY(-2px) scale(1.1);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Animation pour le formulaire newsletter */
+.newsletter-input:focus {
+  transform: scale(1.02);
+}
+
+/* Effet de particules en arrière-plan */
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    radial-gradient(circle at 20% 80%, rgba(169, 232, 219, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(1, 191, 196, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(1, 132, 169, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
