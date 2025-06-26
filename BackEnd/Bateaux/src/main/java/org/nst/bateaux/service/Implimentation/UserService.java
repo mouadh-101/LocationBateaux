@@ -166,5 +166,12 @@ public class UserService implements IUserService {
         return userDataWithName;
     }
 
+    @Override
+    public UserDataWithName findUserById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
+        return mapToDtoWithName(user);
+    }
+
 
 }

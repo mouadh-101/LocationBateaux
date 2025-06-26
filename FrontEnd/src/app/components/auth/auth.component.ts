@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthModalService } from 'src/app/services/auth-modal.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -12,12 +13,19 @@ export class AuthComponent {
   isLoginMode = true;
   loginForm: FormGroup;
   registerForm: FormGroup;
+  isOpen = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+
+  constructor(private fb: FormBuilder, private authService: AuthService,private authModalService: AuthModalService) {
+
+    this.authModalService.modalState$.subscribe(open => {
+      this.isOpen = open;
+    });
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
+    
 
     this.registerForm = this.fb.group({
       name: ['', [Validators.required]],
@@ -25,6 +33,11 @@ export class AuthComponent {
       password: ['', [Validators.required]],
       role: ['CLIENT', [Validators.required]],
     });
+  }
+  
+
+  close() {
+    this.authModalService.close();
   }
 
   toggleMode() {

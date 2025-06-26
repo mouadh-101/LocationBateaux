@@ -54,11 +54,12 @@
   
     <!-- Show More/Less Button -->
     <div *ngIf="avis.length > 3" class="text-center mt-8">
-      <button 
-        (click)="toggleShowAllReviews()"
-        class="bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-accent text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105">
+      <a (click)="toggleShowAllReviews()" class='text-primary hover:text-secondary font-semibold cursor-pointer transition-colors duration-300 flex items-center gap-1'>
         {{ showAllReviews ? 'Voir Moins' : 'Voir Tous les Avis (' + avis.length + ')' }}
-      </button>
+        <svg class="w-4 h-4 stroke-current" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+      </svg>
+    </a>
     </div>
   
     <!-- No Reviews State -->

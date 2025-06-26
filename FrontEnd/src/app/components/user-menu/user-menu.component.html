@@ -1,0 +1,18 @@
+<div class="relative group">
+    <!-- Circle with First Name -->
+    <div class="w-10 h-10 bg-accent text-white rounded-full flex items-center justify-center font-bold cursor-pointer border-primary border-2">
+      {{ user?.name | slice:0:1 }}
+    </div>
+  
+    <!-- Dropdown on hover -->
+    <div class="absolute right-0 mt-2 bg-white rounded-lg shadow-lg py-2 w-40 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200 z-50">
+      <p class="px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-default font-semibold">
+        {{ user?.name}}
+      </p>
+      <hr class="my-1" />
+      <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">Profil</a>
+      <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">Mes Réservations</a>
+      <a class="block px-4 py-2 text-sm text-red-500 hover:bg-red-100 cursor-pointer" (click)="logout()">Se déconnecter</a>
+    </div>
+  </div>
+  
