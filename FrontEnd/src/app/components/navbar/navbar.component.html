@@ -29,10 +29,12 @@
       <!-- Boutons de connexion (desktop) -->
       <div class="hidden md:flex items-center space-x-4">
         <button
-          (click)="onLogin()"
+          *ngIf="!isLoggedIn"
+          (click)="openAuth()"
           class="text-primary hover:text-secondary border border-primary hover:border-secondary transition-all duration-200 px-4 py-2 rounded-lg text-sm font-medium hover:scale-105">
           Joiniez-nous
         </button>
+        <app-user-menu *ngIf="isLoggedIn"></app-user-menu>
       </div>
 
       <!-- Bouton menu mobile -->
@@ -66,10 +68,12 @@
       <!-- Boutons mobile -->
       <div class="pt-4 pb-2 space-y-2">
         <button
-          (click)="onLogin()"
+          *ngIf="!isLoggedIn"
+          (click)="openAuth()"
           class="w-full text-primary hover:text-secondary border border-primary hover:border-secondary transition-all duration-200 px-4 py-2 rounded-lg text-sm font-medium">
           Joiniez-nous
         </button>
+        <app-user-menu *ngIf="isLoggedIn"></app-user-menu>
 
       </div>
     </div>

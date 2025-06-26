@@ -55,7 +55,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
     this.authState.next(false);
-    this.router.navigate(['/auth']);
+    this.router.navigate(['/']);
   }
 
   private decodeRoleFromToken(token: string): string | null {

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthModalService } from 'src/app/services/auth-modal.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -9,16 +11,22 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent {
   isMenuOpen = false;
-  constructor(private router: Router) {}
+  isLoggedIn = false; 
+  constructor(private router: Router,private authModalService: AuthModalService,private authService:AuthService) {}
+  ngOnInit(): void {
+    this.isLoggedIn = this.authService.isLoggedIn();
+  }
 
   toggleMenu() {
 
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  onLogin() {
-    this.router.navigate(['/auth']);
+  openAuth() {
+    this.authModalService.open();
   }
+  
+  
 
 
 }

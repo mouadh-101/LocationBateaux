@@ -15,11 +15,13 @@ import { FeaturedBoatComponent } from './components/featured-boat/featured-boat.
 import { WhyChooseUsComponent } from './components/why-choose-us/why-choose-us.component';
 import { PartnerComponent } from './components/partner/partner.component';
 import { AuthComponent } from './components/auth/auth.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BoatListComponent } from './components/boat-list/boat-list.component';
 import { BoatDetailsComponent } from './components/boat-details/boat-details.component';
 import { ImageCarouselComponent } from './components/image-carousel/image-carousel.component';
 import { ReviewsComponent } from './components/reviews/reviews.component';
+import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { UserMenuComponent } from './components/user-menu/user-menu.component';
 
 
 @NgModule({
@@ -39,6 +41,7 @@ import { ReviewsComponent } from './components/reviews/reviews.component';
     BoatDetailsComponent,
     ImageCarouselComponent,
     ReviewsComponent,
+    UserMenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +51,9 @@ import { ReviewsComponent } from './components/reviews/reviews.component';
     FormsModule
 
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

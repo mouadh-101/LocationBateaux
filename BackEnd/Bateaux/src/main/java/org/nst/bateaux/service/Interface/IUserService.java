@@ -15,7 +15,6 @@ import java.util.List;
 public interface IUserService {
     User creatUser(RegisterRequest user);
     User findUserByEmail(String email);
-
     AuthenticationResponse login(AuthenticationRequest user);
     AuthenticationResponse register(RegisterRequest user);
     List<UserDataWithName> getAllUsers();
@@ -25,4 +24,5 @@ public interface IUserService {
     void changePassword(Long id, ChangePasswordRequest request);
     UserData mapToDto(User user);
     UserDataWithName mapToDtoWithName(User user);
+    UserDataWithName findUserById(Long id);
 }
