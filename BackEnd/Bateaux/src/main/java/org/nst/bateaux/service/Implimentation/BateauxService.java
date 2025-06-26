@@ -1,8 +1,10 @@
 package org.nst.bateaux.service.Implimentation;
 
 import lombok.AllArgsConstructor;
+import org.nst.bateaux.dto.avis.AviData;
 import org.nst.bateaux.dto.bateau.BateauData;
 import org.nst.bateaux.dto.bateau.ImageDto;
+import org.nst.bateaux.dto.user.UserDataWithName;
 import org.nst.bateaux.entity.Bateaux;
 import org.nst.bateaux.entity.Image;
 import org.nst.bateaux.entity.Reservation;
@@ -13,6 +15,7 @@ import org.nst.bateaux.service.Interface.IBateauxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -93,7 +96,26 @@ public class BateauxService implements IBateauxService {
                 bateau.getDescription(),
                 bateau.getPrix(),
                 images,
-                bateau.isDisponible()
+                bateau.isDisponible(),
+                bateau.getAvis().stream()
+                        .map(avis -> new AviData(
+                                avis.getAvisId(),
+                                avis.getNote(),
+                                avis.getCommentaire(),
+                                avis.getDateCreation(),
+                                new UserDataWithName(avis.getUtilisateur().getId(), avis.getUtilisateur().getName(), avis.getUtilisateur().getEmail(), avis.getUtilisateur().getRole(), avis.getUtilisateur().isActive()),
+                                new BateauData(avis.getBateau().getBateauxId(), avis.getBateau().getNom(), null, 0, null, true, null)
+                        )).toList()
         );
+    }
+
+    @Override
+    public List<BateauData> getTop5BateauxByNote() {
+        List<BateauData> bateauxList = new ArrayList<>();
+        for (Bateaux bateau : bateauxRepository.findTop5ByOrderByAvisNoteDesc()) {
+            bateauxList.add(mapToDto(bateau));
+        }
+
+        return bateauxList;
     }
 }
