@@ -7,51 +7,7 @@ import { Boat, Service, Partner, Benefit } from '../interfaces/boat';
 })
 export class MokeDataService {
 
-  getBoats(): Boat[] {
-    return [
-      {
-        bateauxId: 1,
-        nom: "Azur Prestige",
-        description: "Yacht de luxe pour une expérience inoubliable en Méditerranée",
-        prix: 2500,
-        images: [
-          { url: "https://wallpapers.com/images/hd/sea-hd-luxury-yacht-ked79brp2z4egz63.jpg?height=300&width=400" },
-          { url: "https://w0.peakpx.com/wallpaper/505/178/HD-wallpaper-boat-car-on-deck-expensive-yacht-mercedes-luxury-yachts-sea.jpg?height=300&width=400" }
-        ],
-        disponible: true
-      },
-      {
-        bateauxId: 2,
-        nom: "Océan Élégance",
-        description: "Catamaran spacieux idéal pour les groupes et événements",
-        prix: 1800,
-        images: [
-          { url: "https://wallpapers.com/images/hd/sea-hd-luxury-yacht-ked79brp2z4egz63.jpg?height=300&width=400" }
-        ],
-        disponible: true
-      },
-      {
-        bateauxId: 3,
-        nom: "Riviera Dream",
-        description: "Bateau de sport haute performance pour les amateurs de sensations",
-        prix: 3200,
-        images: [
-          { url: "https://wallpapers.com/images/hd/sea-hd-luxury-yacht-ked79brp2z4egz63.jpg?height=300&width=400" }
-        ],
-        disponible: false
-      },
-      {
-        bateauxId: 4,
-        nom: "Sunset Paradise",
-        description: "Voilier traditionnel pour des moments romantiques au coucher du soleil",
-        prix: 1200,
-        images: [
-          { url: "https://wallpapers.com/images/hd/sea-hd-luxury-yacht-ked79brp2z4egz63.jpg?height=300&width=400" }
-        ],
-        disponible: true
-      }
-    ];
-  }
+
 
   getServices(): Service[] {
     return [

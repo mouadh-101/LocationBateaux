@@ -16,6 +16,7 @@ module.exports = {
         'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
         'serif': ['Playfair Display', 'serif'],
       },
+      
     },
   },
   plugins: [],

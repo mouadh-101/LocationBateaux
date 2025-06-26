@@ -1,6 +1,7 @@
 import { NgModule, Component } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,10 @@ import { WhyChooseUsComponent } from './components/why-choose-us/why-choose-us.c
 import { PartnerComponent } from './components/partner/partner.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BoatListComponent } from './components/boat-list/boat-list.component';
+import { BoatDetailsComponent } from './components/boat-details/boat-details.component';
+import { ImageCarouselComponent } from './components/image-carousel/image-carousel.component';
+import { ReviewsComponent } from './components/reviews/reviews.component';
 
 
 @NgModule({
@@ -29,13 +34,19 @@ import { HttpClientModule } from '@angular/common/http';
     FeaturedBoatComponent,
     WhyChooseUsComponent,
     PartnerComponent,
-    AuthComponent
+    AuthComponent,
+    BoatListComponent,
+    BoatDetailsComponent,
+    ImageCarouselComponent,
+    ReviewsComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

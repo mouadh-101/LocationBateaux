@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Boat } from 'src/app/interfaces/boat';
+import { BoatService } from 'src/app/services/boat.service';
 import { MokeDataService } from 'src/app/services/moke-data.service';
 
 @Component({
@@ -10,14 +11,17 @@ import { MokeDataService } from 'src/app/services/moke-data.service';
 export class FeaturedBoatComponent {
   boats: Boat[] = [];
 
-  constructor(private mockDataService: MokeDataService) {}
+  constructor(private boatService:BoatService) {}
 
   ngOnInit() {
-    this.boats = this.mockDataService.getBoats();
+    this.boatService.getFeaturedBataux().subscribe((boats) => {
+      this.boats = boats;
+    });
   }
 
   trackByBoatId(index: number, boat: Boat): number {
     return boat.bateauxId;
   }
+  
 
 }
