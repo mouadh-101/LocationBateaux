@@ -23,6 +23,28 @@ export class AvisService {
       })
     );
   }
+  deleteAvis(avisId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${avisId}`).pipe(
+      tap(() => {
+        console.log('Avis deleted successfully');
+      }),
+      catchError(err => {
+        console.error('Error deleting avis:', err);
+        return throwError(() => new Error('Failed to delete avis'));
+      })
+    );
+  }
+  updateAvis(avis: Avis): Observable<Avis> {
+    return this.http.put<Avis>(`${this.baseUrl}/${avis.avisId}`, avis).pipe(
+      tap(response => {
+        console.log('Avis updated successfully:', response);
+      }),
+      catchError(err => {
+        console.error('Error updating avis:', err);
+        return throwError(() => new Error('Failed to update avis'));
+      })
+    );
+  }
 
 
   

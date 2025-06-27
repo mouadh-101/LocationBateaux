@@ -18,18 +18,16 @@ export class BoatDetailsComponent {
   loading = true;
   reservationForm: FormGroup
   isLoggedIn: boolean = false;
-  avisForm: FormGroup;
-  hoverRating = 0;
+ 
+  
 
   constructor(private boatService: BoatService, public router: Router, public route: ActivatedRoute, private fb: FormBuilder,private authService:AuthService,private avisService: AvisService,private authModalService:AuthModalService) {
     this.reservationForm = this.fb.group({
       dateDebut: [new Date(), Validators.required],
       dateFin: [new Date(), Validators.required],
     });
-    this.avisForm = this.fb.group({
-      note: [0, Validators.required],
-      commentaire: ['', Validators.required]
-    });
+    
+    
   }
 
   ngOnInit() {
@@ -38,6 +36,7 @@ export class BoatDetailsComponent {
       this.loadBoatDetails(boatId);
     });
     this.isLoggedIn= this.authService.isLoggedIn();
+    
   }
   loadBoatDetails(batauxId: number) {
     this.boatService.getBateuxById(batauxId).subscribe({
@@ -82,23 +81,6 @@ export class BoatDetailsComponent {
     return daysDiff > 0 ? daysDiff : 0; // Ensure positive days
   }
 
-  setRating(star: number) {
-    this.avisForm.patchValue({ note: star });
-  }
-
-  submitAvis(boatId: number) {
-    if (this.avisForm.valid) {
-      const avis: Avis = this.avisForm.value;
   
-      // Call your service here to save the avis
-      this.avisService.addAvis(avis,boatId).subscribe({
-        next: (res) => {
-          this.boat?.avis.push(res); // update UI
-          this.avisForm.reset({ note: 0, commentaire: '' });
-        },
-        error: () => alert('Erreur lors de l\'envoi de l\'avis')
-      });
-    }
-  }
 
 }
