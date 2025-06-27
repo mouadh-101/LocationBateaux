@@ -22,6 +22,7 @@ import { ImageCarouselComponent } from './components/image-carousel/image-carous
 import { ReviewsComponent } from './components/reviews/reviews.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { UserMenuComponent } from './components/user-menu/user-menu.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { UserMenuComponent } from './components/user-menu/user-menu.component';
     ImageCarouselComponent,
     ReviewsComponent,
     UserMenuComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

@@ -8,7 +8,7 @@ export interface Boat {
   avis: Avis[];
 }
 export interface Avis {
-  AvisId: number;
+  avisId: number;
   note: number;
   commentaire: string;
   dateCreation: Date;

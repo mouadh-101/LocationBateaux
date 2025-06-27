@@ -66,6 +66,14 @@ export class AuthService {
       return null;
     }
   }
+  public decodeIdFromToken(): number | null {
+    try {
+      const decoded = jwtDecode<JwtPayload>(localStorage.getItem('token') || '');
+      return decoded.id || null;
+    } catch {
+      return null;
+    }
+  }
 
   private isTokenExpired(token: string): boolean {
     try {
