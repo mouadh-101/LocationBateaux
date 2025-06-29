@@ -16,6 +16,7 @@ public interface IReservationService {
     ReservationData getReservationById(Long id);
     List<ReservationData> getAll();
     ReservationData mapToDto(Reservation reservation);
+    ReservationAdd mapToAddDto(Reservation reservation);
     List <ReservationData> getCurrentUserReservations(Long userId);
 
 }

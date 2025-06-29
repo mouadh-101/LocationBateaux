@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.nst.bateaux.dto.avis.AviData;
+import org.nst.bateaux.dto.reservation.ReservationAdd;
 import org.nst.bateaux.entity.Avis;
 
 import java.util.List;
@@ -19,5 +20,6 @@ public class BateauData {
     List<ImageDto> images;
     boolean disponible;
     List<AviData> avis;
+    List<ReservationAdd> reservations;
 }
 

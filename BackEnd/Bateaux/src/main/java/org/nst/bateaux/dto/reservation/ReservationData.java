@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.nst.bateaux.dto.bateau.BateauData;
 import org.nst.bateaux.dto.user.UserData;
+import org.nst.bateaux.dto.user.UserDataWithName;
 import org.nst.bateaux.entity.Bateaux;
 import org.nst.bateaux.entity.Paiement;
 import org.nst.bateaux.entity.StatusRes;
@@ -17,11 +18,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReservationData {
-    Long ReservationId ;
-    LocalDateTime DateDebut ;
-    LocalDateTime DateFin ;
+    Long reservationId ;
+    LocalDateTime dateDebut ;
+    LocalDateTime dateFin ;
     StatusRes status ;
-    UserData utilisateur;
+    UserDataWithName utilisateur;
     BateauData bateau;
     Paiement paiement;
 }

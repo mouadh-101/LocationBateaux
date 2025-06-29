@@ -1,0 +1,17 @@
+.calendar .date {
+    border-radius: 50%;
+  }
+  
+  .calendar .date.reserved {
+    background-color: #f87171;
+    color: white;
+  }
+  .custom-calendar .reserved {
+    background-color: #f87171 !important;
+    border-radius: 4px;
+  }
+  .reserved {
+    background-color: #f87171 !important; /* Tailwind red-400 */
+    color: white !important;
+    border-radius: 6px;
+  } 
