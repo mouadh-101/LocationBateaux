@@ -1,0 +1,20 @@
+.app-topstrip {
+  background-color: white !important;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* espace entre logo (gauche) et autre contenu (droite) */
+  padding: 16px 24px; /* garde ton padding */
+}
+
+.app-topstrip > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* espace entre éléments dans la partie gauche si besoin */
+}
+
+/* Si besoin, assure que le logo ne soit pas masqué */
+.app-topstrip a.d-flex {
+  order: 0; /* logo en premier (à gauche) */
+}
+
