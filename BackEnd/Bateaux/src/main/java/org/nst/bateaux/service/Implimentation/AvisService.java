@@ -6,6 +6,7 @@ import org.nst.bateaux.repository.AvisRepository;
 import org.nst.bateaux.repository.BateauxRepository;
 import org.nst.bateaux.repository.UserRepository;
 import org.nst.bateaux.service.Interface.IAvisService;
+import org.nst.bateaux.service.Interface.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +21,7 @@ public class AvisService implements IAvisService {
     @Autowired
     AvisRepository avisRepository ;
     @Autowired
-    BateauxService bateauxService;
-    @Autowired
-    UserService userService;
+    IUserService userService;
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -79,7 +78,6 @@ public class AvisService implements IAvisService {
         aviData.setNote(avis.getNote());
         aviData.setCommentaire(avis.getCommentaire());
         aviData.setDateCreation(avis.getDateCreation());
-        aviData.setBateau(bateauxService.mapToDto(avis.getBateau()));
         aviData.setUtilisateur(userService.mapToDtoWithName(avis.getUtilisateur()));
         return aviData;
     }

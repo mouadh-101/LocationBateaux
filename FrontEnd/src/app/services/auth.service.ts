@@ -19,7 +19,7 @@ export class AuthService {
     this.loadUserFromStorage();
   }
 
-  login(user: UserLogin): Observable<{ token: string }> {
+  login(user: UserLogin): Observable<any> {
     return this.http.post<{ token: string }>(`${this.baseUrl}/login`, user).pipe(
       tap(response => {
         this.handleAuthSuccess(response.token);
@@ -41,6 +41,9 @@ export class AuthService {
   }
 
   private handleAuthSuccess(token: string) {
+    if(!token) {
+      return;
+    }
     localStorage.setItem('token', token);
     const role = this.decodeRoleFromToken(token);
     if (role) {

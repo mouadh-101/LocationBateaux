@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Route, Router } from '@angular/router';
 import { AuthModalService } from 'src/app/services/auth-modal.service';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -14,9 +15,11 @@ export class AuthComponent {
   loginForm: FormGroup;
   registerForm: FormGroup;
   isOpen = false;
+  alertType: 'success' | 'error' | 'banned' | '' = '';
+  alertMessage: string = '';
 
 
-  constructor(private fb: FormBuilder, private authService: AuthService,private authModalService: AuthModalService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private authModalService: AuthModalService,private router:Router) {
 
     this.authModalService.modalState$.subscribe(open => {
       this.isOpen = open;
@@ -25,7 +28,7 @@ export class AuthComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
-    
+
 
     this.registerForm = this.fb.group({
       name: ['', [Validators.required]],
@@ -34,7 +37,7 @@ export class AuthComponent {
       role: ['CLIENT', [Validators.required]],
     });
   }
-  
+
 
   close() {
     this.authModalService.close();
@@ -48,7 +51,15 @@ export class AuthComponent {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
-          console.log('Login successful:', response);
+          this.alertMessage = response.message;
+          this.alertType = response.status.toLowerCase();
+          if (response.status === 'SUCCESS') {
+            setTimeout(() => {
+              this.router.navigate(['/boats']);
+              this.close();
+            }, 1000);
+            
+          }
         },
         error: (error) => {
           console.error('Login failed:', error);

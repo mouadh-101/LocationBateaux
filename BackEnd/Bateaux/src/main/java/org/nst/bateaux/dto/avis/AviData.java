@@ -20,6 +20,5 @@ public class AviData {
     String commentaire ;
     LocalDateTime dateCreation ;
     UserDataWithName utilisateur;
-    BateauData bateau;
 
 }
