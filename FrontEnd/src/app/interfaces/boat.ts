@@ -1,3 +1,6 @@
+import { Reservation } from "./reservation";
+import { User } from "./user";
+
 export interface Boat {
   bateauxId: number;
   nom: string;
@@ -6,6 +9,7 @@ export interface Boat {
   images: { url: string }[];
   disponible: boolean;
   avis: Avis[];
+  reservations: Reservation[];
 }
 export interface Avis {
   avisId: number;

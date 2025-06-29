@@ -16,4 +16,5 @@ public interface BateauxRepository extends JpaRepository<Bateaux,Long> {
     LIMIT 4
     """)
     List<Bateaux> findTop5ByOrderByAvisNoteDesc();
+
 }

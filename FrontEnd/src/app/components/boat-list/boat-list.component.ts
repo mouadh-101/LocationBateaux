@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MokeDataService } from '../../services/moke-data.service';
 import { Boat } from '../../interfaces/boat';
 import { BoatService } from '../../services/boat.service';
 import { Router } from '@angular/router';

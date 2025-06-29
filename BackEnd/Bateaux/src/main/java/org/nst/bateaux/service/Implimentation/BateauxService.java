@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.nst.bateaux.dto.avis.AviData;
 import org.nst.bateaux.dto.bateau.BateauData;
 import org.nst.bateaux.dto.bateau.ImageDto;
+import org.nst.bateaux.dto.reservation.ReservationAdd;
 import org.nst.bateaux.dto.user.UserDataWithName;
 import org.nst.bateaux.entity.Bateaux;
 import org.nst.bateaux.entity.Image;
@@ -12,6 +13,7 @@ import org.nst.bateaux.entity.User;
 import org.nst.bateaux.repository.BateauxRepository;
 import org.nst.bateaux.repository.UserRepository;
 import org.nst.bateaux.service.Interface.IBateauxService;
+import org.nst.bateaux.service.Interface.IReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,8 @@ public class BateauxService implements IBateauxService {
     BateauxRepository bateauxRepository ;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    IReservationService reservationService;
 
     @Override
     public BateauData ajouterBateaux(BateauData bateaux , Long adminId) {
@@ -89,6 +93,9 @@ public class BateauxService implements IBateauxService {
         List<ImageDto> images = bateau.getImages().stream()
                 .map(img -> new ImageDto(img.getImageId(), img.getUrl()))
                 .toList();
+        List<ReservationAdd> reservation= bateau.getReservations().stream()
+                .map(res -> reservationService.mapToAddDto(res))
+                .toList();
 
         return new BateauData(
                 bateau.getBateauxId(),
@@ -103,9 +110,11 @@ public class BateauxService implements IBateauxService {
                                 avis.getNote(),
                                 avis.getCommentaire(),
                                 avis.getDateCreation(),
-                                new UserDataWithName(avis.getUtilisateur().getId(), avis.getUtilisateur().getName(), avis.getUtilisateur().getEmail(), avis.getUtilisateur().getRole(), avis.getUtilisateur().isActive()),
-                                new BateauData(avis.getBateau().getBateauxId(), avis.getBateau().getNom(), null, 0, null, true, null)
-                        )).toList()
+                                new UserDataWithName(avis.getUtilisateur().getId(), avis.getUtilisateur().getName(), avis.getUtilisateur().getEmail(), avis.getUtilisateur().getRole(), avis.getUtilisateur().isActive())
+                        )).toList(),
+                reservation
+
+
         );
     }
 

@@ -14,7 +14,9 @@ export class NavbarComponent {
   isLoggedIn = false; 
   constructor(private router: Router,private authModalService: AuthModalService,private authService:AuthService) {}
   ngOnInit(): void {
-    this.isLoggedIn = this.authService.isLoggedIn();
+    this.authService.authState$.subscribe(loggedIn => {
+      this.isLoggedIn = loggedIn;
+    });
   }
 
   toggleMenu() {

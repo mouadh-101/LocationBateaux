@@ -23,6 +23,8 @@ import { ReviewsComponent } from './components/reviews/reviews.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { UserMenuComponent } from './components/user-menu/user-menu.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReservationDetailsComponent } from './components/reservation-details/reservation-details.component';
 
 
 @NgModule({
@@ -44,13 +46,15 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     ReviewsComponent,
     UserMenuComponent,
     NotFoundComponent,
+    ReservationDetailsComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
 
   ],
   providers: [
