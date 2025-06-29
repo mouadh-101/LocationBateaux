@@ -1,0 +1,74 @@
+/* Custom slider styling */
+.slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    background: linear-gradient(to right, #01bfc4, #0184a9);
+    border-radius: 4px;
+    outline: none;
+  }
+  
+  .slider-thumb::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #02537d;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  
+  .slider-thumb::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #02537d;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  
+  /* Custom checkbox styling */
+  input[type="checkbox"]:checked {
+    background-color: #01bfc4;
+    border-color: #01bfc4;
+  }
+  
+  /* Hover effects for cards */
+  .group:hover .group-hover\:scale-110 {
+    transform: scale(1.1);
+  }
+  
+  .group:hover .group-hover\:text-secondary {
+    color: #0184a9;
+  }
+  
+  /* Active filter animations */
+  .active-filter-enter {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  
+  .active-filter-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 300ms, transform 300ms;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .slider-thumb {
+      height: 6px;
+    }
+    
+    .slider-thumb::-webkit-slider-thumb {
+      width: 16px;
+      height: 16px;
+    }
+    
+    .slider-thumb::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+    }
+  }

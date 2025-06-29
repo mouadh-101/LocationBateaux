@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AviData {
-    Long AvisId ;
+    Long avisId ;
     Integer note ;
     String commentaire ;
     LocalDateTime dateCreation ;

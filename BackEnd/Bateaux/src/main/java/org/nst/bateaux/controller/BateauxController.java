@@ -54,4 +54,9 @@ public class BateauxController {
         List<BateauData> bateaux = bateauxService.getAll();
         return ResponseEntity.ok(bateaux);
     }
+    @GetMapping("/list/top5")
+    public ResponseEntity<List<BateauData>> getTop5() {
+        List<BateauData> bateaux = bateauxService.getTop5BateauxByNote();
+        return ResponseEntity.ok(bateaux);
+    }
 }

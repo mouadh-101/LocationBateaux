@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthModalService } from 'src/app/services/auth-modal.service';
+import { AuthService } from 'src/app/services/auth.service';
+
 
 @Component({
   selector: 'app-navbar',
@@ -6,9 +10,23 @@ import { Component } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  menuOpen = false;
+  isMenuOpen = false;
+  isLoggedIn = false; 
+  constructor(private router: Router,private authModalService: AuthModalService,private authService:AuthService) {}
+  ngOnInit(): void {
+    this.isLoggedIn = this.authService.isLoggedIn();
+  }
 
   toggleMenu() {
-    this.menuOpen = !this.menuOpen;
+
+    this.isMenuOpen = !this.isMenuOpen;
   }
+
+  openAuth() {
+    this.authModalService.open();
+  }
+  
+  
+
+
 }

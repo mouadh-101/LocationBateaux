@@ -1,0 +1,102 @@
+/* Custom animations */
+@keyframes float {
+    0%, 100% { 
+      transform: translateY(0px); 
+    }
+    50% { 
+      transform: translateY(-20px); 
+    }
+  }
+  
+  @keyframes pulse-glow {
+    0%, 100% { 
+      box-shadow: 0 0 20px rgba(1, 191, 196, 0.3); 
+    }
+    50% { 
+      box-shadow: 0 0 40px rgba(1, 191, 196, 0.6); 
+    }
+  }
+  
+  /* 404 Number styling */
+  .text-9xl {
+    font-size: 8rem;
+  }
+  
+  @media (min-width: 640px) {
+    .text-\[12rem\] {
+      font-size: 12rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .text-\[14rem\] {
+      font-size: 14rem;
+    }
+  }
+  
+  /* Boat icon animation */
+  .boat-icon {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  /* Button hover effects */
+  .hover\:scale-105:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Backdrop blur support */
+  .backdrop-blur-sm {
+    backdrop-filter: blur(4px);
+  }
+  
+  /* Floating elements animation */
+  .animate-bounce {
+    animation: bounce 2s infinite;
+  }
+  
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(-25%);
+      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+      transform: translateY(0);
+      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
+  
+  /* Responsive text sizing */
+  @media (max-width: 640px) {
+    .text-9xl {
+      font-size: 6rem;
+    }
+  }
+  
+  /* Gradient text effect for 404 */
+  .gradient-text {
+    background: linear-gradient(135deg, #02537d, #0184a9, #01bfc4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Custom button animations */
+  .btn-primary {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+  }
+  
+  .btn-primary:hover::before {
+    left: 100%;
+  }

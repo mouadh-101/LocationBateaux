@@ -61,4 +61,11 @@ public class UserController {
         userService.changePassword(loggedInUser.getId(), request);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserDataWithName> getLoggedInUser() {
+        UserData loggedInUser = (UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDataWithName user = userService.findUserById(loggedInUser.getId());
+        return ResponseEntity.ok(user);
+    }
 }
