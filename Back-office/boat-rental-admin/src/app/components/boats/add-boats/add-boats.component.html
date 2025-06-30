@@ -1,0 +1,28 @@
+<h2>Ajouter un bateau</h2>
+
+<form (ngSubmit)="saveBoat()">
+  <label>Nom :</label>
+  <input type="text" [(ngModel)]="boat.nom" name="nom" required />
+
+  <label>Description :</label>
+  <textarea [(ngModel)]="boat.description" name="description" required></textarea>
+
+  <label>Prix (€) :</label>
+  <input type="number" [(ngModel)]="boat.prix" name="prix" required min="0" />
+
+  <label>Ajouter une image :</label>
+  <input type="text" [(ngModel)]="imageUrl" name="imageUrl" placeholder="URL de l'image" />
+  <button type="button" (click)="addImage()">Ajouter Image</button>
+
+  <div *ngIf="boat.images.length > 0">
+    <h4>Images ajoutées :</h4>
+    <ul>
+      <li *ngFor="let img of boat.images; let i = index">
+        {{ img.url }}
+        <button type="button" (click)="removeImage(i)">❌</button>
+      </li>
+    </ul>
+  </div>
+
+  <button type="submit">Enregistrer</button>
+</form>
