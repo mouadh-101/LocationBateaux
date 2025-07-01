@@ -1,15 +1,21 @@
 package org.nst.bateaux.service.Implimentation;
 
+import org.nst.bateaux.config.BusinessException;
 import org.nst.bateaux.dto.auth.AuthenticationRequest;
 import org.nst.bateaux.dto.auth.AuthenticationResponse;
 import org.nst.bateaux.dto.auth.RegisterRequest;
+import org.nst.bateaux.dto.bateau.BateauData;
+import org.nst.bateaux.dto.bateau.ImageDto;
 import org.nst.bateaux.dto.user.ChangePasswordRequest;
 import org.nst.bateaux.dto.user.UserData;
 import org.nst.bateaux.dto.user.UserDataWithName;
+import org.nst.bateaux.entity.Bateaux;
 import org.nst.bateaux.entity.User;
+import org.nst.bateaux.repository.BateauxRepository;
 import org.nst.bateaux.repository.UserRepository;
 import org.nst.bateaux.service.Interface.IJwtService;
 import org.nst.bateaux.service.Interface.IUserService;
+import org.nst.bateaux.service.mappers.MapToDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,6 +34,10 @@ public class UserService implements IUserService {
     PasswordEncoder passwordEncoder;
     @Autowired
     IJwtService jwtService;
+    @Autowired
+    BateauxRepository bateauxRepository;
+    @Autowired
+    MapToDto mapToDto;
     @Override
     public User creatUser(RegisterRequest user) {
         User newUser=new User() ;
@@ -99,23 +109,23 @@ public class UserService implements IUserService {
     @Override
     public UserDataWithName updateUser(Long userId, UserDataWithName userData) {
         User existingUser = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+                .orElseThrow(() -> new BusinessException("User not found with ID: " + userId));
 
         existingUser.setName(userData.getName());
         existingUser.setEmail(userData.getEmail());
 
         User updatedUser = userRepository.save(existingUser);
 
-        return new UserDataWithName(updatedUser.getId(), updatedUser.getName(), updatedUser.getEmail(),updatedUser.getRole(),updatedUser.isActive());
+        return mapToDto.mapToDtoWithName(updatedUser);
     }
 
     @Override
     public void banUser(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new BusinessException("User not found"));
 
         if (!user.isActive()) {
-            throw new RuntimeException("User is already banned");
+            throw new BusinessException("User is already banned");
         }
 
         user.setActive(false);
@@ -125,10 +135,10 @@ public class UserService implements IUserService {
     @Override
     public void unBanUser(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new BusinessException("User not found"));
 
         if (user.isActive()) {
-            throw new RuntimeException("User is already Active");
+            throw new BusinessException("User is already Active");
         }
 
         user.setActive(true);
@@ -138,40 +148,24 @@ public class UserService implements IUserService {
     @Override
     public void changePassword(Long id, ChangePasswordRequest request) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new BusinessException("User not found"));
 
         if (!passwordEncoder.matches(request.getCurentPassword(), user.getPassword())) {
-            throw new RuntimeException("Current Password doesn't match");
+            throw new BusinessException("Current Password doesn't match");
         }
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
     }
-    @Override
-    public UserData mapToDto(User user) {
-        UserData userData = new UserData();
-        userData.setId(user.getId());
-        userData.setEmail(user.getEmail());
-        userData.setRole(user.getRole());
-        userData.setIsActive(user.isActive());
-        return userData;
-    }
-    @Override
-    public UserDataWithName mapToDtoWithName(User user) {
-        UserDataWithName userDataWithName = new UserDataWithName();
-        userDataWithName.setId(user.getId());
-        userDataWithName.setEmail(user.getEmail());
-        userDataWithName.setRole(user.getRole());
-        userDataWithName.setIsActive(user.isActive());
-        userDataWithName.setName(user.getName());
-        return userDataWithName;
-    }
+
 
     @Override
     public UserDataWithName findUserById(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
-        return mapToDtoWithName(user);
+                .orElseThrow(() -> new BusinessException("User not found with ID: " + id));
+        return mapToDto.mapToDtoWithName(user);
     }
+
+
 
 
 }

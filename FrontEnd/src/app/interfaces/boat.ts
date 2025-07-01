@@ -1,3 +1,4 @@
+import { Port } from "./port";
 import { Reservation } from "./reservation";
 import { User } from "./user";
 
@@ -10,6 +11,9 @@ export interface Boat {
   disponible: boolean;
   avis: Avis[];
   reservations: Reservation[];
+  port:Port;
+  carecteristique: Caracteristique;
+
 }
 export interface Avis {
   avisId: number;
@@ -40,3 +44,12 @@ export interface Benefit {
   description: string;
   icone: string;
 }
+export interface Caracteristique {
+  idCarecteristique: number;
+  capacite: number;
+  longueur: number;
+  largeur: number;
+  nombreMoteurs: number;
+  type: string;
+}
+

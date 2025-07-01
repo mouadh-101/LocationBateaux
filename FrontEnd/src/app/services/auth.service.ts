@@ -5,6 +5,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { UserRegister, UserLogin, JwtPayload } from '../interfaces/user';
+import { ErrorHandlerUtil } from 'src/util/errorHandlerUtil';
 
 @Injectable({
   providedIn: 'root'
@@ -24,19 +25,13 @@ export class AuthService {
       tap(response => {
         this.handleAuthSuccess(response.token);
       }),
-      catchError(err => {
-        console.error('Login error:', err);
-        return throwError(() => new Error('Login failed'));
-      })
+      catchError(ErrorHandlerUtil.handleError)
     );
   }
 
   register(user: UserRegister): Observable<any> {
     return this.http.post(`${this.baseUrl}/register`, user).pipe(
-      catchError(err => {
-        console.error('Registration error:', err);
-        return throwError(() => new Error('Registration failed'));
-      })
+      catchError(ErrorHandlerUtil.handleError)
     );
   }
 
@@ -78,7 +73,7 @@ export class AuthService {
     }
   }
 
-  private isTokenExpired(token: string): boolean {
+  public isTokenExpired(token: string): boolean {
     try {
       const decoded = jwtDecode<JwtPayload>(token);
       return decoded.exp ? decoded.exp < Date.now() / 1000 : true;

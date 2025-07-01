@@ -7,11 +7,15 @@ import { BoatDetailsComponent } from './components/boat-details/boat-details.com
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ReservationDetailsComponent } from './components/reservation-details/reservation-details.component';
 import { AuthGuard } from './guards/auth.guard';
+import { MyReservationsComponent } from './components/my-reservations/my-reservations.component';
+import { FavoriteBoatsComponent } from './components/favorite-boats/favorite-boats.component';
 
 const routes: Routes = [
   { path: 'boats',component:BoatListComponent},
   { path: 'boat-details/:id', component:BoatDetailsComponent},
   { path: 'reservation-details/:id',canActivate:[AuthGuard] ,component: ReservationDetailsComponent},
+  { path: 'my-reservations', canActivate:[AuthGuard], component:MyReservationsComponent},
+  { path: 'favorite', canActivate:[AuthGuard], component:FavoriteBoatsComponent},
   { path: '', component: HomeComponent },
   { path: '**',component:NotFoundComponent}
   

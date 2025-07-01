@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.nst.bateaux.dto.avis.AviData;
+import org.nst.bateaux.dto.port.PortAddDto;
 import org.nst.bateaux.dto.reservation.ReservationAdd;
+import org.nst.bateaux.dto.reservation.ReservationData;
 import org.nst.bateaux.entity.Avis;
 
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BateauData {
-    long BateauxId;
+    long bateauxId;
     String nom ;
     String description ;
     double prix ;
@@ -21,5 +23,9 @@ public class BateauData {
     boolean disponible;
     List<AviData> avis;
     List<ReservationAdd> reservations;
+    PortAddDto port;
+    CarecteristiqueBateauxDto carecteristique;
+
+
 }
 

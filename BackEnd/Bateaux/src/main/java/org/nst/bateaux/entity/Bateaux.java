@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.nst.bateaux.dto.bateau.CarecteristiqueBateauxDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class Bateaux {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    Long BateauxId;
+    Long bateauxId;
     String nom ;
     String description ;
     double prix ;
@@ -34,5 +35,9 @@ public class Bateaux {
     private List<Avis> avis=new ArrayList<>();
     @OneToMany(mappedBy = "bateau",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Maintenance> maintenances=new ArrayList<>();
+    @ManyToOne(cascade = CascadeType.ALL)
+    Port port;
+    @OneToOne(cascade = CascadeType.ALL)
+    Carecteristique Carecteristique;
 
 }

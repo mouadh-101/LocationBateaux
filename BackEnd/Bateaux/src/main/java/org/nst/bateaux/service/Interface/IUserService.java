@@ -3,6 +3,7 @@ package org.nst.bateaux.service.Interface;
 import org.nst.bateaux.dto.auth.AuthenticationRequest;
 import org.nst.bateaux.dto.auth.AuthenticationResponse;
 import org.nst.bateaux.dto.auth.RegisterRequest;
+import org.nst.bateaux.dto.bateau.BateauData;
 import org.nst.bateaux.dto.user.ChangePasswordRequest;
 import org.nst.bateaux.dto.user.UserData;
 import org.nst.bateaux.dto.user.UserDataWithName;
@@ -22,7 +23,7 @@ public interface IUserService {
     void banUser(Long userId);
     void unBanUser(Long userId);
     void changePassword(Long id, ChangePasswordRequest request);
-    UserData mapToDto(User user);
-    UserDataWithName mapToDtoWithName(User user);
     UserDataWithName findUserById(Long id);
+
+
 }

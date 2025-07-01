@@ -1,0 +1,47 @@
+:host ::ng-deep .fc-daygrid-day-top {
+  justify-content: flex-end !important;
+  padding: 0.25rem;
+  font-size: 0.75rem;
+  color: #1f2937; /* text-gray-800 */
+}
+
+:host ::ng-deep .fc {
+  --fc-bg-event-opacity: 0.6;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  border-radius: 0.5rem;
+}
+
+
+
+/* Style reserved (accepted) events */
+:host ::ng-deep .fc-event.bg-red {
+  background-color: #dc2626 !important; /* red-600 */
+  color: white !important;
+  font-weight: 500;
+  border-radius: 0.375rem;
+}
+
+/* Style pending events */
+:host ::ng-deep .fc-event.bg-yellow {
+  background-color: #fde68a !important; /* yellow-300 */
+  color: #92400e !important;
+  font-weight: 500;
+  border-radius: 0.375rem;
+}
+
+/* Header customization */
+:host ::ng-deep .fc-toolbar-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937; /* text-gray-800 */
+}
+
+:host ::ng-deep .fc-button {
+  background-color: #3b82f6 !important; /* blue-500 */
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.25rem 0.5rem;
+  font-weight: 500;
+}
+

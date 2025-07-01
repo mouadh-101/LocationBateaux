@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Boat } from '../../interfaces/boat';
 import { BoatService } from '../../services/boat.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { AuthModalService } from 'src/app/services/auth-modal.service';
 interface FilterState {
   priceRange: { min: number; max: number };
   availability: string[];
@@ -25,6 +27,7 @@ export class BoatListComponent {
   currentPage = 1;
   itemsPerPage = 6;
   showFilters: boolean = false;
+  isLoggedIn: boolean = false;
 
 
   filters: FilterState = {
@@ -44,10 +47,11 @@ export class BoatListComponent {
   ];
 
   boatTypeOptions = [
-    { value: 'yacht', label: 'Yacht' },
-    { value: 'catamaran', label: 'Catamaran' },
-    { value: 'voilier', label: 'Voilier' },
-    { value: 'bateau-sport', label: 'Bateau de Sport' }
+    { value: 'YACHT', label: 'Yacht' },
+    { value: 'VOILIER', label: 'Voilier' },
+    { value: 'CATAMARAN', label: 'Catamaran' },
+    { value: 'SPORT', label: 'Bateau de Sport' },
+    { value: 'AUTRE', label: 'Autre' }
   ];
 
   sortOptions = [
@@ -59,9 +63,13 @@ export class BoatListComponent {
 
   priceRange = { min: 0, max: 5000 };
   currentPriceRange = { min: 0, max: 5000 };
-
-  constructor(private boatService: BoatService,public router:Router) { }
+  
+  constructor(private boatService: BoatService,public router:Router, private authService : AuthService,private authModalService :AuthModalService) { }
   ngOnInit() {
+    this.authService.authState$.subscribe(loggedIn => {
+      this.isLoggedIn = loggedIn;
+    });
+    
     this.loadBoats();
   }
 
@@ -130,17 +138,10 @@ export class BoatListComponent {
 
     // Filter by boat type (based on boat name keywords)
     if (this.filters.boatTypes.length > 0) {
-      filtered = filtered.filter(boat => {
-        return this.filters.boatTypes.some(type => {
-          switch (type) {
-            case 'yacht': return boat.nom.toLowerCase().includes('yacht') || boat.nom.toLowerCase().includes('prestige');
-            case 'catamaran': return boat.nom.toLowerCase().includes('catamaran') || boat.nom.toLowerCase().includes('océan');
-            case 'voilier': return boat.nom.toLowerCase().includes('voilier') || boat.nom.toLowerCase().includes('sunset');
-            case 'bateau-sport': return boat.nom.toLowerCase().includes('dream') || boat.nom.toLowerCase().includes('riviera');
-            default: return false;
-          }
-        });
-      });
+      const selectedTypes = this.filters.boatTypes.map(type => type.toLowerCase());
+      filtered = filtered.filter(boat => 
+        selectedTypes.includes(boat.carecteristique.type.toLowerCase())
+      );
     }
 
     // Filter by price range
@@ -200,7 +201,7 @@ export class BoatListComponent {
       this.filters.priceRange.max !== this.priceRange.max) {
       this.activeFilters.push({
         type: 'price',
-        label: `Prix: ${this.filters.priceRange.min}€ - ${this.filters.priceRange.max}€`,
+        label: `Prix: ${this.filters.priceRange.min}TND - ${this.filters.priceRange.max}TND`,
         value: this.filters.priceRange
       });
     }
@@ -237,16 +238,7 @@ export class BoatListComponent {
     return boat.bateauxId;
   }
 
-  getBoatRating(boat: Boat): number {
-    if (!boat.avis || boat.avis.length === 0) {
-      return 0; // ou une valeur par défaut (ex: 3)
-    }
 
-    const total = boat.avis.reduce((sum, avis) => sum + avis.note, 0);
-    const average = total / boat.avis.length;
-
-    return Math.round(average); // ou `parseFloat(average.toFixed(1))` pour une décimale
-  }
 
 
   get paginatedBoats() {
@@ -268,5 +260,7 @@ export class BoatListComponent {
   onSeeMore(batauxId:number) {
     this.router.navigate(['/boat-details',batauxId]);
   }
+
+  
 
 }
