@@ -1,0 +1,189 @@
+.boat-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.boat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Exactement 3 colonnes */
+  gap: 15px;
+  margin: 0 auto;       /* Centrer horizontalement */
+  max-width: 1000px;    /* Limite la largeur totale si besoin */
+  justify-content: center; /* Centre la grille si moins que 100% */
+}
+
+@media (max-width: 768px) {
+  .boat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .boat-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.boat-card {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  background: white;
+  padding: 10px;
+  transition: transform 0.2s ease;
+}
+
+.boat-card:hover {
+  transform: translateY(-3px);
+}
+
+.image-container {
+  position: relative;
+  height: 120px;
+  overflow: hidden;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+.available {
+  background-color: #28a745;
+}
+
+.unavailable {
+  background-color: #dc3545;
+}
+
+.card-body {
+  padding: 10px;
+}
+
+.label {
+  font-size: 10px;
+  color: gray;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+h3 {
+  margin: 2px 0;
+  font-size: 16px;
+}
+
+.description {
+  font-size: 12px;
+  color: #555;
+  margin: 4px 0 6px 0;
+}
+
+.stars {
+  color: gold;
+  margin-bottom: 6px;
+}
+
+.stars i {
+  font-size: 10px;
+}
+
+.price {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 4px 0;
+}
+
+.price span {
+  font-size: 10px;
+  color: gray;
+}
+
+.availability {
+  font-size: 12px;
+  margin-top: 6px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.text-muted {
+  color: #888 !important;
+}
+
+.pagination {
+  text-align: center;
+  margin: 20px 0;
+  user-select: none;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 8px 14px;
+  border: 1px solid #007bff;
+  background-color: white;
+  color: #007bff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #007bff;
+  color: white;
+}
+
+.pagination button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pagination button.active {
+  background-color: #007bff;
+  color: white;
+  cursor: default;
+}
+
+.boat-list-header {
+  display: flex;
+  justify-content: center;     /* Centrage horizontal */
+  align-items: center;         /* Centrage vertical */
+  text-align: center;
+  padding: 40px 15px 20px;
+  margin: 0 auto;
+  background-color: #f8f9fa;   /* Fond clair optionnel */
+  border-bottom: 1px solid #e9ecef;
+}
+
+.section-title {
+  font-size: 2.5rem;            /* Gros titre moderne */
+  color: #007bff;              /* Bleu Bootstrap-like */
+  font-weight: 700;
+  letter-spacing: 2px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+/* Ligne décorative sous le titre */
+.section-title::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(to right, #007bff, #00c6ff);
+  margin: 10px auto 0;
+  border-radius: 2px;
+}

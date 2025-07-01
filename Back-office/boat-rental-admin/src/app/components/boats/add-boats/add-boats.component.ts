@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BoatService } from '../../../services/boats.service';
 import { Boat } from '../../../interfaces/boats';
 import { Router } from '@angular/router';
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './add-boats.component.html',
   styleUrls: ['./add-boats.component.css']
 })
-export class AddBoatComponent {
+export class AddBoatComponent implements OnInit, OnDestroy {
   boat: Boat = {
     nom: '',
     description: '',
@@ -19,6 +19,23 @@ export class AddBoatComponent {
   imageUrl: string = '';
 
   constructor(private boatService: BoatService, private router: Router) {}
+
+  ngOnInit(): void {
+    document.body.style.backgroundImage = "url('https://www.leaders.com.tn/uploads/FCK_files/Sans-titre-2(27).jpg')";
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center center';
+    document.body.style.backgroundRepeat = 'no-repeat';
+    document.body.style.backgroundAttachment = 'fixed';
+  }
+
+  ngOnDestroy(): void {
+    // Nettoyage du style quand on quitte ce component
+    document.body.style.backgroundImage = '';
+    document.body.style.backgroundSize = '';
+    document.body.style.backgroundPosition = '';
+    document.body.style.backgroundRepeat = '';
+    document.body.style.backgroundAttachment = '';
+  }
 
   addImage(): void {
     if (this.imageUrl.trim() !== '') {
