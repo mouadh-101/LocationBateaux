@@ -25,6 +25,11 @@ import { UserMenuComponent } from './components/user-menu/user-menu.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReservationDetailsComponent } from './components/reservation-details/reservation-details.component';
+import { MyReservationsComponent } from './components/my-reservations/my-reservations.component';
+import { FavoriteBoatsComponent } from './components/favorite-boats/favorite-boats.component';
+import { BoatCalendarComponent } from './components/boat-calendar/boat-calendar.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { AlertComponent } from './shared/alert/alert.component';
 
 
 @NgModule({
@@ -47,14 +52,19 @@ import { ReservationDetailsComponent } from './components/reservation-details/re
     UserMenuComponent,
     NotFoundComponent,
     ReservationDetailsComponent,
+    MyReservationsComponent,
+    FavoriteBoatsComponent,
+    AlertComponent,
   ],
   imports: [
+    BoatCalendarComponent,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
+    FullCalendarModule
 
   ],
   providers: [
