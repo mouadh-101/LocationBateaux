@@ -1,11 +1,8 @@
 package org.nst.bateaux.service.Interface;
 
 import org.nst.bateaux.dto.bateau.BateauData;
-import org.nst.bateaux.entity.Bateaux;
-import org.nst.bateaux.entity.Reservation;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IBateauxService {
 
@@ -15,6 +12,7 @@ public interface IBateauxService {
     BateauData updateBateaux(Long id,BateauData bateaux);
     BateauData getBateauxById(Long id);
     List<BateauData> getAll();
-    BateauData mapToDto(Bateaux bateau);
     List<BateauData> getTop5BateauxByNote();
+    BateauData favoritBateau(Long userId, Long bateauId);
+    List<BateauData> getFavoritBateaux(Long userId);
 }

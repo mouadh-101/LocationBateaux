@@ -59,7 +59,8 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/api/bateaux/list",
                                 "/api/bateaux/**",
-                                "/api/avis/bateaux/**"
+                                "/api/avis/bateaux/**",
+                                "/error"
                         ).permitAll()
                         .anyRequest().authenticated()
                 );

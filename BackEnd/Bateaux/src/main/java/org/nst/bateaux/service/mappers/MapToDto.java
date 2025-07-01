@@ -22,7 +22,7 @@ public class MapToDto {
         if (caracteristique == null) {
             return null;
         }
-        return ew CarecteristiqueBateauxDto(
+        return new CarecteristiqueBateauxDto(
                 caracteristique.getIdCarecteristique(),
                 caracteristique.getCapacite(),
                 caracteristique.getLongueur(),
@@ -36,8 +36,8 @@ public class MapToDto {
         List<ImageDto> images = bateau.getImages().stream()
                 .map(img -> new ImageDto(img.getImageId(), img.getUrl()))
                 .toList();
-        List<ReservationData> reservation= bateau.getReservations().stream()
-                .map(res -> mapToReservationDto(res))
+        List<ReservationAdd> reservation= bateau.getReservations().stream()
+                .map(res -> mapToAddReservationDto(res))
                 .toList();
 
         return new BateauData(
@@ -84,6 +84,7 @@ public class MapToDto {
         reservationAdd.setDateDebut(reservation.getDateDebut());
         reservationAdd.setDateFin(reservation.getDateFin());
         reservationAdd.setNbPersonnes(reservation.getNbPersonnes());
+        reservationAdd.setStatus(reservation.getStatus());
         return reservationAdd;
     }
 

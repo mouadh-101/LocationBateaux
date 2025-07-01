@@ -21,6 +21,7 @@ public class Reservation {
     Long ReservationId ;
     LocalDateTime DateDebut ;
     LocalDateTime DateFin ;
+    int nbPersonnes;
     @Enumerated(EnumType.STRING)
     StatusRes status ;
     @ManyToOne

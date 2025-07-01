@@ -10,7 +10,6 @@ public interface IAvisService {
     AviData updateAvis(Long id,AviData avis);
     AviData getAvisById(Long id);
     List<AviData> getAll();
-    AviData mapToDto(Avis avis);
     List<AviData> getAllAvisByBataeuxId(Long bateauId);
 
 }

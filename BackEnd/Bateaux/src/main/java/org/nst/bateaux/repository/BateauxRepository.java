@@ -1,7 +1,6 @@
 package org.nst.bateaux.repository;
 
 import org.nst.bateaux.entity.Bateaux;
-import org.nst.bateaux.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
