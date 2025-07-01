@@ -18,6 +18,7 @@ import { AddUserComponent } from './components/user/add-user/add-user.component'
 import { DeleteUserComponent } from './components/user/delete-user/delete-user.component';
 import { EditUserComponent } from './components/user/edit-user/edit-user.component';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +40,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

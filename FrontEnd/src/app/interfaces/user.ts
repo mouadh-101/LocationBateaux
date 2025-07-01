@@ -17,7 +17,7 @@ export interface UserRegister {
 }
 export interface JwtPayload {
     id:number;
-    sub: string;  
-    role: string; 
+    sub: string;
+    role: string;
     exp: number;
   }
