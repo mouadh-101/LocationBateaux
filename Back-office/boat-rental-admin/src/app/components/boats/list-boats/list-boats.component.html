@@ -1,0 +1,46 @@
+<div class="boat-list-header">
+  <h2 class="section-title">LES BATEAUX</h2>
+</div>
+
+<div class="boat-grid">
+  <div class="boat-card" *ngFor="let boat of paginatedBoats">
+    <!-- contenu de ta carte bateau -->
+    <div class="image-container">
+      <img [src]="boat.images[0]?.url " alt="{{ boat.nom }}" />
+      <span class="badge" [ngClass]="boat.disponible ? 'available' : 'unavailable'">
+        {{ boat.disponible ? 'Disponible' : 'Indisponible' }}
+      </span>
+    </div>
+    <div class="card-body">
+      <p class="label">BATEAU</p>
+      <h3>{{ boat.nom }}</h3>
+      <p class="description">{{ boat.description }}</p>
+
+      <div class="stars">
+        <ng-container *ngFor="let i of [1,2,3,4,5]">
+          <i class="fa" [class.fa-star]="i <= getAverageRating(boat)" [class.fa-star-o]="i > getAverageRating(boat)"></i>
+        </ng-container>
+        <span>{{ getAverageRating(boat).toFixed(1) }}</span>
+      </div>
+
+      <p class="price">{{ boat.prix }}€ <span>/jour</span></p>
+
+      <p class="availability" [ngClass]="boat.disponible ? '' : 'text-muted'">
+        {{ boat.disponible ? 'Voir Plus ➜' : 'Non Disponible' }}
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Pagination -->
+<div class="pagination">
+  <button (click)="prevPage()" [disabled]="currentPage === 1">Précédent</button>
+
+  <button *ngFor="let page of [].constructor(totalPages); let idx = index"
+          (click)="goToPage(idx + 1)"
+          [class.active]="currentPage === (idx + 1)">
+    {{ idx + 1 }}
+  </button>
+
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
+</div>
