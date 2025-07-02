@@ -1,31 +1,34 @@
+<h2 class="form-title">Ajouter un bateau</h2>
 
-
-<div class="card">
-  <h2>Ajouter un bateau</h2>
+<div class="card-form">
   <form (ngSubmit)="saveBoat()" class="form-card">
-    <label>Nom :</label>
-    <input type="text" [(ngModel)]="boat.nom" name="nom" required />
+    <label for="nom">Nom du bateau</label>
+    <input type="text" id="nom" [(ngModel)]="boat.nom" name="nom" required />
 
-    <label>Description :</label>
-    <textarea [(ngModel)]="boat.description" name="description" required></textarea>
+    <label for="description">Description</label>
+    <textarea id="description" [(ngModel)]="boat.description" name="description" required></textarea>
 
-    <label>Prix (€) :</label>
-    <input type="number" [(ngModel)]="boat.prix" name="prix" required min="0" />
+    <label for="prix">Prix (€)</label>
+    <input type="number" id="prix" [(ngModel)]="boat.prix" name="prix" min="0" required />
 
-    <label>Ajouter une image :</label>
-    <input type="text" [(ngModel)]="imageUrl" name="imageUrl" placeholder="URL de l'image" />
-    <button type="button" (click)="addImage()">Ajouter Image</button>
+    <label for="imageUrl">Ajouter une image (URL)</label>
+    <div class="image-input-wrapper">
+      <input type="text" id="imageUrl" [(ngModel)]="imageUrl" name="imageUrl" placeholder="https://..." />
+      <button type="button" class="btn-mini" (click)="addImage()">Ajouter</button>
+    </div>
 
     <div *ngIf="boat.images.length > 0" class="images-list">
       <h4>Images ajoutées :</h4>
       <ul>
         <li *ngFor="let img of boat.images; let i = index">
           {{ img.url }}
-          <button type="button" (click)="removeImage(i)">❌</button>
+          <button type="button" class="btn-delete" (click)="removeImage(i)">❌</button>
         </li>
       </ul>
     </div>
 
-    <button type="submit" class="btn-submit">Enregistrer</button>
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">Enregistrer</button>
+    </div>
   </form>
 </div>

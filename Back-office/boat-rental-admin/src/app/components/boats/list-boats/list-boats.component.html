@@ -1,21 +1,38 @@
+
+
+
+<!-- En-tête -->
 <div class="boat-list-header">
   <h2 class="section-title">LES BATEAUX</h2>
 </div>
-
+<div class="sort-selector">
+  <label for="sort-by">Trier par :</label>
+  <select id="sort-by" [(ngModel)]="sortBy" (change)="applySorting()">
+    <option value="recent">Plus Récent</option>
+    <option value="price-asc">Prix Croissant</option>
+    <option value="price-desc">Prix Décroissant</option>
+    <option value="name-asc">Nom A-Z</option>
+    <option value="name-desc">Nom Z-A</option>
+  </select>
+</div>
+<!-- Grille des bateaux -->
 <div class="boat-grid">
   <div class="boat-card" *ngFor="let boat of paginatedBoats">
-    <!-- contenu de ta carte bateau -->
+    <!-- Image du bateau -->
     <div class="image-container">
-      <img [src]="boat.images[0]?.url " alt="{{ boat.nom }}" />
-      <span class="badge" [ngClass]="boat.disponible ? 'available' : 'unavailable'">
+      <img [src]="boat.images[0]?.url" alt="{{ boat.nom }}" />
+      <span class="badge" [ngClass]="{ 'available': boat.disponible, 'unavailable': !boat.disponible }">
         {{ boat.disponible ? 'Disponible' : 'Indisponible' }}
       </span>
     </div>
+
+    <!-- Contenu de la carte -->
     <div class="card-body">
       <p class="label">BATEAU</p>
       <h3>{{ boat.nom }}</h3>
       <p class="description">{{ boat.description }}</p>
 
+      <!-- Étoiles de notation -->
       <div class="stars">
         <ng-container *ngFor="let i of [1,2,3,4,5]">
           <i class="fa" [class.fa-star]="i <= getAverageRating(boat)" [class.fa-star-o]="i > getAverageRating(boat)"></i>
@@ -23,11 +40,23 @@
         <span>{{ getAverageRating(boat).toFixed(1) }}</span>
       </div>
 
+      <!-- Prix -->
       <p class="price">{{ boat.prix }}€ <span>/jour</span></p>
 
+      <!-- Disponibilité -->
       <p class="availability" [ngClass]="boat.disponible ? '' : 'text-muted'">
         {{ boat.disponible ? 'Voir Plus ➜' : 'Non Disponible' }}
       </p>
+    </div>
+
+    <!-- Boutons alignés à droite -->
+    <div class="card-actions">
+      <button class="btn btn-edit" [routerLink]="['/edit-boat', boat.bateauxId]">
+        <i class="fas fa-edit"></i>
+      </button>
+      <button *ngIf="boat.bateauxId" class="btn btn-delete" (click)="deleteBoat(boat.bateauxId)">
+        <i class="fas fa-trash-alt"></i>
+      </button>
     </div>
   </div>
 </div>

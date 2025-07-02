@@ -27,4 +27,21 @@ export class BoatService {
     return this.http.post<Boat>(this.apiUrl, boat);
   }
 
+    // Modifier un bateau (PUT)
+  editBoat(id: number, boat: Boat): Observable<Boat> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.put<Boat>(url, boat);
+  }
+
+  // Supprimer un bateau (DELETE)
+  deleteBoat(id: number): Observable<void> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.delete<void>(url);
+  }
+
+  updateBoat(id: number, boat: Boat): Observable<any> {
+  return this.http.put(`${this.apiUrl}/${id}`, boat);
+}
+
+
 }

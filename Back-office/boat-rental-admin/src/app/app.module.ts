@@ -6,9 +6,9 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 import { AddBoatComponent } from './components/boats/add-boats/add-boats.component';
-import { EditBoatsComponent } from './components/boats/edit-boats/edit-boats.component';
+import { EditBoatComponent } from './components/boats/edit-boats/edit-boats.component';
 import { ListBoatsComponent } from './components/boats/list-boats/list-boats.component';
-import { DeleteBoatsComponent } from './components/boats/delete-boats/delete-boats.component';
+
 import { DeleteReservationComponent } from './components/reservation/delete-reservation/delete-reservation.component';
 import { AddReservationComponent } from './components/reservation/add-reservation/add-reservation.component';
 import { EditReservationComponent } from './components/reservation/edit-reservation/edit-reservation.component';
@@ -19,14 +19,14 @@ import { DeleteUserComponent } from './components/user/delete-user/delete-user.c
 import { EditUserComponent } from './components/user/edit-user/edit-user.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     AddBoatComponent,
-    EditBoatsComponent,
+    EditBoatComponent,
     ListBoatsComponent,
-    DeleteBoatsComponent,
     DeleteReservationComponent,
     AddReservationComponent,
     EditReservationComponent,
@@ -34,14 +34,16 @@ import { HttpClientModule } from '@angular/common/http';
     ListUserComponent,
     AddUserComponent,
     DeleteUserComponent,
-    EditUserComponent
+    EditUserComponent,
+
 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
