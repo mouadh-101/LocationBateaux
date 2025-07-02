@@ -21,34 +21,7 @@
       <p class="text-center text-gray-500 mb-6 text-sm">
         {{ isLoginMode ? 'Bienvenue de retour, connectez-vous à votre compte.' : 'Rejoignez-nous dès maintenant.' }}
       </p>
-      <!-- Alert Message -->
-      <div *ngIf="alertMessage" [ngClass]="{
-       'bg-green-100 text-green-800 border-green-300': alertType === 'success',
-       'bg-red-100 text-red-800 border-red-300': alertType === 'error',
-       'bg-yellow-100 text-yellow-800 border-yellow-300': alertType === 'banned'
-     }" class="p-4 rounded-lg mb-4 border flex items-start gap-3">
 
-        <!-- SVG Icon -->
-        <svg *ngIf="alertType === 'success'" class="w-5 h-5 mt-1 flex-shrink-0 text-green-600" fill="none"
-          stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-        </svg>
-
-        <svg *ngIf="alertType === 'error'" class="w-5 h-5 mt-1 flex-shrink-0 text-red-600" fill="none"
-          stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-
-        <svg *ngIf="alertType === 'banned'" class="w-5 h-5 mt-1 flex-shrink-0 text-yellow-600" fill="none"
-          stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M12 3a9 9 0 100 18 9 9 0 000-18z" />
-        </svg>
-
-        <!-- Message Text -->
-        <span class="text-sm font-medium leading-relaxed">
-          {{ alertMessage }}
-        </span>
-      </div>
 
 
       <!-- Social Login -->

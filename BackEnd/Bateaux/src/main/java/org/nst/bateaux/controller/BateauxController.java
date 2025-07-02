@@ -21,7 +21,7 @@ public class BateauxController {
     @Autowired
     BateauxService bateauxService;
 
-    @PostMapping
+    @PostMapping()
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<BateauData> ajouterBateaux(@RequestBody BateauData bateaux) {
         UserData loggedInUser = (UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -59,4 +59,17 @@ public class BateauxController {
         List<BateauData> bateaux = bateauxService.getTop5BateauxByNote();
         return ResponseEntity.ok(bateaux);
     }
+    @GetMapping("/favorit")
+    public ResponseEntity<List<BateauData>> getFavoritBateaux() {
+        UserData loggedInUser = (UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<BateauData> bateaux = bateauxService.getFavoritBateaux(loggedInUser.getId());
+        return ResponseEntity.ok(bateaux);
+    }
+    @PutMapping("/favorit/{id}")
+    public ResponseEntity<BateauData> FavoritBateau(@PathVariable Long id) {
+        UserData loggedInUser = (UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        BateauData updated = bateauxService.favoritBateau(loggedInUser.getId(), id);
+        return ResponseEntity.ok(updated);
+    }
+
 }

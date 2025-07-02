@@ -23,7 +23,6 @@ public class ReservationController {
     ReservationService reservationService;
 
     @PostMapping(path = "/{idBateau}")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ResponseEntity<ReservationData> ajouterReservation(@RequestBody ReservationAdd reservation, @PathVariable Long idBateau) {
 
         UserData loggedInUser = (UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -32,7 +31,6 @@ public class ReservationController {
     }
 
     @DeleteMapping(path = "/{id}")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ResponseEntity<Void> supprimerReservation(@PathVariable Long id) {
         reservationService.supprimerReservation(id);
         return ResponseEntity.noContent().build();
@@ -59,10 +57,10 @@ public class ReservationController {
         return ResponseEntity.ok(reservations);
     }
     @GetMapping("/current-user")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ResponseEntity<List<ReservationData>> getCurrentUserReservations() {
         UserData loggedInUser = (UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<ReservationData> reservations = reservationService.getCurrentUserReservations(loggedInUser.getId());
         return ResponseEntity.ok(reservations);
     }
+
 }

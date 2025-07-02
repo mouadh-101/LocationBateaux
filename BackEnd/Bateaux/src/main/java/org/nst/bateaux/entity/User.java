@@ -21,6 +21,7 @@ public class User {
     private Long id;
 
     private String name;
+    @Column(nullable = false, unique = true)
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
@@ -30,7 +31,8 @@ public class User {
     private List<Reservation> reservations=new ArrayList<>();
     @OneToMany(mappedBy = "proprietaire",cascade = CascadeType.ALL)
     private List<Bateaux> bateaux = new ArrayList<>();
-
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Bateaux> favourit = new ArrayList<>();
     @OneToMany(mappedBy = "utilisateur",cascade = CascadeType.ALL)
     private List<Avis> avis = new ArrayList<>();
 

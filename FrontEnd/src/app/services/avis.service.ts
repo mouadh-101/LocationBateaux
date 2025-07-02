@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Avis } from '../interfaces/boat';
+import { ErrorHandlerUtil } from 'src/util/errorHandlerUtil';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +18,7 @@ export class AvisService {
       tap(response => {
         console.log('Avis added successfully:', response);
       }),
-      catchError(err => {
-        console.error('Error adding avis:', err);
-        return throwError(() => new Error('Failed to add avis'));
-      })
+      catchError(ErrorHandlerUtil.handleError)
     );
   }
   deleteAvis(avisId: number): Observable<void> {
@@ -28,10 +26,7 @@ export class AvisService {
       tap(() => {
         console.log('Avis deleted successfully');
       }),
-      catchError(err => {
-        console.error('Error deleting avis:', err);
-        return throwError(() => new Error('Failed to delete avis'));
-      })
+      catchError(ErrorHandlerUtil.handleError)
     );
   }
   updateAvis(avis: Avis): Observable<Avis> {
@@ -39,10 +34,7 @@ export class AvisService {
       tap(response => {
         console.log('Avis updated successfully:', response);
       }),
-      catchError(err => {
-        console.error('Error updating avis:', err);
-        return throwError(() => new Error('Failed to update avis'));
-      })
+      catchError(ErrorHandlerUtil.handleError)
     );
   }
 

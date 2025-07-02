@@ -1,0 +1,117 @@
+<div class="min-h-screen bg-gradient-to-br from-pale to-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+
+    <!-- Header Section -->
+    <div class="mb-12">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+        <div>
+          <h1 class="text-4xl sm:text-5xl font-serif font-bold text-primary mb-3">
+            Mes Bateaux Favoris
+          </h1>
+          <p class="text-xl text-secondary">
+            Retrouvez vos coups de cœur maritimes
+          </p>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="mt-6 sm:mt-0 flex gap-4">
+          <div class="text-center p-4 bg-white rounded-xl shadow-md">
+            <div class="text-2xl font-bold text-primary">{{ favoriteBoats.length }}</div>
+            <div class="text-sm text-gray-600">Favoris</div>
+          </div>
+          <div class="text-center p-4 bg-white rounded-xl shadow-md">
+            <div class="text-2xl font-bold text-accent">{{ getAveragePrice() | number:'1.0-0' }}TND</div>
+            <div class="text-sm text-gray-600">Prix moyen</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter and Sort Options -->
+    <div class="mb-8">
+      <div class="bg-white rounded-xl shadow-sm p-4">
+        <div class="flex flex-col sm:flex-row gap-4 items-center justify-between">
+
+
+
+          <!-- Sort Options -->
+          <div class="flex items-center gap-4">
+            <label class="text-sm font-medium text-gray-700">Trier par:</label>
+            <select [(ngModel)]="sortBy" (change)="applySorting()"
+              class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-accent focus:border-transparent">
+              <option value="name">Nom</option>
+              <option value="price">Prix</option>
+              <option value="capacite">Capacité</option>
+              <option value="dateAdded">Date d'ajout</option>
+            </select>
+
+            <button (click)="toggleSortOrder()"
+              class="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+              <svg
+                [class]="'w-4 h-4 text-gray-600 transition-transform duration-200 ' + (sortOrder === 'desc' ? 'rotate-180' : '')"
+                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="flex items-center justify-center py-20">
+      <div class="text-center">
+        <div class="relative">
+          <div class="animate-spin rounded-full h-16 w-16 border-4 border-accent border-t-transparent mx-auto mb-4">
+          </div>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+          </div>
+        </div>
+        <p class="text-gray-600 font-medium">Chargement de vos favoris...</p>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && filteredFavorites.length === 0" class="text-center py-20">
+      <div class="max-w-md mx-auto">
+        <div
+          class="w-24 h-24 bg-gradient-to-br from-accent to-secondary rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+        </div>
+        <h3 class="text-2xl font-serif font-bold text-primary mb-4">
+          {{ activeCategory === 'all' ? 'Aucun favori pour le moment' : 'Aucun favori dans cette catégorie' }}
+        </h3>
+        <p class="text-gray-600 mb-8">
+          {{ activeCategory === 'all' ?
+          'Explorez notre flotte et ajoutez vos bateaux préférés à vos favoris.' :
+          'Aucun bateau favori ne correspond à cette catégorie.' }}
+        </p>
+        <button *ngIf="activeCategory === 'all'" (click)="router.navigate(['/boats'])"
+          class="bg-gradient-to-r from-accent to-secondary hover:from-secondary hover:to-primary text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105">
+          Découvrir nos Bateaux
+        </button>
+      </div>
+    </div>
+    <!-- Favorite Boats Grid -->
+    <div *ngIf="!loading && filteredFavorites.length > 0">
+      <!-- Results Info -->
+      <div class="mb-6 flex justify-between items-center">
+        <div *ngIf="viewMode === 'grid'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div *ngFor="let boat of filteredFavorites; trackBy: trackByBoatId"
+            class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+            <app-boat-card [boat]="boat"></app-boat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>

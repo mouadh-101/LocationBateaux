@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Avis } from 'src/app/interfaces/boat';
+import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { AvisService } from 'src/app/services/avis.service';
 
@@ -21,7 +22,7 @@ export class ReviewsComponent {
   currentUserId: number | null = null;
   isEditing: boolean = false;
 
-  constructor(private authService: AuthService, private avisService: AvisService, private fb: FormBuilder, private route: ActivatedRoute) {
+  constructor(private authService: AuthService, private avisService: AvisService, private fb: FormBuilder, private route: ActivatedRoute,private alertService:AlertService) {
     this.avisForm = this.fb.group({
       note: [0, Validators.required],
       commentaire: ['', Validators.required]
@@ -35,7 +36,6 @@ export class ReviewsComponent {
     });
     this.isLoggedIn = this.authService.isLoggedIn();
     this.currentUserId = this.authService.decodeIdFromToken();
-    console.log('Avis example:', this.avis[0]);
   }
   editAvis(avis: any) {
     this.isEditing = true;
@@ -57,8 +57,9 @@ export class ReviewsComponent {
     this.avisService.deleteAvis(avisId).subscribe({
       next: () => {
         this.avis = this.avis.filter(a => a.avisId !== avisId);
+        this.alertService.showAlert('Avis supprimé avec succès.', 'success');
       },
-      error: err => console.error('Erreur lors de la suppression :', err)
+      error: err => this.alertService.showAlert('Erreur lors de la suppression de l\'avis.', 'error')
     });
   }
 
@@ -110,6 +111,7 @@ export class ReviewsComponent {
         avis.avisId = this.editingAvisId;
         this.avisService.updateAvis(avis).subscribe({
           next: (res) => {
+            this.alertService.showAlert('Avis mis à jour avec succès.', 'success');
             const index = this.avis.findIndex(a => a.avisId === this.editingAvisId);
             if (index !== -1) {
               this.avis[index] = res;
@@ -118,16 +120,17 @@ export class ReviewsComponent {
             this.isEditing = false;
             this.editingAvisId = null;
           },
-          error: () => alert('Erreur lors de l\'envoi de l\'avis')
+          error: () => this.alertService.showAlert('Erreur lors de la mise à jour de l\'avis', 'error')
         });
       }
       else {
         this.avisService.addAvis(avis, this.boatId).subscribe({
           next: (res) => {
+            this.alertService.showAlert('Avis ajouté avec succès.', 'success');
             this.avis.push(res); // update UI
             this.avisForm.reset({ note: 0, commentaire: '' });
           },
-          error: () => alert('Erreur lors de l\'envoi de l\'avis')
+          error: () => this.alertService.showAlert('Erreur lors de l\'ajout de l\'avis', 'error')
         });
       }
     }

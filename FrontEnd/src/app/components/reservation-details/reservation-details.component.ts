@@ -4,6 +4,7 @@ import { ReservationService } from '../../services/reservation.service';
 import { Reservation, ReservationStatus } from '../../interfaces/reservation';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-reservation-details',
@@ -18,6 +19,8 @@ export class ReservationDetailsComponent implements OnInit {
   isProcessing = false;
   userRole: string | null = null;
   modifyForm: FormGroup;
+
+  
   
 
   constructor(
@@ -25,11 +28,13 @@ export class ReservationDetailsComponent implements OnInit {
     public router: Router,
     private reservationService: ReservationService,
     private authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private alertService:AlertService
   ) { 
     this.modifyForm = this.fb.group({
       dateDebut: ['', Validators.required],
-      dateFin: ['', Validators.required]
+      dateFin: ['', Validators.required],
+      nbPersonnes: [1, [Validators.required, Validators.min(1)]]
     });
   }
 
@@ -62,7 +67,7 @@ export class ReservationDetailsComponent implements OnInit {
 
   getBoatTotal(): number {
     if (!this.reservation) return 0;
-    return this.getDurationInDays() * this.reservation.bateau.prix;
+    return this.getDurationInDays() * this.reservation.bateau.prix * this.reservation.nbPersonnes;
   }
 
   formatDate(date: Date): string {
@@ -91,7 +96,8 @@ export class ReservationDetailsComponent implements OnInit {
   onModifyReservation() {
     this.modifyForm.patchValue({
       dateDebut: this.reservation?.dateDebut,
-      dateFin: this.reservation?.dateFin
+      dateFin: this.reservation?.dateFin,
+      nbPersonnes: this.reservation?.nbPersonnes || 1
     });
     this.showModifyModal = true;
   }
@@ -103,11 +109,12 @@ export class ReservationDetailsComponent implements OnInit {
         next: () => {
           this.showCancelModal = false;
           this.isProcessing = false;
-          alert('Réservation annulée avec succès');
+          this.alertService.showAlert('Réservation annulée avec succès.', 'success');
+          this.router.navigate(['/my-reservations']);
         },
         error: () => {
           this.isProcessing = false;
-          alert('Erreur lors de l\'annulation');
+          this.alertService.showAlert('Erreur lors de l\'annulation de la réservation.', 'error');
         }
       });
   }
@@ -117,6 +124,7 @@ export class ReservationDetailsComponent implements OnInit {
     this.isProcessing = true;
     this.reservation.dateDebut = this.modifyForm.value.dateDebut;
     this.reservation.dateFin = this.modifyForm.value.dateFin;
+    this.reservation.nbPersonnes = this.modifyForm.value.nbPersonnes;
 
 
     this.reservationService.updateReservation(this.reservation.reservationId, this.reservation)
@@ -125,10 +133,12 @@ export class ReservationDetailsComponent implements OnInit {
           this.reservation = res;
           this.showModifyModal = false;
           this.isProcessing = false;
+          this.alertService.showAlert('Réservation modifiée avec succès.', 'success');
+          this.modifyForm.reset();
         },
         error: () => {
           this.isProcessing = false;
-          alert('Erreur lors de la mise à jour.');
+          this.alertService.showAlert('Erreur lors de la modification de la réservation.', 'error');
         }
       });
   }
@@ -143,13 +153,6 @@ export class ReservationDetailsComponent implements OnInit {
       this.router.navigate(['/boat-details', this.reservation.bateau.bateauxId]);
     }
   }
-
-  downloadInvoice() {
-    // Simulate invoice download
-    console.log('Téléchargement de la facture...');
-    alert('Téléchargement de la facture (à implémenter)');
-  }
-
   contactSupport() {
     console.log('Contact du support...');
     alert('Redirection vers le support (à implémenter)');
@@ -162,5 +165,13 @@ export class ReservationDetailsComponent implements OnInit {
   }
   calculateTotalWithTax(): number {
     return Math.round((this.getBoatTotal() + this.calculateTax())*100)/100;
+  }
+  decrementNbPersonnes() {
+    const current = this.modifyForm.get('nbPersonnes')?.value || 1;
+    this.modifyForm.get('nbPersonnes')?.setValue(Math.max(1, current - 1));
+  }
+  incrementNbPersonnes() {
+    const current = this.modifyForm.get('nbPersonnes')?.value || 1;
+    this.modifyForm.get('nbPersonnes')?.setValue(current + 1);
   }
 }

@@ -21,6 +21,7 @@ public class ReservationData {
     Long reservationId ;
     LocalDateTime dateDebut ;
     LocalDateTime dateFin ;
+    int nbPersonnes;
     StatusRes status ;
     UserDataWithName utilisateur;
     BateauData bateau;

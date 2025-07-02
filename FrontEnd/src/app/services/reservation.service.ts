@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Reservation, ReservationAdd } from '../interfaces/reservation';
+import { ErrorHandlerUtil } from 'src/util/errorHandlerUtil';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +18,7 @@ export class ReservationService {
       tap(response => {
         console.log('Reservation added successfully:', response);
       }),
-      catchError(err => {
-        console.error('Error adding avis:', err);
-        return throwError(() => new Error('Failed to add reservation'));
-      })
+      catchError(ErrorHandlerUtil.handleError)
     );
   }
   getReservationById(reservationId: number): Observable<Reservation> {
@@ -28,10 +26,7 @@ export class ReservationService {
       tap(response => {
         console.log('Reservation fetched successfully:', response);
       }),
-      catchError(err => {
-        console.error('Error fetching reservation:', err);
-        return throwError(() => new Error('Failed to fetch reservation'));
-      })
+      catchError(ErrorHandlerUtil.handleError)
     );
   }
   cancelReservation(reservationId: number): Observable<void> {
@@ -39,10 +34,7 @@ export class ReservationService {
       tap(() => {
         console.log('Reservation cancelled successfully');
       }),
-      catchError(err => {
-        console.error('Error cancelling reservation:', err);
-        return throwError(() => new Error('Failed to cancel reservation'));
-      })
+      catchError(ErrorHandlerUtil.handleError)
     );
   }
   updateReservation(reservationId: number, reservation: Reservation): Observable<Reservation> {
@@ -50,10 +42,15 @@ export class ReservationService {
       tap(response => {
         console.log('Reservation updated successfully:', response);
       }),
-      catchError(err => {
-        console.error('Error updating reservation:', err);
-        return throwError(() => new Error('Failed to update reservation'));
-      })
+      catchError(ErrorHandlerUtil.handleError)
+    );
+  }
+  myReservations(): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`${this.baseUrl}/current-user`).pipe(
+      tap(response => {
+        console.log('My reservations fetched successfully:', response);
+      }),
+      catchError(ErrorHandlerUtil.handleError)
     );
   }
 }
