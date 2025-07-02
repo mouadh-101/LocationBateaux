@@ -1,151 +1,168 @@
-.card {
-  max-width: 500px;
-  margin: 20px auto;
-  padding: 20px 30px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  border-radius: 12px;
-  background-color: #fff;
-  font-family: 'Segoe UI', Roboto, sans-serif;
+.form-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #007bff;
+  font-weight: bold;
+  margin-bottom: 30px;
+  font-family: 'Segoe UI', sans-serif;
 }
 
+/* Card container */
+.card-form {
+  max-width: 600px;
+  margin: 20px auto 40px;
+  padding: 30px 35px;
+  border-radius: 15px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Form style */
+.form-card {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
 .form-card label {
   display: block;
-  margin-top: 15px;
+  margin-top: 20px;
+  margin-bottom: 6px;
   font-weight: 600;
-  color: #2d3748;
+  color: #333;
   font-size: 15px;
 }
 
+/* Inputs and Textarea */
 .form-card input[type="text"],
 .form-card input[type="number"],
 .form-card textarea {
   width: 100%;
-  padding: 10px 12px;
-  margin-top: 8px;
-  border: 1px solid #e2e8f0;
+  padding: 12px 14px;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  box-sizing: border-box;
   font-size: 15px;
-  resize: vertical;
-  transition: border 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-card input[type="text"]:focus,
 .form-card input[type="number"]:focus,
 .form-card textarea:focus {
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
   outline: none;
 }
 
 .form-card textarea {
+  resize: vertical;
   min-height: 100px;
 }
 
-/* Boutons principaux */
-.form-card button {
-  margin-top: 20px;
-  padding: 12px 24px;
-  background-color: #4f46e5;
+/* Wrapper for image URL input and button */
+.image-input-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+/* Small button next to image URL input */
+.btn-mini {
+  padding: 8px 14px;
+  background-color: #00b4d8;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 500;
+  border-radius: 6px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: background-color 0.3s ease;
 }
 
-.form-card button:hover {
-  background-color: #4338ca;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+.btn-mini:hover {
+  background-color: #0096c7;
 }
 
-.form-card button:active {
-  transform: translateY(0);
+/* List of images added */
+.images-list {
+  margin-top: 20px;
 }
 
-/* Boutons secondaires/danger */
+.images-list h4 {
+  margin-bottom: 12px;
+  color: #007bff;
+  font-weight: 600;
+}
+
 .images-list ul {
-  list-style-type: none;
-  padding-left: 0;
-  margin-top: 15px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .images-list li {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  background-color: #f8fafc;
-  padding: 10px 16px;
-  border-radius: 8px;
-  margin-bottom: 8px;
-  font-size: 15px;
-  border: 1px solid #edf2f7;
-}
-
-.images-list button {
-  background-color: #fef2f2;
-  border: none;
-  color: #dc2626;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 6px 12px;
+  align-items: center;
+  background-color: #f1f1f1;
+  padding: 10px 14px;
   border-radius: 6px;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  margin-bottom: 8px;
+  font-size: 14px;
+  word-break: break-word; /* couper longue URL */
 }
 
-.images-list button:hover {
-  background-color: #fee2e2;
-  color: #b91c1c;
+/* Delete image button */
+.btn-delete {
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  color: #dc3545;
+  cursor: pointer;
+  transition: color 0.2s ease;
 }
 
-h2 {
+.btn-delete:hover {
+  color: #a71d2a;
+}
+
+/* Container for form submit button */
+.form-actions {
+  margin-top: 30px;
   text-align: center;
-  margin-bottom: 25px;
+}
+
+/* Submit button */
+.btn-primary {
+  background-color: #28a745;
+  color: white;
+  padding: 12px 36px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
   font-weight: 700;
-  color: #1e293b;
-  font-size: 24px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* Boutons supplémentaires pour variantes */
-.secondary-button {
-  background-color: #e2e8f0 !important;
-  color: #1e293b !important;
+.btn-primary:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
 }
 
-.secondary-button:hover {
-  background-color: #cbd5e1 !important;
+.btn-primary:active {
+  transform: translateY(0);
 }
 
-.success-button {
-  background-color: #10b981 !important;
+/* Ligne décorative sous le titre h2 */
+h2.form-title::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(to right, #007bff, #00c6ff);
+  margin: 10px auto 0;
+  border-radius: 2px;
 }
-
-.success-button:hover {
-  background-color: #0d9f6e !important;
-}
-
-
-
-
-
-.card {
-  max-width: 500px;
-  margin: 20px auto;
-  padding: 20px 30px;
-  border-radius: 10px;
-  background-image: url('https://media.istockphoto.com/id/471815975/fr/photo/d%C3%A9tails-de-limage-de-bateau-yacht-corde-crampons-sur-la-terrasse.jpg?s=2048x2048&w=is&k=20&c=bRtt80IaqRmSjzoiCmtmreEXt9dR6MFPJBjWLO8bLws=');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: white; /* texte en blanc pour contraster */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  font-family: Arial, sans-serif;
-}
-
-
-

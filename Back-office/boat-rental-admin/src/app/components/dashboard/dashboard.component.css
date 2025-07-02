@@ -1,0 +1,95 @@
+.dashboard-container {
+  padding: 40px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  max-width: 1200px;
+  margin: auto;
+}
+
+
+
+.stats-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+}
+
+.stat-card {
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  padding: 25px 20px;
+  width: 240px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card .icon {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.stat-card .label {
+  font-size: 15px;
+  color: #666;
+  margin-bottom: 8px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.stat-card h3 {
+  font-size: 32px;
+  color: #333;
+  margin: 0;
+  font-weight: bold;
+}
+
+/* Couleurs personnalisées pour chaque bloc */
+.card-1 { background-color: #d4edda; } /* Vert clair */
+.card-1 .icon { color: #01dbf8; }
+
+.card-2 { background-color: #cce5ff; } /* Bleu clair */
+.card-2 .icon { color: #004080; }
+
+.card-3 { background-color: #fff3cd; } /* Jaune clair */
+.card-3 .icon { color: #856404; }
+
+.card-4 { background-color: #f8d7da; } /* Rouge clair */
+.card-4 .icon { color: #01dbf8; }
+
+
+h2 {
+  font-size: 2.5rem;            /* Gros titre moderne */
+  color: #007bff;              /* Bleu Bootstrap-like */
+  font-weight: 700;
+  letter-spacing: 2px;
+  position: relative;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+/* Ligne décorative sous le titre */
+h2::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(to right, #007bff, #00c6ff);
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+.card-5 {
+  background-color: #e9b14a; /* Rouge clair */
+}
+
+.card-5 .icon {
+  color: #01dbf8; /* Couleur assortie */
+}

@@ -1,0 +1,141 @@
+.form-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #007bff;
+  font-weight: bold;
+  margin-bottom: 30px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.card-form {
+  max-width: 600px;
+  margin: auto;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+.form-card label {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-card input[type="text"],
+.form-card input[type="number"],
+.form-card textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.form-card textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.image-input-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-mini {
+  padding: 8px 12px;
+  background-color: #00b4d8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-mini:hover {
+  background-color: #0096c7;
+}
+
+.images-list {
+  margin-top: 20px;
+}
+
+.images-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.images-list li {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f1f1f1;
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.btn-delete {
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  color: #dc3545;
+  cursor: pointer;
+}
+
+.btn-delete:hover {
+  color: #a71d2a;
+}
+
+.form-actions {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: #28a745;
+  color: white;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #218838;
+}
+
+
+
+
+/* Ligne décorative sous le titre */
+h2::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(to right, #007bff, #00c6ff);
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+.images-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f1f1f1;
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  word-break: break-all; /* permet de couper une longue URL */
+}

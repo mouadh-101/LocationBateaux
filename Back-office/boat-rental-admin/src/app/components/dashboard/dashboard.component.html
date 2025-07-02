@@ -1,1 +1,40 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <h2>Tableau de Bord</h2>
+
+  <div class="stats-grid">
+    <!-- Bateaux -->
+    <div class="stat-card card-1">
+      <i class="fas fa-ship icon"></i>
+      <p class="label">Total des Bateaux</p>
+      <h3>{{ totalBoats }}</h3>
+    </div>
+
+    <!-- Utilisateurs -->
+    <div class="stat-card card-2">
+      <i class="fas fa-users icon"></i>
+      <p class="label">Total des Utilisateurs</p>
+      <h3>{{ totalUsers }}</h3>
+    </div>
+
+    <!-- Réservations -->
+    <div class="stat-card card-3">
+      <i class="fas fa-calendar-check icon"></i>
+      <p class="label">Total des Réservations</p>
+      <h3>{{ totalReservations }}</h3>
+    </div>
+
+    <!-- Disponibilité -->
+    <div class="stat-card card-4">
+      <i class="fas fa-ship icon"></i>
+      <p class="label">Bateaux Disponibles</p>
+      <h3>{{ availableBoats }}</h3>
+    </div>
+
+    <div class="stat-card card-5">
+  <i class="fas fa-ship icon"></i>
+  <p class="label">Bateaux Indisponibles</p>
+  <h3>{{ unavailableBoats }}</h3>
+</div>
+
+  </div>
+</div>

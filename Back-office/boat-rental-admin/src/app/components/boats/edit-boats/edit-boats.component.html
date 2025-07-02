@@ -1,1 +1,34 @@
-<p>edit-boats works!</p>
+<h2 class="form-title">Modifier un bateau</h2>
+
+<div class="card-form">
+  <form (ngSubmit)="updateBoat()" class="form-card">
+    <label for="nom">Nom du bateau</label>
+    <input type="text" id="nom" [(ngModel)]="boat.nom" name="nom" required />
+
+    <label for="description">Description</label>
+    <textarea id="description" [(ngModel)]="boat.description" name="description" required></textarea>
+
+    <label for="prix">Prix TND</label>
+    <input type="number" id="prix" [(ngModel)]="boat.prix" name="prix" min="0" required />
+
+    <label for="imageUrl">Ajouter une image (URL)</label>
+    <div class="image-input-wrapper">
+      <input type="text" id="imageUrl" [(ngModel)]="imageUrl" name="imageUrl" placeholder="https://..." />
+      <button type="button" class="btn-mini" (click)="addImage()">Ajouter</button>
+    </div>
+
+    <div *ngIf="boat.images.length > 0" class="images-list">
+      <h4>Images actuelles :</h4>
+      <ul>
+        <li *ngFor="let img of boat.images; let i = index">
+          {{ img.url }}
+          <button type="button" class="btn-delete" (click)="removeImage(i)">❌</button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">Mettre à jour</button>
+    </div>
+  </form>
+</div>
