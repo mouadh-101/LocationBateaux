@@ -1,7 +1,9 @@
 package org.nst.bateaux.service.Interface;
 
 import org.nst.bateaux.dto.bateau.BateauData;
+import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IBateauxService {
@@ -15,4 +17,5 @@ public interface IBateauxService {
     List<BateauData> getTop5BateauxByNote();
     BateauData favoritBateau(Long userId, Long bateauId);
     List<BateauData> getFavoritBateaux(Long userId);
+    List<BateauData> chercherBateaux(String portName,int nbPersonnes,LocalDateTime dateDebut,LocalDateTime dateFin);
 }

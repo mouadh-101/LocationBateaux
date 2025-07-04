@@ -2,6 +2,7 @@ package org.nst.bateaux.controller;
 
 import lombok.AllArgsConstructor;
 import org.nst.bateaux.dto.bateau.BateauData;
+import org.nst.bateaux.dto.bateau.BoatSearchRequest;
 import org.nst.bateaux.dto.user.UserData;
 import org.nst.bateaux.service.Implimentation.BateauxService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -71,5 +73,12 @@ public class BateauxController {
         BateauData updated = bateauxService.favoritBateau(loggedInUser.getId(), id);
         return ResponseEntity.ok(updated);
     }
+    @GetMapping("/list/search")
+    public List<BateauData> searchBoats(@ModelAttribute BoatSearchRequest request) {
+        return bateauxService.chercherBateaux(
+                request.getPort(), request.getNbPersonnes(),request.getDateDebut(), request.getDateFin()
+        );
+    }
+
 
 }

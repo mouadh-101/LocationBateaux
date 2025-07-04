@@ -9,6 +9,7 @@ import { ReservationDetailsComponent } from './components/reservation-details/re
 import { AuthGuard } from './guards/auth.guard';
 import { MyReservationsComponent } from './components/my-reservations/my-reservations.component';
 import { FavoriteBoatsComponent } from './components/favorite-boats/favorite-boats.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: 'boats',component:BoatListComponent},
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'reservation-details/:id',canActivate:[AuthGuard] ,component: ReservationDetailsComponent},
   { path: 'my-reservations', canActivate:[AuthGuard], component:MyReservationsComponent},
   { path: 'favorite', canActivate:[AuthGuard], component:FavoriteBoatsComponent},
+  { path: 'profile', canActivate:[AuthGuard],component:UserProfileComponent},
   { path: '', component: HomeComponent },
   { path: '**',component:NotFoundComponent}
   

@@ -12,6 +12,7 @@ public class UserDataWithName {
     public Long id;
     public String name;
     public String email;
+    public String phone;
     public Role role;
     public Boolean isActive;
 }

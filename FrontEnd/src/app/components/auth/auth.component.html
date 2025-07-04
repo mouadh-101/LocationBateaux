@@ -48,7 +48,10 @@
       <!-- Login Form -->
       <form *ngIf="isLoginMode" [formGroup]="loginForm" (ngSubmit)="onLogin()" class="space-y-4">
         <input formControlName="email" type="email" placeholder="Adresse Email" class="auth-input" />
-        <input formControlName="password" type="password" placeholder="Mot de passe" class="auth-input" />
+        <div *ngIf="isTouchedAndDirtyWithError(loginForm, 'email', 'required')" class="text-red-600 font-extralight">L'email est requis.</div>
+      <div *ngIf="isTouchedAndDirtyWithError(loginForm, 'email', 'email')" class="text-red-600 font-extralight">L'email n'est pas valide.</div>
+        <input formControlName="password" type="password" placeholder="Mot de passe" class="auth-input " />
+        <div *ngIf="isTouchedAndDirtyWithError(loginForm, 'password', 'required')" class="text-red-600 font-extralight">Le Mot de passe est requis.</div>
         <button type="submit"
           class="w-full bg-primary text-white py-3 rounded-xl font-semibold hover:bg-accent transition-all duration-300">
           Se connecter
@@ -58,8 +61,15 @@
       <!-- Register Form -->
       <form *ngIf="!isLoginMode" [formGroup]="registerForm" (ngSubmit)="onRegister()" class="space-y-4">
         <input formControlName="name" type="text" placeholder="Nom complet" class="auth-input" />
+        <div *ngIf="isTouchedAndDirtyWithError(registerForm, 'name', 'required')" class="text-red-600 font-extralight">Le nom est requis.</div>
         <input formControlName="email" type="email" placeholder="Adresse Email" class="auth-input" />
+      <div *ngIf="isTouchedAndDirtyWithError(registerForm, 'email', 'required')" class="text-red-600 font-extralight">L'email est requis.</div>
+      <div *ngIf="isTouchedAndDirtyWithError(registerForm, 'email', 'email')" class="text-red-600 font-extralight">L'email n'est pas valide.</div>
+        <input formControlName="phone" type="text" placeholder="+216 12 345 678" class="auth-input" />
+        <div *ngIf="isTouchedAndDirtyWithError(registerForm, 'phone', 'required')" class="text-red-600 font-extralight">Le numéro de téléphone est requis.</div>
+        <div *ngIf="isTouchedAndDirtyWithError(registerForm, 'phone', 'pattern')" class="text-red-600 font-extralight">Format de numéro invalide.</div>
         <input formControlName="password" type="password" placeholder="Mot de passe" class="auth-input" />
+        <div *ngIf="isTouchedAndDirtyWithError(registerForm, 'password', 'required')" class="text-red-600 font-extralight">Le Mot de passe est requis.</div>
         <div class="flex justify-center gap-6 pt-1">
           <label class="flex items-center gap-2 cursor-pointer">
             <input type="radio" formControlName="role" value="CLIENT" />

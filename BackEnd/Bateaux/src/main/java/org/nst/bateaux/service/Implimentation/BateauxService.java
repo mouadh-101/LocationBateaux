@@ -14,6 +14,7 @@ import org.nst.bateaux.service.mappers.MapToDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -155,7 +156,11 @@ public class BateauxService implements IBateauxService {
                 .map(bateau -> mapToDto.mapToBatauxDto(bateau)).toList();
     }
 
-
+    @Override
+    public List<BateauData> chercherBateaux(String portName, int nbPersonnes, LocalDateTime dateDebut, LocalDateTime dateFin) {
+        List<Bateaux> bateauxList = bateauxRepository.searchAvailableBoats(portName, nbPersonnes, dateDebut, dateFin);
+        return bateauxList.stream().map(bat -> mapToDto.mapToBatauxDto(bat)).toList();
+    }
 
 
 }

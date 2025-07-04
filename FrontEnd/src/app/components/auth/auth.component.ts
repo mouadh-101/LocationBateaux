@@ -4,6 +4,7 @@ import { Route, Router } from '@angular/router';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthModalService } from 'src/app/services/auth-modal.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { GoogleAuthService } from 'src/app/services/google-auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -18,7 +19,7 @@ export class AuthComponent {
   isOpen = false;
 
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private authModalService: AuthModalService, private router: Router, private alertService: AlertService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private authModalService: AuthModalService, private router: Router, private alertService: AlertService,private googleService: GoogleAuthService) { // Replace 'any' with the actual type of your Google service if available
 
     this.authModalService.modalState$.subscribe(open => {
       this.isOpen = open;
@@ -26,12 +27,14 @@ export class AuthComponent {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
+      
     });
 
 
     this.registerForm = this.fb.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required, Validators.pattern('^\\+?[0-9]{10,15}$')]],
       password: ['', [Validators.required]],
       role: ['CLIENT', [Validators.required]],
     });
@@ -59,10 +62,6 @@ export class AuthComponent {
           }
           else if (response.status === 'BANNED') {
             this.alertService.showAlert(response.message, 'banned');
-            setTimeout(() => {
-              this.router.navigate(['/boats']);
-              this.close();
-            }, 1000);
           }
           else {
             this.alertService.showAlert(response.message, 'error');
@@ -80,7 +79,10 @@ export class AuthComponent {
       this.authService.register(this.registerForm.value).subscribe({
         next: (response) => {
           this.alertService.showAlert(response.message, 'success');
-          this.toggleMode();
+          setTimeout(() => {
+            this.router.navigate(['/boats']);
+            this.close();
+          }, 1000);
         },
         error: (error) => {
           this.alertService.showAlert(error.message, 'error');
@@ -88,6 +90,11 @@ export class AuthComponent {
       });
     }
   }
+  isTouchedAndDirtyWithError(form: FormGroup, controlName: string, error: string): boolean {
+    const control = form.get(controlName);
+    return !!(control && control.touched && control.dirty && control.hasError(error));
+  }
+
 }
 
 

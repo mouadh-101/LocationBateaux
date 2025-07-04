@@ -1,5 +1,6 @@
 package org.nst.bateaux.service.Interface;
 
+import org.nst.bateaux.dto.paiement.PaimentData;
 import org.nst.bateaux.entity.Bateaux;
 import org.nst.bateaux.entity.Paiement;
 
@@ -8,10 +9,10 @@ import java.util.Optional;
 
 public interface IPaiementService {
 
-    Paiement ajouterPaiement(Paiement paiement) ;
+    PaimentData ajouterPaiement(Long idReservation ,PaimentData paiement) ;
     void supprimerPaiement(Long id);
-    Paiement updatePaiement(Long id,Paiement paiement);
-    Optional<Paiement> chercherPaiement(Long id);
-    List<Paiement> getAll();
+    PaimentData updatePaiement(Long id,PaimentData paiement);
+    List<PaimentData> getAll();
+    Optional<PaimentData> getPaiementById(Long id);
 
 }

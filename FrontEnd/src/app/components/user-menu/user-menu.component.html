@@ -1,19 +1,86 @@
 <div class="relative group">
-    <!-- Circle with First Name -->
-    <div class="w-10 h-10 bg-accent text-white rounded-full flex items-center justify-center font-bold cursor-pointer border-primary border-2">
-      {{ user?.name | slice:0:1 }}
-    </div>
-  
-    <!-- Dropdown on hover -->
-    <div class="absolute right-0 mt-2 bg-white rounded-lg shadow-lg py-2 w-40 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200 z-50">
-      <p class="px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-default font-semibold">
-        {{ user?.name}}
-      </p>
-      <hr class="my-1" />
-      <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">Profil</a>
-      <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" routerLink="/my-reservations">Mes Réservations</a>
-      <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" routerLink="/favorite">Mes bateaux favorite</a>
-      <a class="block px-4 py-2 text-sm text-red-500 hover:bg-red-100 cursor-pointer" (click)="logout()">Se déconnecter</a>
-    </div>
+  <!-- Circle with First Name -->
+  <div
+    class="w-10 h-10 bg-accent text-white rounded-full flex items-center justify-center font-bold cursor-pointer border-primary border-2">
+    {{ user?.name | slice:0:1 }}
   </div>
-  
+
+  <!-- Dropdown on hover -->
+  <div
+    class="absolute right-0 mt-2 bg-white rounded-lg shadow-lg py-2 w-48 
+           opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto
+           hover:opacity-100 hover:pointer-events-auto
+           transition-opacity duration-200 z-50">
+
+    <!-- Username -->
+    <p class="px-4 py-2 text-gray-700 font-semibold cursor-default">
+      {{ user?.name }}
+    </p>
+
+    <hr class="my-1" />
+
+    <!-- Profile -->
+    <div routerLink="/profile"
+      class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-700 transition duration-150">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        class="text-accent flex-shrink-0">
+        <path d="M10 15H6a4 4 0 0 0-4 4v2" />
+        <path d="m14.305 16.53.923-.382" />
+        <path d="m15.228 13.852-.923-.383" />
+        <path d="m16.852 12.228-.383-.923" />
+        <path d="m16.852 17.772-.383.924" />
+        <path d="m19.148 12.228.383-.923" />
+        <path d="m19.53 18.696-.382-.924" />
+        <path d="m20.772 13.852.924-.383" />
+        <path d="m20.772 16.148.924.383" />
+        <circle cx="18" cy="15" r="3" />
+        <circle cx="9" cy="7" r="4" />
+      </svg>
+      <span class="text-sm font-medium">Profil</span>
+    </div>
+
+    <!-- Reservations -->
+    <div routerLink="/my-reservations"
+      class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-700 transition duration-150">
+      <svg xmlns="http://www.w3.org/2000/svg" class="text-accent" width="22" height="22" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="8" />
+        <path d="M12 2v7.5" />
+        <path d="m19 5-5.23 5.23" />
+        <path d="M22 12h-7.5" />
+        <path d="m19 19-5.23-5.23" />
+        <path d="M12 14.5V22" />
+        <path d="M10.23 13.77 5 19" />
+        <path d="M9.5 12H2" />
+        <path d="M10.23 10.23 5 5" />
+        <circle cx="12" cy="12" r="2.5" />
+      </svg>
+      <span class="text-sm font-medium">Mes Réservations</span>
+    </div>
+
+    <!-- Favorites -->
+    <div routerLink="/favorite"
+      class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-700 transition duration-150">
+      <svg xmlns="http://www.w3.org/2000/svg" class="text-accent" width="22" height="22" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path
+          d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+      </svg>
+      <span class="text-sm font-medium">Mes bateaux favoris</span>
+    </div>
+
+    <!-- Logout -->
+    <div (click)="logout()"
+      class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-700 transition duration-150">
+      <svg xmlns="http://www.w3.org/2000/svg" class="text-accent" width="22" height="22" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m16 17 5-5-5-5" />
+        <path d="M21 12H9" />
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      </svg>
+      <span class="text-sm font-medium">Se déconnecter</span>
+    </div>
+
+  </div>
+</div>
