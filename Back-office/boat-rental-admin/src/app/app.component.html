@@ -1,1 +1,25 @@
-<router-outlet></router-outlet>
+<div class="app-container">
+  <!-- Sidebar -->
+  <div class="sidebar" [class.collapsed]="sidebarCollapsed">
+    <div class="sidebar-header">
+      <h3 *ngIf="!sidebarCollapsed">Menu</h3>
+    </div>
+
+    <ul class="sidebar-menu">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/add-boat">Ajouter Bateau</a></li>
+      <li><a routerLink="/list">Les Bateaux</a></li>
+      <li><a routerLink="/list">Les Réservation </a></li>
+      <li><a routerLink="/list">Profile</a></li>
+
+    </ul>
+
+    <!-- Petit bouton toggle à l’intérieur de la sidebar -->
+    <button class="sidebar-toggle-btn" (click)="toggleSidebar()">⮘</button>
+  </div>
+
+  <!-- Contenu principal -->
+  <div class="main-content" [class.expanded]="sidebarCollapsed">
+    <router-outlet></router-outlet>
+  </div>
+</div>

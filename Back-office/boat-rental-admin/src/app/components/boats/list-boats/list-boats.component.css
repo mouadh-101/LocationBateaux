@@ -1,47 +1,36 @@
-.boat-list-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
+/* Conteneur principal */
 .boat-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Exactement 3 colonnes */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 15px;
-  margin: 0 auto;       /* Centrer horizontalement */
-  max-width: 1000px;    /* Limite la largeur totale si besoin */
-  justify-content: center; /* Centre la grille si moins que 100% */
+  padding: 15px;
+  justify-content: center;
 }
 
-@media (max-width: 768px) {
-  .boat-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 480px) {
-  .boat-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
+/* Style des cartes */
 .boat-card {
-  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  background: white;
-  padding: 10px;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 300px;
+  width: 100%;
+  margin: 0;
+  cursor: pointer;
 }
 
+/* Animation au survol */
 .boat-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
+/* Image du bateau */
 .image-container {
   position: relative;
-  height: 120px;
+  width: 100%;
+  height: 160px;
   overflow: hidden;
 }
 
@@ -49,136 +38,404 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
+.image-container:hover img {
+  transform: scale(1.1);
+}
+
+/* Badge Disponible / Indisponible */
 .badge {
   position: absolute;
-  top: 6px;
-  right: 6px;
-  font-size: 10px;
-  padding: 4px 8px;
-  border-radius: 20px;
-  font-weight: bold;
+  bottom: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 4px;
+  text-transform: uppercase;
   color: white;
 }
 
 .available {
-  background-color: #28a745;
+  background-color: #28a745; /* Vert */
 }
 
 .unavailable {
-  background-color: #dc3545;
+  background-color: #dc3545; /* Rouge */
 }
 
+/* Corps de la carte */
 .card-body {
   padding: 10px;
 }
 
 .label {
-  font-size: 10px;
-  color: gray;
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 5px;
   text-transform: uppercase;
-  margin: 0;
 }
 
-h3 {
-  margin: 2px 0;
-  font-size: 16px;
+.card-body h3 {
+  font-size: 18px;
+  margin: 5px 0 10px;
+  color: #333;
 }
 
 .description {
-  font-size: 12px;
-  color: #555;
-  margin: 4px 0 6px 0;
-}
-
-.stars {
-  color: gold;
-  margin-bottom: 6px;
-}
-
-.stars i {
-  font-size: 10px;
-}
-
-.price {
   font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+  height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Étoiles de notation */
+.stars {
+  color: #ffc107;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* Prix */
+.price {
+  font-size: 16px;
   font-weight: bold;
-  margin: 4px 0;
+  color: #007bff;
+  margin: 10px 0 5px;
 }
 
 .price span {
-  font-size: 10px;
-  color: gray;
+  font-size: 12px;
+  color: #999;
+  font-weight: normal;
 }
 
+/* Statut de disponibilité */
 .availability {
-  font-size: 12px;
-  margin-top: 6px;
-  font-weight: bold;
-  color: #007bff;
+  font-size: 14px;
+  margin-top: 10px;
+  color: #28a745;
 }
 
 .text-muted {
-  color: #888 !important;
+  color: #666 !important;
 }
 
-.pagination {
+/* Boutons Modifier / Supprimer */
+.card-footer {
+  margin-top: 5px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 0 10px 10px;
+}
+
+.btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-edit {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.btn-edit:hover {
+  background-color: #e0a800;
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #c82333;
+}
+
+/* Titre de la section */
+.boat-list-header {
   text-align: center;
-  margin: 20px 0;
-  user-select: none;
+  margin-bottom: 20px;
+}
+
+
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 30px;
+  margin-bottom: 50px;
+  flex-wrap: wrap;
 }
 
 .pagination button {
-  margin: 0 5px;
   padding: 8px 14px;
-  border: 1px solid #007bff;
-  background-color: white;
-  color: #007bff;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.pagination button:hover:not(:disabled) {
+  border: none;
   background-color: #007bff;
   color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
 }
 
 .pagination button[disabled] {
+  opacity: 0.6;
   cursor: not-allowed;
-  opacity: 0.5;
 }
 
-.pagination button.active {
+.pagination .active {
+  background-color: #0056b3;
+  font-weight: bold;
+}
+
+/* Conteneur principal */
+.boat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 15px;
+  padding: 15px;
+  justify-content: center;
+}
+
+/* Style des cartes */
+.boat-card {
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 300px;
+  width: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Animation au survol */
+.boat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Image du bateau */
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.image-container:hover img {
+  transform: scale(1.1);
+}
+
+/* Badge Disponible / Indisponible */
+.badge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  color: white;
+}
+
+.available {
+  background-color: #28a745; /* Vert */
+}
+
+.unavailable {
+  background-color: #dc3545; /* Rouge */
+}
+
+/* Corps de la carte */
+.card-body {
+  padding: 10px;
+}
+
+.label {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.card-body h3 {
+  font-size: 18px;
+  margin: 5px 0 10px;
+  color: #333;
+}
+
+.description {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+  height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Étoiles de notation */
+.stars {
+  color: #ffc107;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* Prix */
+.price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #007bff;
+  margin: 10px 0 5px;
+}
+
+.price span {
+  font-size: 12px;
+  color: #999;
+  font-weight: normal;
+}
+
+/* Statut de disponibilité */
+.availability {
+  font-size: 14px;
+  margin-top: 10px;
+  color: #28a745;
+}
+
+.text-muted {
+  color: #666 !important;
+}
+
+/* Boutons Modifier / Supprimer */
+.card-footer {
+  margin-top: 5px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 0 10px 10px;
+}
+
+.btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-edit {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.btn-edit:hover {
+  background-color: #e0a800;
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #c82333;
+}
+
+/* Titre de la section */
+.boat-list-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 30px;
+  margin-bottom: 50px;
+  flex-wrap: wrap;
+}
+
+.pagination button {
+  padding: 8px 14px;
+  border: none;
   background-color: #007bff;
   color: white;
-  cursor: default;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
 }
 
-.boat-list-header {
+.pagination button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pagination .active {
+  background-color: #0056b3;
+  font-weight: bold;
+}
+
+.boat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Exactement 3 colonnes */
+  gap: 15px;                             /* Espace entre les cartes */
+  padding: 15px;
+}
+
+.boat-card {
+  position: relative; /* Très important pour le positionnement absolu */
+  overflow: hidden;
   display: flex;
-  justify-content: center;     /* Centrage horizontal */
-  align-items: center;         /* Centrage vertical */
-  text-align: center;
-  padding: 40px 15px 20px;
-  margin: 0 auto;
-  background-color: #f8f9fa;   /* Fond clair optionnel */
-  border-bottom: 1px solid #e9ecef;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.section-title {
+.card-actions {
+  position: absolute;
+  bottom: 10px;         /* Distance depuis le bas */
+  right: 10px;          /* Distance depuis la droite */
+  display: flex;
+  gap: 8px;             /* Espace entre les boutons */
+  z-index: 10;
+}
+
+h2 {
   font-size: 2.5rem;            /* Gros titre moderne */
   color: #007bff;              /* Bleu Bootstrap-like */
   font-weight: 700;
   letter-spacing: 2px;
   position: relative;
   padding-bottom: 10px;
+  text-align: center;
 }
 
 /* Ligne décorative sous le titre */
-.section-title::after {
+h2::after {
   content: '';
   display: block;
   width: 100px;
@@ -186,4 +443,66 @@ h3 {
   background: linear-gradient(to right, #007bff, #00c6ff);
   margin: 10px auto 0;
   border-radius: 2px;
+}
+
+
+.boat-card {
+  position: relative; /* Très important pour le positionnement absolu */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-actions {
+  position: absolute;
+  bottom: 10px;         /* Distance depuis le bas */
+  right: 10px;          /* Distance depuis la droite */
+  display: flex;
+  gap: 8px;             /* Espace entre les boutons */
+  z-index: 10;
+}
+
+h2 {
+  font-size: 2.5rem;            /* Gros titre moderne */
+  color: #007bff;              /* Bleu Bootstrap-like */
+  font-weight: 700;
+  letter-spacing: 2px;
+  position: relative;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+/* Ligne décorative sous le titre */
+h2::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(to right, #007bff, #00c6ff);
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+.sort-selector {
+  margin-bottom: 1rem;
+
+}
+
+.sort-selector label {
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.sort-selector select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.sort-selector {
+  margin-bottom: 1rem;
+  margin-left: auto; /* Pousse à droite */
+  width: max-content;
 }

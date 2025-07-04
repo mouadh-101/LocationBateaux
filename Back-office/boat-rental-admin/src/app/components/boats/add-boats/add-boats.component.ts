@@ -21,7 +21,7 @@ export class AddBoatComponent implements OnInit, OnDestroy {
   constructor(private boatService: BoatService, private router: Router) {}
 
   ngOnInit(): void {
-    document.body.style.backgroundImage = "url('https://www.leaders.com.tn/uploads/FCK_files/Sans-titre-2(27).jpg')";
+    document.body.style.backgroundImage = "url('')";
     document.body.style.backgroundSize = 'cover';
     document.body.style.backgroundPosition = 'center center';
     document.body.style.backgroundRepeat = 'no-repeat';

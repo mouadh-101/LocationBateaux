@@ -1,0 +1,109 @@
+/* Conteneur principal */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background: linear-gradient(135deg, #0f3057, #1697c6); /* bleu marin + bleu mer */
+  color: white;
+  padding-top: 20px;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+}
+
+/* En-tête sidebar */
+.sidebar-header {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.sidebar-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+/* Menu de la sidebar */
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin-top: 30px;
+}
+
+.sidebar-menu li {
+  padding: 12px 20px;
+}
+
+.sidebar-menu li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.sidebar-menu li a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+/* Bouton toggle */
+.sidebar-toggle-btn {
+  position: absolute;
+  top: 15px;
+  right: -15px;
+  background-color: #0f172a;
+  border: 2px solid #ffffff;
+  color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+.sidebar.collapsed .sidebar-toggle-btn {
+  transform: rotate(180deg);
+}
+
+/* Zone principale */
+.main-content {
+  flex: 1;
+  padding: 30px;
+  background-color: #f6f8fa;
+  transition: margin-left 0.3s ease;
+}
+
+/* Titre */
+h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #007bff;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+h2::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(to right, #007bff, #00c6ff);
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
