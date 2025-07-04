@@ -60,11 +60,14 @@ public class SecurityConfig {
                                 "/api/bateaux/list",
                                 "/api/bateaux/**",
                                 "/api/avis/bateaux/**",
-                                "/error"
+                                "/error",
+                                "/api/ports"
                         ).permitAll()
                         .anyRequest().authenticated()
                 );
+
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
     @Bean

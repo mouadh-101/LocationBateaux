@@ -16,7 +16,7 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    Long ImageId ;
+    Long imageId ;
     String url ;
     @ManyToOne
     private Bateaux bateau;

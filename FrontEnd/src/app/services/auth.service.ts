@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
-import { UserRegister, UserLogin, JwtPayload } from '../interfaces/user';
+import { User, UserLogin, JwtPayload } from '../interfaces/user';
 import { ErrorHandlerUtil } from 'src/util/errorHandlerUtil';
 
 @Injectable({
@@ -29,8 +29,11 @@ export class AuthService {
     );
   }
 
-  register(user: UserRegister): Observable<any> {
-    return this.http.post(`${this.baseUrl}/register`, user).pipe(
+  register(user: User): Observable<any> {
+    return this.http.post<{ token: string }>(`${this.baseUrl}/register`, user).pipe(
+      tap(response => {
+        this.handleAuthSuccess(response.token);
+      }),
       catchError(ErrorHandlerUtil.handleError)
     );
   }
