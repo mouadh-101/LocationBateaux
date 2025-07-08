@@ -18,11 +18,12 @@ public class Maintenance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    Long MaintenanceId ;
+    Long maintenanceId ;
     String description ;
     LocalDateTime dateDebut ;
     LocalDateTime dateFin ;
     @ManyToOne
     private Bateaux bateau;
+
 
 }

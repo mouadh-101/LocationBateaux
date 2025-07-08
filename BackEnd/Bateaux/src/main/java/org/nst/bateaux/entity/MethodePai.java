@@ -1,5 +1,5 @@
 package org.nst.bateaux.entity;
 
-public enum MéthodePai {
+public enum MethodePai {
     CLICKTOPAY,PAYPAL
 }

@@ -52,4 +52,10 @@ export interface Caracteristique {
   nombreMoteurs: number;
   type: string;
 }
+export interface BoatFilter {
+  port:string;
+  dateDebut:Date;
+  dateFin:Date;
+  nbPersonnes:number ;
+}
 

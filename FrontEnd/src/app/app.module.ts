@@ -30,7 +30,7 @@ import { FavoriteBoatsComponent } from './components/favorite-boats/favorite-boa
 import { BoatCalendarComponent } from './components/boat-calendar/boat-calendar.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { AlertComponent } from './shared/alert/alert.component';
-
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +55,7 @@ import { AlertComponent } from './shared/alert/alert.component';
     MyReservationsComponent,
     FavoriteBoatsComponent,
     AlertComponent,
+    UserProfileComponent,
   ],
   imports: [
     BoatCalendarComponent,
@@ -64,11 +65,15 @@ import { AlertComponent } from './shared/alert/alert.component';
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    FullCalendarModule
+    FullCalendarModule,
+    
 
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    {
+      provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
+    }
+
   ],
   bootstrap: [AppComponent]
 })

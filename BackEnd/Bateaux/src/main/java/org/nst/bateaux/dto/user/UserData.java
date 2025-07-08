@@ -12,6 +12,7 @@ import org.nst.bateaux.entity.Role;
 public class UserData {
     public Long id;
     public String email;
+    public String phone;
     public Role role;
     public Boolean isActive;
 }

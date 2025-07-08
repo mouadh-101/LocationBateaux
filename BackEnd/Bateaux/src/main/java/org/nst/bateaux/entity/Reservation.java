@@ -18,9 +18,9 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    Long ReservationId ;
-    LocalDateTime DateDebut ;
-    LocalDateTime DateFin ;
+    Long reservationId ;
+    LocalDateTime dateDebut ;
+    LocalDateTime dateFin ;
     int nbPersonnes;
     @Enumerated(EnumType.STRING)
     StatusRes status ;

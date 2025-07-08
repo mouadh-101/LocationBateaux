@@ -1,9 +1,7 @@
 package org.nst.bateaux.controller;
 
 import lombok.AllArgsConstructor;
-import org.nst.bateaux.entity.Bateaux;
-import org.nst.bateaux.entity.Paiement;
-import org.nst.bateaux.service.Implimentation.BateauxService;
+import org.nst.bateaux.dto.paiement.PaimentData;
 import org.nst.bateaux.service.Implimentation.PaiementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,40 +9,42 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/Paiement")
+@RequestMapping("/api/paiement")
 public class PaiementController {
 
     @Autowired
     PaiementService paiementService;
 
-    @PostMapping(path = "/AddPaiement")
-    Paiement ajouterPaiement (@RequestBody Paiement paiement) {return paiementService.ajouterPaiement(paiement);}
+    @PostMapping("/{idReservation}")
+    public ResponseEntity<PaimentData> ajouterPaiement(
+            @PathVariable("idReservation") Long idReservation,
+            @RequestBody PaimentData paiement) {
 
+        PaimentData created = paiementService.ajouterPaiement(idReservation, paiement);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
 
-    @DeleteMapping(path = "/{id}")
-    void supprimerPaiement(@PathVariable Long id)
-    {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> supprimerPaiement(@PathVariable Long id) {
         paiementService.supprimerPaiement(id);
+        return ResponseEntity.noContent().build();
     }
 
-    @PutMapping(path = "/{id}")
-    Paiement updatePaiement(@PathVariable Long id,@RequestBody Paiement paiement)
-    {
-        return paiementService.updatePaiement(id,paiement);
-    }
+    @PutMapping("/{id}")
+    public ResponseEntity<PaimentData> updatePaiement(
+            @PathVariable Long id,
+            @RequestBody PaimentData paiement) {
 
-    @GetMapping(path = "/{id}")
-    Optional<Paiement> chercherPaiement(@PathVariable Long id)
-    {return paiementService.chercherPaiement(id);}
+        PaimentData updated = paiementService.updatePaiement(id, paiement);
+        return ResponseEntity.ok(updated);
+    }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Paiement>> getAll() {
-        return new ResponseEntity<>(paiementService.getAll(), HttpStatus.CREATED);
+    public ResponseEntity<List<PaimentData>> getAll() {
+        List<PaimentData> paiements = paiementService.getAll();
+        return ResponseEntity.ok(paiements);
     }
-
 }
