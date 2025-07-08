@@ -17,6 +17,7 @@ export class AuthComponent {
   loginForm: FormGroup;
   registerForm: FormGroup;
   isOpen = false;
+  showPassword = false;
 
 
   constructor(private fb: FormBuilder, private authService: AuthService, private authModalService: AuthModalService, private router: Router, private alertService: AlertService,private googleService: GoogleAuthService) { // Replace 'any' with the actual type of your Google service if available
@@ -35,7 +36,7 @@ export class AuthComponent {
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern('^\\+?[0-9]{10,15}$')]],
-      password: ['', [Validators.required]],
+      password: ['', [Validators.required,Validators.minLength(8),Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/)]],
       role: ['CLIENT', [Validators.required]],
     });
   }
@@ -56,8 +57,8 @@ export class AuthComponent {
           if (response.status === 'SUCCESS') {
             this.alertService.showAlert(response.message, 'success');
             setTimeout(() => {
-              this.router.navigate(['/boats']);
               this.close();
+              this.loginForm.reset();
             }, 1000);
           }
           else if (response.status === 'BANNED') {
@@ -80,8 +81,8 @@ export class AuthComponent {
         next: (response) => {
           this.alertService.showAlert(response.message, 'success');
           setTimeout(() => {
-            this.router.navigate(['/boats']);
             this.close();
+            this.loginForm.reset();
           }, 1000);
         },
         error: (error) => {
@@ -93,6 +94,74 @@ export class AuthComponent {
   isTouchedAndDirtyWithError(form: FormGroup, controlName: string, error: string): boolean {
     const control = form.get(controlName);
     return !!(control && control.touched && control.dirty && control.hasError(error));
+  }
+  getPasswordStrength(): number {
+    const password = this.registerForm.get('password')?.value || '';
+    let strength = 0;
+
+    if (password.length >= 8) strength += 20;
+    if (/[A-Z]/.test(password)) strength += 20;
+    if (/[a-z]/.test(password)) strength += 20;
+    if (/[0-9]/.test(password)) strength += 20;
+    if (/[^A-Za-z0-9]/.test(password)) strength += 20;
+
+    return strength;
+  }
+
+  getPasswordStrengthPercentage(): number {
+    return this.getPasswordStrength();
+  }
+
+  getPasswordStrengthClass(): string {
+    const strength = this.getPasswordStrength();
+    if (strength < 40) return 'bg-red-500';
+    if (strength < 60) return 'bg-yellow-500';
+    if (strength < 80) return 'bg-blue-500';
+    return 'bg-green-500';
+  }
+
+  getPasswordStrengthTextClass(): string {
+    const strength = this.getPasswordStrength();
+    if (strength < 40) return 'text-red-600';
+    if (strength < 60) return 'text-yellow-600';
+    if (strength < 80) return 'text-blue-600';
+    return 'text-green-600';
+  }
+
+  getPasswordStrengthText(): string {
+    const strength = this.getPasswordStrength();
+    if (strength < 40) return 'Faible';
+    if (strength < 60) return 'Moyen';
+    if (strength < 80) return 'Bon';
+    return 'Excellent';
+  }
+  getPasswordCriteria(): { text: string; valid: boolean }[] {
+    const password = this.registerForm.get('password')?.value || '';
+    return [
+      {
+        text: '✓ Au moins 8 caractères',
+        valid: password.length >= 8
+      },
+      {
+        text: '✓ Une lettre majuscule',
+        valid: /[A-Z]/.test(password)
+      },
+      {
+        text: '✓ Une lettre minuscule',
+        valid: /[a-z]/.test(password)
+      },
+      {
+        text: '✓ Un chiffre',
+        valid: /[0-9]/.test(password)
+      },
+      {
+        text: '✓ Un caractère spécial',
+        valid: /[^A-Za-z0-9]/.test(password)
+      }
+    ];
+  }
+  resetPasswordVisibility() {
+    this.showPassword = false;
   }
 
 }

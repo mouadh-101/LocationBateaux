@@ -31,6 +31,7 @@ import { BoatCalendarComponent } from './components/boat-calendar/boat-calendar.
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { AlertComponent } from './shared/alert/alert.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { ChatbotModalComponent } from './components/chatbot-modal/chatbot-modal.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     FavoriteBoatsComponent,
     AlertComponent,
     UserProfileComponent,
+    ChatbotModalComponent,
   ],
   imports: [
     BoatCalendarComponent,
