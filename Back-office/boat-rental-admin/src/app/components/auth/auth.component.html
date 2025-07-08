@@ -1,0 +1,90 @@
+<!-- Modal Overlay -->
+<div class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center backdrop-blur-sm">
+  <!-- Modal Content -->
+  <div
+    class="relative flex flex-col lg:flex-row bg-white backdrop-blur-lg shadow-2xl rounded-3xl overflow-hidden w-full max-w-6xl transition-all duration-300">
+
+    <!-- Close Button -->
+    <button (click)="close()"
+      class="absolute top-4 right-4 text-gray-600 hover:text-red-500 text-2xl z-50">&times;</button>
+
+    <!-- Left Image -->
+    <div class="hidden lg:block lg:w-1/2 bg-cover bg-center" style="background-image: url('/assets/img/login.webp');">
+      <div class="w-full h-full bg-black/20"></div>
+    </div>
+
+    <!-- Right Form Area -->
+    <div class="w-full lg:w-1/2 p-10">
+      <h2 class="text-4xl font-bold text-primary text-center font-serif">
+        {{ isLoginMode ? 'Connexion' : 'Créer un compte' }}
+      </h2>
+      <p class="text-center text-gray-500 mb-6 text-sm">
+        {{ isLoginMode ? 'Bienvenue de retour, connectez-vous à votre compte.' : 'Rejoignez-nous dès maintenant.' }}
+      </p>
+
+
+
+      <!-- Social Login -->
+      <div class="flex justify-center gap-6 mb-6">
+        <button
+          class="flex items-center gap-2 border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100 transition text-sm saturate-0 hover:saturate-100">
+          <img src="/assets/icons/google.png" alt="Google" class="w-5 h-5 " />
+          Google
+        </button>
+        <button
+          class="flex items-center gap-2 border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100 transition text-sm saturate-0 hover:saturate-100">
+          <img src="/assets/icons/facebook.png" alt="Facebook" class="w-5 h-5" />
+          Facebook
+        </button>
+      </div>
+
+      <!-- OR Divider -->
+      <div class="flex items-center mb-6">
+        <div class="flex-grow h-px bg-gray-300"></div>
+        <span class="px-4 text-sm text-gray-500">ou</span>
+        <div class="flex-grow h-px bg-gray-300"></div>
+      </div>
+
+      <!-- Login Form -->
+      <form *ngIf="isLoginMode" [formGroup]="loginForm" (ngSubmit)="onLogin()" class="space-y-4">
+        <input formControlName="email" type="email" placeholder="Adresse Email" class="auth-input" />
+        <input formControlName="password" type="password" placeholder="Mot de passe" class="auth-input" />
+        <button type="submit"
+          class="w-full bg-primary text-white py-3 rounded-xl font-semibold hover:bg-accent transition-all duration-300">
+          Se connecter
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form *ngIf="!isLoginMode" [formGroup]="registerForm" (ngSubmit)="onRegister()" class="space-y-4">
+        <input formControlName="name" type="text" placeholder="Nom complet" class="auth-input" />
+        <input formControlName="email" type="email" placeholder="Adresse Email" class="auth-input" />
+        <input formControlName="password" type="password" placeholder="Mot de passe" class="auth-input" />
+        <div class="flex justify-center gap-6 pt-1">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" formControlName="role" value="CLIENT" />
+            <span class="text-primary">Client</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" formControlName="role" value="GESTIONNAIRE" />
+            <span class="text-primary">Gestionnaire</span>
+          </label>
+        </div>
+        <button type="submit"
+          class="w-full bg-primary text-white py-3 rounded-xl font-semibold hover:bg-accent transition-all duration-300">
+          Créer un compte
+        </button>
+      </form>
+
+      <!-- Toggle Form -->
+      <div class="text-center mt-6">
+        <p class="text-sm text-gray-600">
+          {{ isLoginMode ? 'Pas encore inscrit ?' : 'Déjà un compte ?' }}
+          <a class="text-secondary hover:underline cursor-pointer" (click)="toggleMode()">
+            {{ isLoginMode ? 'Créer un compte' : 'Se connecter' }}
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

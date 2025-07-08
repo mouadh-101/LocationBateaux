@@ -3,7 +3,8 @@ export interface User {
     email: string,
     password: string,
     name: string,
-    role: string
+    role: string,
+    isActive:boolean,
 }
 export interface UserLogin {
     email: string,

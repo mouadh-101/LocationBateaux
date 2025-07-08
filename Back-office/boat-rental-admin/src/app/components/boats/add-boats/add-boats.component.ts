@@ -13,6 +13,16 @@ export class AddBoatComponent implements OnInit, OnDestroy {
     nom: '',
     description: '',
     prix: 0,
+    port:{
+      nom:''
+    },
+    carecteristique: {
+      capacite: 0,
+      longueur: 0,
+      largeur: 0,
+      nombreMoteurs: 0,
+      type: 'AUTRE' // valeur par défaut
+    },
     images: []
   };
 
@@ -29,7 +39,6 @@ export class AddBoatComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Nettoyage du style quand on quitte ce component
     document.body.style.backgroundImage = '';
     document.body.style.backgroundSize = '';
     document.body.style.backgroundPosition = '';
@@ -49,10 +58,11 @@ export class AddBoatComponent implements OnInit, OnDestroy {
   }
 
   saveBoat(): void {
+    console.log(this.boat)
     this.boatService.addBoat(this.boat).subscribe({
       next: () => {
         alert('Bateau ajouté avec succès ✅');
-        this.router.navigate(['/list-boat']);
+        this.router.navigate(['/list']);
       },
       error: err => {
         console.error('Erreur ajout bateau :', err);

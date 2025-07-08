@@ -2,21 +2,57 @@
 
 <div class="card-form">
   <form (ngSubmit)="updateBoat()" class="form-card">
+
+    <!-- Nom -->
     <label for="nom">Nom du bateau</label>
     <input type="text" id="nom" [(ngModel)]="boat.nom" name="nom" required />
 
+    <!-- Description -->
     <label for="description">Description</label>
     <textarea id="description" [(ngModel)]="boat.description" name="description" required></textarea>
 
+    <!-- Prix -->
     <label for="prix">Prix TND</label>
     <input type="number" id="prix" [(ngModel)]="boat.prix" name="prix" min="0" required />
 
+    <!-- Port -->
+    <label for="port">Port</label>
+    <input type="text" id="port" [(ngModel)]="boat.port.nom" name="port" required />
+
+    <!-- Caractéristiques -->
+    <fieldset class="caracteristique-section">
+      <legend>Caractéristiques</legend>
+
+      <label for="capacite">Capacité</label>
+      <input type="number" id="capacite" [(ngModel)]="boat.carecteristique.capacite" name="caracteristique.capacite" required />
+
+      <label for="longueur">Longueur (m)</label>
+      <input type="number" step="0.1" id="longueur" [(ngModel)]="boat.carecteristique.longueur" name="caracteristique.longueur" required />
+
+      <label for="largeur">Largeur (m)</label>
+      <input type="number" step="0.1" id="largeur" [(ngModel)]="boat.carecteristique.largeur" name="caracteristique.largeur" required />
+
+      <label for="nombreMoteurs">Nombre de moteurs</label>
+      <input type="number" id="nombreMoteurs" [(ngModel)]="boat.carecteristique.nombreMoteurs" name="caracteristique.nombreMoteurs" required />
+
+      <label for="type">Type de bateau</label>
+      <select id="type" [(ngModel)]="boat.carecteristique.type" name="caracteristique.type" required>
+        <option value="YACHT">Yacht</option>
+        <option value="VOILIER">Voilier</option>
+        <option value="CATAMARAN">Catamaran</option>
+        <option value="SPORT">Sport</option>
+        <option value="AUTRE">Autre</option>
+      </select>
+    </fieldset>
+
+    <!-- Image -->
     <label for="imageUrl">Ajouter une image (URL)</label>
     <div class="image-input-wrapper">
       <input type="text" id="imageUrl" [(ngModel)]="imageUrl" name="imageUrl" placeholder="https://..." />
       <button type="button" class="btn-mini" (click)="addImage()">Ajouter</button>
     </div>
 
+    <!-- Liste des images -->
     <div *ngIf="boat.images.length > 0" class="images-list">
       <h4>Images actuelles :</h4>
       <ul>
@@ -27,8 +63,25 @@
       </ul>
     </div>
 
+
+    <label>Disponibilité</label>
+<div class="radio-group">
+  <label>
+    <input type="radio" [(ngModel)]="boat.disponible" [value]="true" name="disponibilite" />
+    Disponible
+  </label>
+
+  <label>
+    <input type="radio" [(ngModel)]="boat.disponible" [value]="false" name="disponibilite" />
+    Indisponible
+  </label>
+</div>
+
+
+    <!-- Bouton -->
     <div class="form-actions">
       <button type="submit" class="btn-primary">Mettre à jour</button>
     </div>
+
   </form>
 </div>

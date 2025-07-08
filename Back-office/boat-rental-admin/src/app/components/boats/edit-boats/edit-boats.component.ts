@@ -14,7 +14,16 @@ export class EditBoatComponent implements OnInit {
     nom: '',
     description: '',
     prix: 0,
-    images: [],
+    port: {nom:''},
+    disponible: true,
+    carecteristique: {
+      capacite: 0,
+      longueur: 0,
+      largeur: 0,
+      nombreMoteurs: 0,
+      type: 'AUTRE'
+    },
+    images: []
   };
 
   imageUrl: string = '';
@@ -33,7 +42,20 @@ export class EditBoatComponent implements OnInit {
   getBoatDetails(): void {
     this.boatService.getBoatById(this.boatId).subscribe({
       next: (data) => {
-        this.boat = data;
+        // Assure une initialisation sûre si certaines propriétés sont nulles
+        this.boat = {
+          ...data,
+          disponible: data.disponible,
+          port: data.port ,
+          carecteristique: data.carecteristique || {
+            capacite: 0,
+            longueur: 0,
+            largeur: 0,
+            nombreMoteurs: 0,
+            type: 'AUTRE'
+          },
+          images: data.images || []
+        };
       },
       error: (err) => {
         console.error('Erreur chargement bateau :', err);
@@ -57,7 +79,7 @@ export class EditBoatComponent implements OnInit {
     this.boatService.updateBoat(this.boatId, this.boat).subscribe({
       next: () => {
         alert('Bateau mis à jour avec succès ✅');
-        this.router.navigate(['/list-boat']);
+        this.router.navigate(['/list']);
       },
       error: (err) => {
         console.error('Erreur mise à jour :', err);
