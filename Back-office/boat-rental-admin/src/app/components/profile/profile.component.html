@@ -1,0 +1,64 @@
+<div *ngIf="loading" class="flex justify-center items-center py-8 text-gray-500 font-semibold">
+  <svg class="animate-spin h-6 w-6 mr-2 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+  </svg>
+  Chargement...
+</div>
+
+<div *ngIf="error" class="max-w-md mx-auto bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-6" role="alert">
+  <strong class="font-bold">Erreur :</strong>
+  <span class="block sm:inline">{{ error }}</span>
+</div>
+
+<div *ngIf="user" class="max-w-md mx-auto bg-white shadow-lg rounded-xl p-8 mt-8 border border-gray-200">
+  <div class="flex items-center space-x-4 mb-6">
+    <div class="flex-shrink-0">
+      <div class="h-16 w-16 rounded-full bg-blue-600 flex items-center justify-center text-white text-2xl font-extrabold uppercase">
+        {{ user.name.charAt(0) }}
+      </div>
+    </div>
+    <div>
+      <h2 class="text-3xl font-extrabold text-gray-900">{{ user.name }}</h2>
+      <p class="text-sm text-gray-500">Profil utilisateur</p>
+    </div>
+  </div>
+
+  <div class="space-y-5 text-gray-700">
+    <div class="flex items-center">
+      <svg class="w-6 h-6 text-blue-500 mr-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+        <path d="M16 12h-4"></path>
+        <path d="M12 8v8"></path>
+        <circle cx="12" cy="12" r="10"></circle>
+      </svg>
+      <p><span class="font-semibold">Email :</span> {{ user.email }}</p>
+    </div>
+
+    <div class="flex items-center">
+      <svg class="w-6 h-6 text-green-500 mr-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+        <path d="M3 12h18"></path>
+        <path d="M12 3v18"></path>
+      </svg>
+      <p><span class="font-semibold">Rôle :</span> {{ user.role }}</p>
+    </div>
+
+    <div class="flex items-center">
+      <svg class="w-6 h-6 text-red-500 mr-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+        <path d="M12 15v-3"></path>
+        <path d="M8 12h8"></path>
+        <circle cx="12" cy="12" r="10"></circle>
+      </svg>
+      <p>
+        <span class="font-semibold">Mot de passe :</span>
+        <span class="tracking-widest select-all bg-gray-100 rounded px-3 py-1 ml-2 font-mono">{{ user.password }}</span>
+      </p>
+    </div>
+  </div>
+
+  <button
+    class="mt-8 w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-indigo-600 hover:to-blue-500 text-white font-semibold py-3 rounded-lg shadow-lg transition"
+    (click)="editProfile()"
+  >
+    Modifier mon profil
+  </button>
+</div>

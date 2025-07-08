@@ -41,6 +41,11 @@ public class UserController {
         UserDataWithName updated = userService.updateUser(loggedInUser.getId(), user);
         return ResponseEntity.ok(updated);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDataWithName> updateUserAdmin(@RequestBody UserDataWithName user ,@PathVariable("id") Long idUser) {
+        UserDataWithName updated = userService.updateUser(idUser, user);
+        return ResponseEntity.ok(updated);
+    }
 
     @PutMapping("/ban/{id}")
     @PreAuthorize("hasRole('ADMIN')")
@@ -75,4 +80,11 @@ public class UserController {
         StatsUserProfile stats = userService.getUserStats(loggedInUser.getId());
         return ResponseEntity.ok(stats);
     }
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDataWithName> getUserById(@PathVariable("id") Long userId) {
+        UserDataWithName user = userService.findUserById(userId);
+        return ResponseEntity.ok(user);
+    }
+
 }

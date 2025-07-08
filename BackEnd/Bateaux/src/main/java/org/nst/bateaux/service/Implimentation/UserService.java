@@ -118,6 +118,7 @@ public class UserService implements IUserService {
 
         existingUser.setName(userData.getName());
         existingUser.setPhone(userData.getPhone());
+        existingUser.setRole(userData.getRole());
 
         User updatedUser = userRepository.save(existingUser);
 
@@ -175,6 +176,39 @@ public class UserService implements IUserService {
         return userRepository.getUserStatsById(userId);
     }
 
+    @Override
+    public AuthenticationResponse loginAdmin(AuthenticationRequest request) {
+        User user = findUserByEmail(request.getEmail());
+
+        // Check if user exists
+        if (user == null) {
+            return new AuthenticationResponse(null,"ERROR", "User not found");
+        }
+
+        // Check if user is active
+        if (!user.isActive()) {
+            return new AuthenticationResponse(null,"BANNED", "User is banned or inactive");
+        }
+
+        // Validate password
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            return new AuthenticationResponse(null,"ERROR", "Invalid credentials");
+        }
+        if(user.getRole()!=Role.ADMIN)
+        {
+            return new AuthenticationResponse(null,"ERROR", "Vous n'etes pas un admin");
+        }
+
+        // Generate token
+        String token = jwtService.generateToken(
+                user.getEmail(),
+                user.getRole(),
+                user.getId(),
+                user.isActive()
+        );
+
+        return new AuthenticationResponse(token,"SUCCESS","Authentication successful");
+    }
 
 
 }

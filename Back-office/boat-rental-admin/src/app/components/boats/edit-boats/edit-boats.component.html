@@ -1,55 +1,194 @@
+<div class="mb-4">
+  <button
+    routerLink="/list"
+    class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition"
+  >
+    ← Annuler la Modfication
+  </button>
+</div>
 <h2 class="form-title">Modifier un bateau</h2>
 
 <div class="card-form">
-  <form (ngSubmit)="updateBoat()" class="form-card">
+  <form #form="ngForm" (ngSubmit)="updateBoat()" class="form-card" novalidate>
 
     <!-- Nom -->
     <label for="nom">Nom du bateau</label>
-    <input type="text" id="nom" [(ngModel)]="boat.nom" name="nom" required />
+    <input
+      type="text"
+      id="nom"
+      [(ngModel)]="boat.nom"
+      name="nom"
+      #nom="ngModel"
+      required
+      minlength="3"
+      maxlength="50"
+    />
+    <div *ngIf="nom.invalid && nom.touched" class="error-msg">
+      <small *ngIf="nom.errors?.['required']">Le nom est obligatoire.</small>
+      <small *ngIf="nom.errors?.['minlength']">Minimum 3 caractères.</small>
+      <small *ngIf="nom.errors?.['maxlength']">Maximum 50 caractères.</small>
+    </div>
 
     <!-- Description -->
     <label for="description">Description</label>
-    <textarea id="description" [(ngModel)]="boat.description" name="description" required></textarea>
+    <textarea
+      id="description"
+      [(ngModel)]="boat.description"
+      name="description"
+      #description="ngModel"
+      required
+      minlength="10"
+      maxlength="300"
+    ></textarea>
+    <div *ngIf="description.invalid && description.touched" class="error-msg">
+      <small *ngIf="description.errors?.['required']">La description est obligatoire.</small>
+      <small *ngIf="description.errors?.['minlength']">Minimum 10 caractères.</small>
+      <small *ngIf="description.errors?.['maxlength']">Maximum 300 caractères.</small>
+    </div>
 
     <!-- Prix -->
     <label for="prix">Prix TND</label>
-    <input type="number" id="prix" [(ngModel)]="boat.prix" name="prix" min="0" required />
+    <input
+      type="number"
+      id="prix"
+      [(ngModel)]="boat.prix"
+      name="prix"
+      #prix="ngModel"
+      min="0"
+      required
+    />
+    <div *ngIf="prix.invalid && prix.touched" class="error-msg">
+      <small *ngIf="prix.errors?.['required']">Le prix est obligatoire.</small>
+      <small *ngIf="prix.errors?.['min']">Le prix doit être supérieur ou égal à 0.</small>
+    </div>
 
     <!-- Port -->
     <label for="port">Port</label>
-    <input type="text" id="port" [(ngModel)]="boat.port.nom" name="port" required />
+    <input
+      type="text"
+      id="port"
+      [(ngModel)]="boat.port.nom"
+      name="port"
+      #port="ngModel"
+      required
+      minlength="2"
+      maxlength="50"
+    />
+    <div *ngIf="port.invalid && port.touched" class="error-msg">
+      <small *ngIf="port.errors?.['required']">Le port est obligatoire.</small>
+      <small *ngIf="port.errors?.['minlength']">Minimum 2 caractères.</small>
+      <small *ngIf="port.errors?.['maxlength']">Maximum 50 caractères.</small>
+    </div>
 
     <!-- Caractéristiques -->
     <fieldset class="caracteristique-section">
       <legend>Caractéristiques</legend>
 
       <label for="capacite">Capacité</label>
-      <input type="number" id="capacite" [(ngModel)]="boat.carecteristique.capacite" name="caracteristique.capacite" required />
+      <input
+        type="number"
+        id="capacite"
+        [(ngModel)]="boat.carecteristique.capacite"
+        name="caracteristique.capacite"
+        #capacite="ngModel"
+        min="1"
+        required
+      />
+      <div *ngIf="capacite.invalid && capacite.touched" class="error-msg">
+        <small *ngIf="capacite.errors?.['required']">La capacité est obligatoire.</small>
+        <small *ngIf="capacite.errors?.['min']">Doit être au moins 1.</small>
+      </div>
 
       <label for="longueur">Longueur (m)</label>
-      <input type="number" step="0.1" id="longueur" [(ngModel)]="boat.carecteristique.longueur" name="caracteristique.longueur" required />
+      <input
+        type="number"
+        step="0.1"
+        id="longueur"
+        [(ngModel)]="boat.carecteristique.longueur"
+        name="caracteristique.longueur"
+        #longueur="ngModel"
+        min="0.1"
+        required
+      />
+      <div *ngIf="longueur.invalid && longueur.touched" class="error-msg">
+        <small *ngIf="longueur.errors?.['required']">La longueur est obligatoire.</small>
+        <small *ngIf="longueur.errors?.['min']">Doit être positive.</small>
+      </div>
 
       <label for="largeur">Largeur (m)</label>
-      <input type="number" step="0.1" id="largeur" [(ngModel)]="boat.carecteristique.largeur" name="caracteristique.largeur" required />
+      <input
+        type="number"
+        step="0.1"
+        id="largeur"
+        [(ngModel)]="boat.carecteristique.largeur"
+        name="caracteristique.largeur"
+        #largeur="ngModel"
+        min="0.1"
+        required
+      />
+      <div *ngIf="largeur.invalid && largeur.touched" class="error-msg">
+        <small *ngIf="largeur.errors?.['required']">La largeur est obligatoire.</small>
+        <small *ngIf="largeur.errors?.['min']">Doit être positive.</small>
+      </div>
 
       <label for="nombreMoteurs">Nombre de moteurs</label>
-      <input type="number" id="nombreMoteurs" [(ngModel)]="boat.carecteristique.nombreMoteurs" name="caracteristique.nombreMoteurs" required />
+      <input
+        type="number"
+        id="nombreMoteurs"
+        [(ngModel)]="boat.carecteristique.nombreMoteurs"
+        name="caracteristique.nombreMoteurs"
+        #nombreMoteurs="ngModel"
+        min="0"
+        required
+      />
+      <div *ngIf="nombreMoteurs.invalid && nombreMoteurs.touched" class="error-msg">
+        <small *ngIf="nombreMoteurs.errors?.['required']">Le nombre de moteurs est obligatoire.</small>
+        <small *ngIf="nombreMoteurs.errors?.['min']">Ne peut pas être négatif.</small>
+      </div>
 
       <label for="type">Type de bateau</label>
-      <select id="type" [(ngModel)]="boat.carecteristique.type" name="caracteristique.type" required>
+      <select
+        id="type"
+        [(ngModel)]="boat.carecteristique.type"
+        name="caracteristique.type"
+        #type="ngModel"
+        required
+      >
+        <option value="">-- Choisir un type --</option>
         <option value="YACHT">Yacht</option>
         <option value="VOILIER">Voilier</option>
         <option value="CATAMARAN">Catamaran</option>
         <option value="SPORT">Sport</option>
         <option value="AUTRE">Autre</option>
       </select>
+      <div *ngIf="type.invalid && type.touched" class="error-msg">
+        <small>Le type de bateau est obligatoire.</small>
+      </div>
     </fieldset>
 
     <!-- Image -->
     <label for="imageUrl">Ajouter une image (URL)</label>
     <div class="image-input-wrapper">
-      <input type="text" id="imageUrl" [(ngModel)]="imageUrl" name="imageUrl" placeholder="https://..." />
-      <button type="button" class="btn-mini" (click)="addImage()">Ajouter</button>
+      <input
+        type="text"
+        id="imageUrl"
+        [(ngModel)]="imageUrl"
+        name="imageUrl"
+        placeholder="https://..."
+        #imageUrlInput="ngModel"
+        pattern="https?://.+"
+      />
+      <button
+        type="button"
+        class="btn-mini"
+        (click)="addImage()"
+        [disabled]="!imageUrlInput.valid || !imageUrlInput.dirty"
+      >
+        Ajouter
+      </button>
+    </div>
+    <div *ngIf="imageUrlInput.invalid && imageUrlInput.touched" class="error-msg">
+      <small>L'URL doit commencer par http:// ou https://</small>
     </div>
 
     <!-- Liste des images -->
@@ -63,24 +202,33 @@
       </ul>
     </div>
 
-
+    <!-- Disponibilité -->
     <label>Disponibilité</label>
-<div class="radio-group">
-  <label>
-    <input type="radio" [(ngModel)]="boat.disponible" [value]="true" name="disponibilite" />
-    Disponible
-  </label>
+    <div class="radio-group">
+      <label>
+        <input
+          type="radio"
+          [(ngModel)]="boat.disponible"
+          [value]="true"
+          name="disponibilite"
+          required
+          #disponible="ngModel"
+        />
+        Disponible
+      </label>
 
-  <label>
-    <input type="radio" [(ngModel)]="boat.disponible" [value]="false" name="disponibilite" />
-    Indisponible
-  </label>
-</div>
-
+      <label>
+        <input type="radio" [(ngModel)]="boat.disponible" [value]="false" name="disponibilite" required />
+        Indisponible
+      </label>
+    </div>
+    <div *ngIf="disponible.invalid && disponible.touched" class="error-msg">
+      <small>La disponibilité est obligatoire.</small>
+    </div>
 
     <!-- Bouton -->
     <div class="form-actions">
-      <button type="submit" class="btn-primary">Mettre à jour</button>
+      <button type="submit" class="btn-primary" [disabled]="form.invalid">Mettre à jour</button>
     </div>
 
   </form>

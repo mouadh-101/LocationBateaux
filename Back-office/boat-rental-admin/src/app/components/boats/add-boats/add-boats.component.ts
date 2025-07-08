@@ -13,8 +13,8 @@ export class AddBoatComponent implements OnInit, OnDestroy {
     nom: '',
     description: '',
     prix: 0,
-    port:{
-      nom:''
+    port: {
+      nom: ''
     },
     carecteristique: {
       capacite: 0,
@@ -58,16 +58,20 @@ export class AddBoatComponent implements OnInit, OnDestroy {
   }
 
   saveBoat(): void {
-    console.log(this.boat)
+    console.log(this.boat);
     this.boatService.addBoat(this.boat).subscribe({
       next: () => {
         alert('Bateau ajouté avec succès ✅');
-        this.router.navigate(['/list']);
+        this.router.navigate(['/list']); // redirection vers la liste des bateaux
       },
       error: err => {
         console.error('Erreur ajout bateau :', err);
         alert('Erreur lors de l\'ajout.');
       }
     });
+  }
+
+  goBack(): void {
+    this.router.navigate(['/list']); // redirection vers la liste des bateaux
   }
 }

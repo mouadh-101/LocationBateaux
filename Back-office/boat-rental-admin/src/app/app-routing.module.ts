@@ -4,25 +4,27 @@ import { ListBoatsComponent } from './components/boats/list-boats/list-boats.com
 import { AddBoatComponent } from './components/boats/add-boats/add-boats.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { EditBoatComponent } from './components/boats/edit-boats/edit-boats.component';
-
 import { AuthComponent } from './components/auth/auth.component';
 import { UserListComponent } from './components/user/list-user/list-user.component';
 import { EditUserComponent } from './components/user/edit-user/edit-user.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { AuthGuard } from './guards/auth.guard';
 
 
 const routes: Routes = [
 
- { path: 'dashboard', component: DashboardComponent },
-  { path: 'list', component: ListBoatsComponent },
-   { path: 'add-boat', component: AddBoatComponent },
-   { path: 'edit-boat/:id', component: EditBoatComponent },
-   {path : '' , component:AuthComponent},
-   { path: 'users', component: UserListComponent },
-   { path: 'edit-user/:id', component: EditUserComponent,
-  
+ { path: 'dashboard',canActivate: [AuthGuard], component: DashboardComponent },
+  { path: 'list',canActivate: [AuthGuard], component: ListBoatsComponent },
+   { path: 'add-boat',canActivate: [AuthGuard], component: AddBoatComponent },
+   { path: 'edit-boat/:id',canActivate: [AuthGuard], component: EditBoatComponent },
+   {path : '' ,  component:AuthComponent},
+   { path: 'users',canActivate: [AuthGuard], component: UserListComponent },
+   { path: 'edit-user/:id', canActivate: [AuthGuard],component: EditUserComponent,
+
   data: { roles: ['ADMIN'] } },
-
-
+   { path: 'profile',canActivate: [AuthGuard], component: ProfileComponent },
+    { path: 'edit-profile',canActivate: [AuthGuard], component: EditProfileComponent },
   { path: '**', redirectTo: '' }
 
 ];
