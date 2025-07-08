@@ -5,11 +5,24 @@ export interface Image {
   imageId?: number;
   url: string;
 }
+
+export interface Caracteristique {
+  capacite: number;
+  longueur: number;
+  largeur: number;
+  nombreMoteurs: number;
+  type: string; // ou enum TypeBateaux
+}
+
 export interface Boat {
   bateauxId?: number;
   nom: string;
   description: string;
   prix: number;
+  port: {
+    nom:string
+  };
+  carecteristique: Caracteristique;
   images: Image[];
   disponible?: boolean;
   avis?: any[];          // si tu ne les utilises pas, mets any[] ou un type plus précis plus tard

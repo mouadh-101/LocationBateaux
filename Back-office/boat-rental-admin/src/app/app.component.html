@@ -7,11 +7,10 @@
 
     <ul class="sidebar-menu">
       <li><a routerLink="/dashboard">Dashboard</a></li>
-      <li><a routerLink="/add-boat">Ajouter Bateau</a></li>
+      <li><a routerLink="/users">Users</a></li>
       <li><a routerLink="/list">Les Bateaux</a></li>
-      <li><a routerLink="/list">Les Réservation </a></li>
-      <li><a routerLink="/list">Profile</a></li>
-
+      <li><a routerLink="/dashboard">Les Réservation </a></li>
+      <li><a routerLink="/dashboard">Profile</a></li>
     </ul>
 
     <!-- Petit bouton toggle à l’intérieur de la sidebar -->
@@ -21,5 +20,8 @@
   <!-- Contenu principal -->
   <div class="main-content" [class.expanded]="sidebarCollapsed">
     <router-outlet></router-outlet>
+
+    <app-alert></app-alert>
+
   </div>
 </div>

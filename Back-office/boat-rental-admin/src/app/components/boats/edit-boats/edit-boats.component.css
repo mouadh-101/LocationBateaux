@@ -139,3 +139,12 @@ h2::after {
   font-size: 13px;
   word-break: break-all; /* permet de couper une longue URL */
 }
+
+.radio-group {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+.radio-group label {
+  font-weight: normal;
+}

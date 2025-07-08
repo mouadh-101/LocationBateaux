@@ -4,12 +4,25 @@ import { ListBoatsComponent } from './components/boats/list-boats/list-boats.com
 import { AddBoatComponent } from './components/boats/add-boats/add-boats.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { EditBoatComponent } from './components/boats/edit-boats/edit-boats.component';
+
+import { AuthComponent } from './components/auth/auth.component';
+import { UserListComponent } from './components/user/list-user/list-user.component';
+import { EditUserComponent } from './components/user/edit-user/edit-user.component';
+
+
 const routes: Routes = [
 
- { path: '', component: DashboardComponent },
+ { path: 'dashboard', component: DashboardComponent },
   { path: 'list', component: ListBoatsComponent },
    { path: 'add-boat', component: AddBoatComponent },
    { path: 'edit-boat/:id', component: EditBoatComponent },
+   {path : '' , component:AuthComponent},
+   { path: 'users', component: UserListComponent },
+   { path: 'edit-user/:id', component: EditUserComponent,
+  
+  data: { roles: ['ADMIN'] } },
+
+
   { path: '**', redirectTo: '' }
 
 ];
