@@ -90,6 +90,7 @@ export class BoatListComponent {
     } else {
       this.loadBoats();
     }
+    this.loadPorts()
   }
 
   loadBoats() {

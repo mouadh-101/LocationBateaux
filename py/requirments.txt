@@ -1,0 +1,8 @@
+Flask
+langchain
+langchain-google-genai
+langchain-community
+psycopg2-binary
+python-dotenv
+flask-cors
+markdownify
