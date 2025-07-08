@@ -35,8 +35,13 @@ export class DashboardComponent implements OnInit {
     //  this.totalReservations = reservations.length;
    // });
 
-   // this.userService.getAllUsers().subscribe(users => {
-   //   this.totalUsers = users.length;
-   // });
+    this.userService.getAllUsers().subscribe(users => {
+      this.totalUsers = users.length;
+   });
+
+
+   
   }
+
+
 }

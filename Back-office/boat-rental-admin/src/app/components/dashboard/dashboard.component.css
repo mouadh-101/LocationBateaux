@@ -93,3 +93,7 @@ h2::after {
 .card-5 .icon {
   color: #01dbf8; /* Couleur assortie */
 }
+
+
+.card-6 { background-color: #b191ce; } /* Rouge clair */
+.card-6 .icon { color: #e0212a; }

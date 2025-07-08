@@ -1,1 +1,58 @@
-<p>list-user works!</p>
+<div class="p-6">
+  <h2 class="text-2xl font-bold mb-6 text-center text-primary">Liste des utilisateurs</h2>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div
+      *ngFor="let user of users"
+      class="bg-gradient-to-r from-green-50 via-green-100 to-green-50 shadow-md rounded-xl p-4 border border-gray-200 hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+    >
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800">{{ user.name }}</h3>
+        <p class="text-sm text-gray-500">{{ user.email }}</p>
+        <span
+          class="inline-block px-3 py-1 rounded-full text-xs font-semibold mt-2"
+          [ngClass]="{
+            'bg-green-100 text-green-700': user.role === 'CLIENT',
+            'bg-blue-100 text-blue-700': user.role === 'GESTIONNAIRE',
+            'bg-red-100 text-red-700': user.role === 'ADMIN'
+          }"
+        >
+          {{ user.role }}
+        </span>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="mt-4 flex justify-end gap-2 text-xs">
+        <!-- Si le user est non banni -->
+        <ng-container *ngIf="user.isActive">
+          <button
+            (click)="editUser(user)"
+            class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition"
+            title="Éditer"
+          >
+            <i class="fas fa-edit text-sm"></i>
+          </button>
+
+          <button
+            (click)="banUser(user)"
+            class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transition"
+            title="Bannir"
+          >
+            <i class="fas fa-user-slash text-sm"></i>
+          </button>
+        </ng-container>
+
+        <!-- Si le user est banni -->
+        <ng-container *ngIf="!user.isActive">
+          <button
+            (click)="unbanUser(user)"
+            class="bg-green-500 hover:bg-green-600 text-white p-2 rounded-full transition"
+            title="Débannir"
+          >
+            <i class="fas fa-user-check text-sm"></i>
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

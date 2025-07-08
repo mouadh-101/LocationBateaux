@@ -31,15 +31,11 @@ public class BateauxService implements IBateauxService {
     PortRepository portRepository;
 
     @Override
-    public BateauData ajouterBateaux(BateauData bateaux , Long adminId) {
-        User user=userRepository.findById(adminId).orElseThrow(()->new BusinessException("user not found"));
+    public BateauData ajouterBateaux(BateauData bateaux, Long adminId) {
+        User user = userRepository.findById(adminId)
+                .orElseThrow(() -> new BusinessException("user not found"));
+
         Port port = portRepository.findByNom(bateaux.getPort().getNom());
-        if (port == null) {
-            Port newPort = new Port();
-            newPort.setNom(bateaux.getPort().getNom());
-            newPort.getBateaux().add(new Bateaux());
-            port=portRepository.save(newPort);
-        }
 
         Bateaux newBat = new Bateaux();
         newBat.setNom(bateaux.getNom());
@@ -47,24 +43,44 @@ public class BateauxService implements IBateauxService {
         newBat.setPrix(bateaux.getPrix());
         newBat.setProprietaire(user);
         newBat.setDisponible(true);
+
+        // Images
         for (ImageDto i : bateaux.getImages()) {
             Image im = new Image();
             im.setUrl(i.getUrl());
-            im.setBateau(newBat);
+            im.setBateau(newBat); // lien inverse
             newBat.getImages().add(im);
         }
-        CarecteristiqueBateauxDto c = bateaux.getCarecteristique();
-        Carecteristique caracteristique = new Carecteristique();
-        caracteristique.setCapacite(c.getCapacite());
-        caracteristique.setLongueur(c.getLongueur());
-        caracteristique.setLargeur(c.getLargeur());
-        caracteristique.setNombreMoteurs(c.getNombreMoteurs());
-        caracteristique.setType(c.getType());
-        newBat.setCarecteristique(caracteristique);
-        newBat.setPort(port);
-        return mapToDto.mapToBatauxDto(bateauxRepository.save(newBat));
 
+        // Caractéristiques
+        CarecteristiqueBateauxDto c = bateaux.getCarecteristique();
+        if (c != null) {
+            Carecteristique caracteristique = new Carecteristique();
+            caracteristique.setCapacite(c.getCapacite());
+            caracteristique.setLongueur(c.getLongueur());
+            caracteristique.setLargeur(c.getLargeur());
+            caracteristique.setNombreMoteurs(c.getNombreMoteurs());
+            caracteristique.setType(c.getType());
+            newBat.setCarecteristique(caracteristique);
+        }
+
+        // Port
+        if (port == null) {
+            Port newPort = new Port();
+            newPort.setNom(bateaux.getPort().getNom());
+            newPort.getBateaux().add(newBat);
+            newBat.setPort(newPort);
+            portRepository.save(newPort);
+        } else {
+            newBat.setPort(port);
+        }
+
+        // ✅ Sauvegarde
+        bateauxRepository.save(newBat);
+
+        return mapToDto.mapToBatauxDto(newBat);
     }
+
 
     @Override
     public void supprimerBateaux(Long id)
@@ -81,6 +97,7 @@ public class BateauxService implements IBateauxService {
         b.setDescription(bateauxDto.getDescription());
         b.setPrix(bateauxDto.getPrix());
         b.getImages().clear();
+        b.setDisponible(bateauxDto.isDisponible());
         for (ImageDto i : bateauxDto.getImages()) {
             Image im = new Image();
             im.setUrl(i.getUrl());
