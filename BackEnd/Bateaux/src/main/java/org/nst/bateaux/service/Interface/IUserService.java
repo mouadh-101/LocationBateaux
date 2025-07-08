@@ -28,6 +28,7 @@ public interface IUserService {
     void changePassword(Long id, ChangePasswordRequest request);
     UserDataWithName findUserById(Long id);
     StatsUserProfile getUserStats(Long userId);
+    AuthenticationResponse loginAdmin(AuthenticationRequest user);
 
 
 }

@@ -14,10 +14,11 @@ import { EditUserComponent } from './components/user/edit-user/edit-user.compone
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthComponent } from './components/auth/auth.component';
-import { UserMenuComponent } from './components/user-menu/user-menu.component';
 import { AlertComponent } from 'src/app/alert/alert.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { UserListComponent } from './components/user/list-user/list-user.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 
 
 @NgModule({
@@ -33,8 +34,9 @@ import { UserListComponent } from './components/user/list-user/list-user.compone
     UserListComponent,
     EditUserComponent,
     AuthComponent,
-    UserMenuComponent,
     AlertComponent,
+    ProfileComponent,
+    EditProfileComponent,
 
 
 

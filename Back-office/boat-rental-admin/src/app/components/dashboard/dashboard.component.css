@@ -53,7 +53,7 @@
 
 /* Couleurs personnalisées pour chaque bloc */
 .card-1 { background-color: #d4edda; } /* Vert clair */
-.card-1 .icon { color: #01dbf8; }
+.card-1 .icon { color: #014ff8; }
 
 .card-2 { background-color: #cce5ff; } /* Bleu clair */
 .card-2 .icon { color: #004080; }
@@ -62,7 +62,7 @@
 .card-3 .icon { color: #856404; }
 
 .card-4 { background-color: #f8d7da; } /* Rouge clair */
-.card-4 .icon { color: #01dbf8; }
+.card-4 .icon { color: #014ff8; }
 
 
 h2 {
@@ -91,7 +91,7 @@ h2::after {
 }
 
 .card-5 .icon {
-  color: #01dbf8; /* Couleur assortie */
+  color: #014ff8; /* Couleur assortie */
 }
 
 

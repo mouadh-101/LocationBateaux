@@ -9,15 +9,35 @@
       <li><a routerLink="/dashboard">Dashboard</a></li>
       <li><a routerLink="/users">Users</a></li>
       <li><a routerLink="/list">Les Bateaux</a></li>
-      <li><a routerLink="/dashboard">Les Réservation </a></li>
-      <li><a routerLink="/dashboard">Profile</a></li>
+      <li><a routerLink="/dashboard">Les Réservations</a></li>
+
+
+      <!-- Profil connecté -->
+      <li *ngIf="user">
+        <a *ngIf="isLoggedIn" routerLink="/profile" class="flex items-center gap-2">
+          <div
+            class="w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center shadow"
+            title="Profil"
+          >
+            {{ user.name.charAt(0) | uppercase }}
+          </div>
+          <span *ngIf="!sidebarCollapsed">{{ user.name }}</span>
+        </a>
+      </li>
+      <li>
+  <a *ngIf="isLoggedIn" (click)="onLogout()" class="cursor-pointer flex items-center gap-2" title="Déconnexion">
+    <i class="fas fa-sign-out-alt"></i>
+    <span>Déconnexion</span>
+  </a>
+</li>
+
     </ul>
 
-    <!-- Petit bouton toggle à l’intérieur de la sidebar -->
+    <!-- Toggle Sidebar -->
     <button class="sidebar-toggle-btn" (click)="toggleSidebar()">⮘</button>
   </div>
 
-  <!-- Contenu principal -->
+  <!-- Main content -->
   <div class="main-content" [class.expanded]="sidebarCollapsed">
     <router-outlet></router-outlet>
     <app-alert></app-alert>

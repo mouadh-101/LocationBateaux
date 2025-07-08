@@ -148,3 +148,15 @@ h2::after {
 .radio-group label {
   font-weight: normal;
 }
+
+.error-msg {
+  color: #dc2626; /* rouge */
+  font-size: 0.85rem;
+  margin-top: 0.15rem;
+  margin-bottom: 0.5rem;
+}
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+  border-color: #dc2626;
+}

@@ -1,0 +1,42 @@
+.edit-profile-form {
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+label {
+  font-weight: 600;
+}
+
+input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.error-msg {
+  color: #dc2626; /* rouge */
+  font-size: 0.875rem;
+}
+
+.btn-primary {
+  padding: 10px;
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  border: none;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(90deg, #2563eb, #1d4ed8);
+}
