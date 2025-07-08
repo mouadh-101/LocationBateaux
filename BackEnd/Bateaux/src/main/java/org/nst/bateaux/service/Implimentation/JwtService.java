@@ -29,7 +29,7 @@ public class JwtService implements IJwtService {
         Role role = Role.valueOf(roleString);
         Boolean isActive = claims.get("isActive", Boolean.class);
 
-        return new UserData(id, email, role,isActive);
+        return new UserData(id, email,null, role,isActive);
     }
     @Override
     public String generateToken(String email, Role role, Long id, Boolean isActive) {

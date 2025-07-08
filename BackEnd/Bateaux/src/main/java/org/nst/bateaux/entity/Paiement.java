@@ -18,11 +18,11 @@ public class Paiement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    Long PaiementId ;
-    double Montant ;
+    Long paiementId ;
+    double montant ;
     LocalDateTime datePaiement ;
     @Enumerated(EnumType.STRING)
-    MéthodePai methode ;
+    MethodePai methode ;
     @Enumerated(EnumType.STRING)
     StatusRes status ;
     @OneToOne

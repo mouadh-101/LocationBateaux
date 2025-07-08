@@ -4,6 +4,7 @@ import org.nst.bateaux.dto.avis.AviData;
 import org.nst.bateaux.dto.bateau.BateauData;
 import org.nst.bateaux.dto.bateau.CarecteristiqueBateauxDto;
 import org.nst.bateaux.dto.bateau.ImageDto;
+import org.nst.bateaux.dto.paiement.PaimentData;
 import org.nst.bateaux.dto.port.PortAddDto;
 import org.nst.bateaux.dto.port.PortDto;
 import org.nst.bateaux.dto.reservation.ReservationAdd;
@@ -93,8 +94,10 @@ public class MapToDto {
         UserData userData = new UserData();
         userData.setId(user.getId());
         userData.setEmail(user.getEmail());
+        userData.setPhone(user.getPhone());
         userData.setRole(user.getRole());
         userData.setIsActive(user.isActive());
+
         return userData;
     }
     public UserDataWithName mapToDtoWithName(User user) {
@@ -104,16 +107,28 @@ public class MapToDto {
         userDataWithName.setRole(user.getRole());
         userDataWithName.setIsActive(user.isActive());
         userDataWithName.setName(user.getName());
+        userDataWithName.setPhone(user.getPhone());
         return userDataWithName;
     }
     //Port :
-    PortDto mapToPortDto(Port port) {
+    public PortDto mapToPortDto(Port port) {
         List<BateauData> bateaux = port.getBateaux().stream()
                 .map(this::mapToBatauxDto)
                 .toList();
         return new PortDto(port.getIdPort(), port.getNom(), bateaux);
     }
-    PortAddDto mapToPortAddDto(Port port) {
+    public PortAddDto mapToPortAddDto(Port port) {
         return new PortAddDto(port.getIdPort(), port.getNom());
+    }
+    // Paiment
+    public PaimentData mapToPaiementDto(Paiement paiement) {
+        return new PaimentData(
+                paiement.getPaiementId(),
+                paiement.getMontant(),
+                paiement.getDatePaiement(),
+                paiement.getMethode(),
+                paiement.getStatus(),
+                mapToReservationDto(paiement.getReservation())
+        );
     }
 }

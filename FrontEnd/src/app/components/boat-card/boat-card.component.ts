@@ -1,6 +1,6 @@
 import { Component,Input } from '@angular/core';
-import { Router } from '@angular/router';
-import { Boat } from 'src/app/interfaces/boat';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Boat, BoatFilter } from 'src/app/interfaces/boat';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthModalService } from 'src/app/services/auth-modal.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -15,13 +15,22 @@ export class BoatCardComponent {
   @Input() boat!: Boat;
   isLoggedIn: boolean = false;
   favorites: number[] = [];
-  constructor(public router: Router,private boatService:BoatService,private authModalService : AuthModalService,private authService: AuthService,private alertService: AlertService) {}
+  searchDetails!: BoatFilter;
+  constructor(public router: Router,private route:ActivatedRoute,private boatService:BoatService,private authModalService : AuthModalService,private authService: AuthService,private alertService: AlertService) {}
   ngOnInit() {
     this.authService.authState$.subscribe({
       next: (isLoggedIn) => {
         this.isLoggedIn=isLoggedIn;
       }});
     this.loadFavorites();
+    this.route.queryParams.subscribe(params => {
+      this.searchDetails = {
+        port: params['port'],
+        dateDebut: params['dateDebut'],
+        dateFin: params['dateFin'],
+        nbPersonnes: params['nbPersonnes']
+      };
+    });
   }
   loadFavorites() {
     if (this.isLoggedIn) {
@@ -37,8 +46,14 @@ export class BoatCardComponent {
     console.log('Favorites loaded:', this.favorites);
     
   }
-  onSeeMore(batauxId:number) {
-    this.router.navigate(['/boat-details',batauxId]);
+  onSeeMore(batauxId: number) {
+
+    if (this.searchDetails) {
+      this.router.navigate(['/boat-details', batauxId], { state:  { searchDetails: this.searchDetails } });
+      console.log('Navigating with searchDetails:', this.searchDetails);
+    } else {
+      this.router.navigate(['/boat-details', batauxId]);
+    }
   }
 
   onFavorit(bateauxId: number): void {

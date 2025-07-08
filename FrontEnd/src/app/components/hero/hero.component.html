@@ -1,46 +1,168 @@
 <section class="relative h-screen flex items-center justify-center overflow-hidden">
-    <!-- Background Image -->
-    <div class="absolute inset-0 z-0">
-      <img 
-        src="/assets/img/hero.jpg" 
-        alt="Yacht de luxe naviguant au coucher du soleil"
-        class="w-full h-full object-cover">
-      <div class="absolute inset-0 bg-gradient-to-r from-primary/80 via-secondary/60 to-accent/40"></div>
-    </div>
-  
-    <!-- Content -->
-    <div class="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-      <h1 class="text-4xl sm:text-5xl lg:text-7xl font-serif font-bold mb-6 leading-tight">
-        <span class="block">Naviguez avec Élégance</span>
-      </h1>
-      
-      <p class="text-xl sm:text-2xl lg:text-3xl mb-4 font-light">
-        Vivez l'Expérience
-      </p>
-      
-      <p class="text-lg sm:text-xl mb-12 text-white max-w-2xl mx-auto leading-relaxed">
-        Découvrez notre flotte de yachts de luxe et créez des souvenirs inoubliables 
-        sur les plus belles eaux de la Méditerranée
-      </p>
-  
-      <button 
-        (click)="scrollToBoats()"
-        class="group bg-accent hover:bg-mint text-white hover:text-primary font-semibold py-4 px-8 sm:py-5 sm:px-12 rounded-full text-lg sm:text-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
-        <span class="flex items-center justify-center">
-          Rejoignez l'Aventure
-          <svg class="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
-        </span>
-      </button>
-    </div>
-  
-    <!-- Scroll Indicator -->
-    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
-      <div class="animate-bounce">
-        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-        </svg>
+  <!-- Background Image -->
+  <div class="absolute inset-0 z-0">
+    <img src="/assets/img/hero.jpg" alt="Yacht de luxe naviguant au coucher du soleil"
+      class="w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-r from-primary/80 via-secondary/60 to-accent/40"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8 max-w-8xl mx-auto">
+    <h1 class="text-4xl sm:text-5xl lg:text-7xl font-serif font-bold mb-6 leading-tight">
+      <span class="block">Naviguez avec Élégance</span>
+    </h1>
+
+    <p class="text-xl sm:text-2xl lg:text-3xl mb-4 font-light">
+      Vivez l'Expérience
+    </p>
+
+    <p class="text-lg sm:text-xl mb-12 text-white max-w-2xl mx-auto leading-relaxed">
+      Découvrez notre flotte de yachts de luxe et créez des souvenirs inoubliables
+      sur les plus belles eaux de la Méditerranée
+    </p>
+
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()"
+      class="w-full bg-white shadow-xl rounded-2xl px-8 py-6 border border-gray-100 bg-opacity-90">
+
+      <div class="flex flex-col md:flex-row items-end gap-4">
+
+        <!-- Port de Départ -->
+        <div class="flex-1 min-w-0">
+          <label for="port" class="block text-sm font-semibold text-gray-700 mb-2">
+            Port de Départ
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <select id="port" formControlName="port"
+              class="w-full pl-12 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 bg-white appearance-none cursor-pointer hover:border-gray-400 text-gray-900">
+              <option value="">Sélectionner un port</option>
+              <option *ngFor="let port of ports" [value]="port.nom">{{ port.nom }}</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+              <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Date de Début -->
+        <div class="flex-1 min-w-0">
+          <label for="dateDebut" class="block text-sm font-semibold text-gray-700 mb-2">
+            Date de Début
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <input type="date" id="dateDebut" formControlName="dateDebut"
+              class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 hover:border-gray-400 text-gray-900">
+          </div>
+        </div>
+
+        <!-- Date de Fin -->
+        <div class="flex-1 min-w-0">
+          <label for="dateFin" class="block text-sm font-semibold text-gray-700 mb-2">
+            Date de Fin
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <input type="date" id="dateFin" formControlName="dateFin"
+              class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 hover:border-gray-400 text-gray-900">
+          </div>
+        </div>
+
+        <!-- Nombre de Personnes -->
+        <div class="flex-1 min-w-0">
+          <label for="nbPersonnes" class="block text-sm font-semibold text-gray-700 mb-2">
+            Nombre de Personnes
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-users-icon lucide-users text-gray-400 w-5 h-5">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <path d="M16 3.128a4 4 0 0 1 0 7.744" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                <circle cx="9" cy="7" r="4" />
+              </svg>
+            </div>
+            <input type="number" id="nbPersonnes" formControlName="nbPersonnes" min="1" max="20" placeholder="Ex: 4"
+              class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 hover:border-gray-400 text-gray-900">
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="w-px h-12 bg-gray-200 mx-2"></div>
+
+        <!-- Submit Button -->
+        <div class="flex-shrink-0">
+          <button type="submit" [disabled]="searchForm.invalid"
+            class="bg-primary hover:bg-secondary disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:transform-none shadow-lg hover:shadow-xl flex items-center gap-2 min-w-max">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <span>Rechercher</span>
+          </button>
+        </div>
       </div>
+
+      <!-- Optional: Quick Filters Row -->
+      <div class="mt-6 pt-6 border-t border-gray-100">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <span class="text-sm font-medium text-gray-600">Filtres rapides:</span>
+            <div class="flex gap-2">
+              <button type="button" (click)="setQuickFilter('weekend')"
+                class="px-3 py-1 text-xs font-medium text-primary border border-primary rounded-full hover:bg-primary hover:text-white transition-colors duration-200">
+                Week-end
+              </button>
+              <button type="button" (click)="setQuickFilter('week')"
+                class="px-3 py-1 text-xs font-medium text-primary border border-primary rounded-full hover:bg-primary hover:text-white transition-colors duration-200">
+                Semaine
+              </button>
+            </div>
+          </div>
+
+          <button type="button" (click)="resetForm()"
+            class="text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200 flex items-center gap-1">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            Réinitialiser
+          </button>
+        </div>
+      </div>
+    </form>
+
+
+
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
+    <div class="animate-bounce">
+      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      </svg>
     </div>
-  </section>
+  </div>
+</section>

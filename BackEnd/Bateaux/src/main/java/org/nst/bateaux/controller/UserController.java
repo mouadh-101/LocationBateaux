@@ -1,6 +1,7 @@
 package org.nst.bateaux.controller;
 
 import org.nst.bateaux.dto.auth.RegisterRequest;
+import org.nst.bateaux.dto.stats.StatsUserProfile;
 import org.nst.bateaux.dto.user.ChangePasswordRequest;
 import org.nst.bateaux.dto.user.UserData;
 import org.nst.bateaux.dto.user.UserDataWithName;
@@ -67,5 +68,11 @@ public class UserController {
         UserData loggedInUser = (UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDataWithName user = userService.findUserById(loggedInUser.getId());
         return ResponseEntity.ok(user);
+    }
+    @GetMapping("/me/stats")
+    public ResponseEntity<StatsUserProfile> getUserStats() {
+        UserData loggedInUser = (UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        StatsUserProfile stats = userService.getUserStats(loggedInUser.getId());
+        return ResponseEntity.ok(stats);
     }
 }

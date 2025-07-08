@@ -19,7 +19,7 @@ public class Avis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    Long AvisId ;
+    Long avisId ;
     Integer note ;
     String commentaire ;
     LocalDateTime dateCreation ;

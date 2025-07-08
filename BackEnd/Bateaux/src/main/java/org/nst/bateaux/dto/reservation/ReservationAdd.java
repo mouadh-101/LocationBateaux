@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 
 public class ReservationAdd {
-    LocalDateTime DateDebut ;
-    LocalDateTime DateFin ;
+    LocalDateTime dateDebut ;
+    LocalDateTime dateFin ;
     int nbPersonnes;
     StatusRes status;
 }
