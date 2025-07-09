@@ -32,11 +32,16 @@ export class ReservationDetailsComponent implements OnInit {
     private alertService:AlertService
   ) { 
     this.modifyForm = this.fb.group({
-      dateDebut: ['', Validators.required],
-      dateFin: ['', Validators.required],
+      date: ['', Validators.required],
+      typeReservation:['', Validators.required],
       nbPersonnes: [1, [Validators.required, Validators.min(1)]]
     });
   }
+  reservationTypes = [
+    { label: 'Journée', value: 'JOURNEE', name:"full_day_enabled" },
+    { label: 'Demi-journée', value: 'DEMI_JOURNEE', name:"half_day_enabled" },
+    { label: '2 heures', value: 'DEUX_HEURES', name:"two_hours_enabled" }
+  ];
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -55,19 +60,19 @@ export class ReservationDetailsComponent implements OnInit {
       });
   }
 
-  getDurationInDays(): number {
-    if (!this.reservation) return 0;
-  
-    const dateDebut = new Date(this.reservation.dateDebut);
-    const dateFin = new Date(this.reservation.dateFin);
-  
-    const diffTime = Math.abs(dateFin.getTime() - dateDebut.getTime());
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  }
+
 
   getBoatTotal(): number {
     if (!this.reservation) return 0;
-    return this.getDurationInDays() * this.reservation.bateau.prix * this.reservation.nbPersonnes;
+    if(this.reservation.typeReservation=="DEMI_JOURNEE")
+    {
+      return (this.reservation.bateau.prix*1/2) * this.reservation.nbPersonnes
+    }
+    if(this.reservation.typeReservation=="DEUX_HEURES")
+      {
+        return ((this.reservation.bateau.prix/24)*2) * this.reservation.nbPersonnes
+      }
+    return this.reservation.bateau.prix * this.reservation.nbPersonnes;
   }
 
   formatDate(date: Date): string {
@@ -95,8 +100,8 @@ export class ReservationDetailsComponent implements OnInit {
 
   onModifyReservation() {
     this.modifyForm.patchValue({
-      dateDebut: this.reservation?.dateDebut,
-      dateFin: this.reservation?.dateFin,
+      date: this.reservation?.date,
+      typeReservation:this.reservation?.typeReservation,
       nbPersonnes: this.reservation?.nbPersonnes || 1
     });
     this.showModifyModal = true;
@@ -122,8 +127,8 @@ export class ReservationDetailsComponent implements OnInit {
     if (this.modifyForm.invalid || !this.reservation) return;
 
     this.isProcessing = true;
-    this.reservation.dateDebut = this.modifyForm.value.dateDebut;
-    this.reservation.dateFin = this.modifyForm.value.dateFin;
+    this.reservation.date = this.modifyForm.value.date;
+    this.reservation.typeReservation=this.modifyForm.value.typeReservation
     this.reservation.nbPersonnes = this.modifyForm.value.nbPersonnes;
 
 
@@ -173,5 +178,8 @@ export class ReservationDetailsComponent implements OnInit {
   incrementNbPersonnes() {
     const current = this.modifyForm.get('nbPersonnes')?.value || 1;
     this.modifyForm.get('nbPersonnes')?.setValue(current + 1);
+  }
+  isReservationTypeEnabled(typeName: string): boolean {
+    return !!this.reservation?.bateau?.reservationTypeSettings?.[typeName as keyof typeof this.reservation.bateau.reservationTypeSettings];
   }
 }

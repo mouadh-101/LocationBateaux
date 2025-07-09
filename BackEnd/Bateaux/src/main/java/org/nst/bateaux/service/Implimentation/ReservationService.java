@@ -52,16 +52,15 @@ public class ReservationService implements IReservationService {
         // Get all reservations of this boat
         List<Reservation> existingReservations = reservationRepository.findByBateauAndStatus(bat, StatusRes.ACCEPTER);
         for (Reservation existing : existingReservations) {
-            boolean overlap = reservation.getDateDebut().isBefore(existing.getDateFin()) &&
-                    reservation.getDateFin().isAfter(existing.getDateDebut());
+            boolean overlap = reservation.getDate()==existing.getDate();
             if (overlap) {
-                throw new BusinessException("Les dates sélectionnées sont déjà réservées.");
+                throw new BusinessException("La date sélectionnées est déjà réservées.");
             }
         }
 
         Reservation res = new Reservation();
-        res.setDateDebut(reservation.getDateDebut());
-        res.setDateFin(reservation.getDateFin());
+        res.setDate(reservation.getDate());
+        res.setTypeReservation(reservation.getTypeReservation());
         res.setNbPersonnes(reservation.getNbPersonnes());
         res.setStatus(StatusRes.EN_ATTENTE);
         res.setBateau(bat);
@@ -82,8 +81,8 @@ public class ReservationService implements IReservationService {
     public ReservationData updateReservation(Long id,ReservationData reservation)
     {
         Reservation i=reservationRepository.findById(id).orElse(null);
-        i.setDateDebut(reservation.getDateDebut());
-        i.setDateFin(reservation.getDateFin());
+        i.setDate(reservation.getDate());
+        i.setTypeReservation(reservation.getTypeReservation());
         i.setStatus(reservation.getStatus());
         i.setNbPersonnes(reservation.getNbPersonnes());
         return mapToDto.mapToReservationDto(reservationRepository.save(i));

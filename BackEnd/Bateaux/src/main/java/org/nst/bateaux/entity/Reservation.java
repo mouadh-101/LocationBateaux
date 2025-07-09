@@ -19,8 +19,9 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     Long reservationId ;
-    LocalDateTime dateDebut ;
-    LocalDateTime dateFin ;
+    LocalDateTime date ;
+    @Enumerated(EnumType.STRING)
+    TypeReservation typeReservation;
     int nbPersonnes;
     @Enumerated(EnumType.STRING)
     StatusRes status ;
@@ -30,4 +31,5 @@ public class Reservation {
     private Bateaux bateau;
     @OneToOne(mappedBy = "reservation",cascade = CascadeType.ALL)
     private Paiement paiement;
+
 }

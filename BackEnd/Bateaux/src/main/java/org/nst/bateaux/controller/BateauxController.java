@@ -76,7 +76,7 @@ public class BateauxController {
     @GetMapping("/list/search")
     public List<BateauData> searchBoats(@ModelAttribute BoatSearchRequest request) {
         return bateauxService.chercherBateaux(
-                request.getPort(), request.getNbPersonnes(),request.getDateDebut(), request.getDateFin()
+                request.getPort(), request.getNbPersonnes(),request.getDate()
         );
     }
 

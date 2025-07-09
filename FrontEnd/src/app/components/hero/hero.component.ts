@@ -16,13 +16,11 @@ export class HeroComponent {
   constructor(private portService: PortService, private fb: FormBuilder, private router: Router) {
     this.searchForm = this.fb.group({
       port: ['', Validators.required],
-      dateDebut: ['', Validators.required],
-      dateFin: ['', Validators.required],
+      date: ['', Validators.required],
       nbPersonnes: [2, [Validators.required, Validators.min(1), Validators.max(20)]]
     });
-    this.searchForm.addValidators(this.dateRangeValidator.bind(this));
   }
-  
+
 
 
 
@@ -40,11 +38,8 @@ export class HeroComponent {
     if (this.searchForm.valid) {
       const searchDetails = {
         port: this.searchForm.value.port,
-        dateDebut: this.searchForm.value.dateDebut
-          ? this.formatDateToLocalDateTime(this.searchForm.value.dateDebut)
-          : null,
-        dateFin: this.searchForm.value.dateFin
-          ? this.formatDateToLocalDateTime(this.searchForm.value.dateFin)
+        date: this.searchForm.value.date
+          ? this.formatDateToLocalDateTime(this.searchForm.value.date)
           : null,
         nbPersonnes: this.searchForm.value.nbPersonnes
       };
@@ -64,81 +59,49 @@ export class HeroComponent {
   }
   setMinDates() {
     const today = new Date().toISOString().split('T')[0];
-    const dateDebutControl = this.searchForm.get('dateDebut');
-    const dateFinControl = this.searchForm.get('dateFin');
-    
-    if (dateDebutControl && dateFinControl) {
-      // Set minimum date to today
-      const dateDebutElement = document.getElementById('dateDebut') as HTMLInputElement;
-      const dateFinElement = document.getElementById('dateFin') as HTMLInputElement;
-      
-      if (dateDebutElement) dateDebutElement.min = today;
-      if (dateFinElement) dateFinElement.min = today;
+    const dateControl = this.searchForm.get('date');
 
-      // Update end date minimum when start date changes
-      dateDebutControl.valueChanges.subscribe(startDate => {
-        if (startDate && dateFinElement) {
-          dateFinElement.min = startDate;
-          // Clear end date if it's before the new start date
-          if (dateFinControl.value && dateFinControl.value < startDate) {
-            dateFinControl.setValue('');
-          }
-        }
-      });
+    if (dateControl) {
+      const dateElement = document.getElementById('date') as HTMLInputElement;
+      if (dateElement) dateElement.min = today;
     }
   }
 
-  dateRangeValidator(control: AbstractControl) {
-    const form = control as FormGroup;
-    const startDate = form.get('dateDebut')?.value;
-    const endDate = form.get('dateFin')?.value;
-    
-    if (startDate && endDate && new Date(startDate) >= new Date(endDate)) {
-      return { dateRangeInvalid: true };
-    }
-    return null;
-  }
+  
 
 
   setQuickFilter(filterType: string) {
     const today = new Date();
-    let startDate: Date;
-    let endDate: Date;
+    let date: Date;
 
     switch (filterType) {
       case 'weekend':
         // Next weekend (Saturday to Sunday)
         const daysUntilSaturday = (6 - today.getDay()) % 7;
-        startDate = new Date(today);
-        startDate.setDate(today.getDate() + daysUntilSaturday);
-        endDate = new Date(startDate);
-        endDate.setDate(startDate.getDate() + 1);
+        date = new Date(today);
+        date.setDate(today.getDate() + daysUntilSaturday);
         break;
-        
+
       case 'week':
         // Next week (7 days)
-        startDate = new Date(today);
-        startDate.setDate(today.getDate() + 1);
-        endDate = new Date(startDate);
-        endDate.setDate(startDate.getDate() + 7);
+        date = new Date(today);
+        date.setDate(today.getDate() + 1);
         break;
-        
-        
+
+
       default:
         return;
     }
 
     this.searchForm.patchValue({
-      dateDebut: this.formatDateForInput(startDate),
-      dateFin: this.formatDateForInput(endDate)
+      date: this.formatDateForInput(date),
     });
   }
 
   resetForm() {
     this.searchForm.reset({
       port: '',
-      dateDebut: '',
-      dateFin: '',
+      date: '',
       nbPersonnes: 1
     });
   }

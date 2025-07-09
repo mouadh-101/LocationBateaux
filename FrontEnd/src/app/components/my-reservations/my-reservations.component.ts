@@ -93,15 +93,7 @@ export class MyReservationsComponent {
     return statusLabels[status] || status;
   }
 
-  getDurationInDays(reservation: Reservation): number {
-    if (!reservation) return 0;
-
-    const dateDebut = new Date(reservation.dateDebut);
-    const dateFin = new Date(reservation.dateFin);
-
-    const diffTime = Math.abs(dateFin.getTime() - dateDebut.getTime());
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  }
+  
 
   formatDate(date: Date): string {
     return new Intl.DateTimeFormat('fr-FR', {

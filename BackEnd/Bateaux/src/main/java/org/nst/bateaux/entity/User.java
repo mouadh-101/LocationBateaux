@@ -32,7 +32,7 @@ public class User {
     private List<Reservation> reservations=new ArrayList<>();
     @OneToMany(mappedBy = "proprietaire",cascade = CascadeType.ALL)
     private List<Bateaux> bateaux = new ArrayList<>();
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Bateaux> favourit = new ArrayList<>();
     @OneToMany(mappedBy = "utilisateur",cascade = CascadeType.ALL)
     private List<Avis> avis = new ArrayList<>();

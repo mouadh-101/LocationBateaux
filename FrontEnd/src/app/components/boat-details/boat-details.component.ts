@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { AvisService } from 'src/app/services/avis.service';
 import { BoatService } from 'src/app/services/boat.service';
 import { ReservationService } from 'src/app/services/reservation.service';
-import { dateNotPastValidator, dateRangeValidator, noOverlapValidator } from 'src/app/validators/validatorReservation';
+import { dateNotPastValidator, noOverlapValidator } from 'src/app/validators/validatorReservation';
 
 
 @Component({
@@ -28,15 +28,18 @@ export class BoatDetailsComponent {
 
   constructor(private boatService: BoatService, public router: Router, public route: ActivatedRoute, private fb: FormBuilder, private authService: AuthService, private avisService: AvisService, private authModalService: AuthModalService, private reservationService: ReservationService, private alertService: AlertService) {
     this.reservationForm = this.fb.group({
-      dateDebut: [new Date().toISOString().slice(0, 10), [Validators.required, dateNotPastValidator()]],
-      dateFin: [new Date().toISOString().slice(0, 10), [Validators.required, dateNotPastValidator()]],
+      date: [new Date().toISOString().slice(0, 10), [Validators.required, dateNotPastValidator()]],
+      typeReservation:['JOURNEE',Validators.required],
       nbPersonnes: [1, [Validators.required, Validators.min(1)]],
-    }, {
-      validators: [dateRangeValidator('dateDebut', 'dateFin'), noOverlapValidator(this.boat?.reservations || [])]
     });
 
 
   }
+  reservationTypes = [
+    { label: 'Journée', value: 'JOURNEE', name:"full_day_enabled" },
+    { label: 'Demi-journée', value: 'DEMI_JOURNEE', name:"half_day_enabled" },
+    { label: '2 heures', value: 'DEUX_HEURES', name:"two_hours_enabled" }
+  ];
 
   ngOnInit() {
 
@@ -67,8 +70,7 @@ export class BoatDetailsComponent {
     if (state && state.searchDetails) {
       this.searchDetails = state.searchDetails as BoatFilter;
       this.reservationForm.patchValue({
-        dateDebut: this.searchDetails.dateDebut || new Date().toISOString().slice(0, 10),
-        dateFin: this.searchDetails.dateFin || new Date().toISOString().slice(0, 10),
+        date: this.searchDetails.date || new Date().toISOString().slice(0, 10),
         nbPersonnes: this.searchDetails.nbPersonnes || 1
       });
       console.log('Search details loaded:', this.searchDetails);
@@ -89,8 +91,8 @@ export class BoatDetailsComponent {
     }
 
     const newReservation = {
-      dateDebut: this.reservationForm.value.dateDebut,
-      dateFin: this.reservationForm.value.dateFin,
+      date: this.reservationForm.value.date,
+      typeReservation:this.reservationForm.value.typeReservation,
       nbPersonnes: this.reservationForm.value.nbPersonnes,
     };
 
@@ -113,21 +115,19 @@ export class BoatDetailsComponent {
     const average = total / boat.avis.length;
     return Math.round(average);
   }
-  calculateTotalPrice(startDate: Date, endDate: Date, pricePerDay: number, nbPersonnes: number): number {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const timeDiff = end.getTime() - start.getTime();
-    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert milliseconds to days
+  calculateTotalPrice(pricePerDay: number, nbPersonnes: number , typeReservation:string): number {
 
-    return daysDiff > 0 ? daysDiff * pricePerDay * nbPersonnes : 0; // Ensure positive days
+    if(typeReservation=="DEMI_JOURNEE")
+      {
+        return (pricePerDay*1/2) * nbPersonnes
+      }
+      if(typeReservation=="DEUX_HEURES")
+        {
+          return ((pricePerDay/24)*2) * nbPersonnes
+        }
+      return pricePerDay * nbPersonnes;
   }
-  calculateDays(startDate: Date, endDate: Date): number {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const timeDiff = end.getTime() - start.getTime();
-    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert milliseconds to days
-    return daysDiff > 0 ? daysDiff : 0; // Ensure positive days
-  }
+
   decrementNbPersonnes() {
     const current = this.reservationForm.get('nbPersonnes')?.value || 1;
     this.reservationForm.get('nbPersonnes')?.setValue(Math.max(1, current - 1));
@@ -135,6 +135,9 @@ export class BoatDetailsComponent {
   incrementNbPersonnes() {
     const current = this.reservationForm.get('nbPersonnes')?.value || 1;
     this.reservationForm.get('nbPersonnes')?.setValue(current + 1);
+  }
+  isReservationTypeEnabled(typeName: string): boolean {
+    return !!this.boat?.reservationTypeSettings?.[typeName as keyof typeof this.boat.reservationTypeSettings];
   }
 
 
