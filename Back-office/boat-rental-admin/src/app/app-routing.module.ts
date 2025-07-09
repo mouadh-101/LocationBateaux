@@ -10,6 +10,7 @@ import { EditUserComponent } from './components/user/edit-user/edit-user.compone
 import { ProfileComponent } from './components/profile/profile.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { AuthGuard } from './guards/auth.guard';
+import { BoatDetailsComponent } from './components/boats/details-boats/details-boats.component';
 
 
 const routes: Routes = [
@@ -25,6 +26,8 @@ const routes: Routes = [
   data: { roles: ['ADMIN'] } },
    { path: 'profile',canActivate: [AuthGuard], component: ProfileComponent },
     { path: 'edit-profile',canActivate: [AuthGuard], component: EditProfileComponent },
+    {
+  path: 'boat-details/:id',component: BoatDetailsComponent},
   { path: '**', redirectTo: '' }
 
 ];

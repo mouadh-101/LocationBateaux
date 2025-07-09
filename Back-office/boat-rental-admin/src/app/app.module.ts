@@ -9,7 +9,6 @@ import { ListBoatsComponent } from './components/boats/list-boats/list-boats.com
 import { AddReservationComponent } from './components/reservation/add-reservation/add-reservation.component';
 import { EditReservationComponent } from './components/reservation/edit-reservation/edit-reservation.component';
 import { ListReservationComponent } from './components/reservation/list-reservation/list-reservation.component';
-
 import { EditUserComponent } from './components/user/edit-user/edit-user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -19,6 +18,8 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { UserListComponent } from './components/user/list-user/list-user.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { CommonModule } from '@angular/common';
+import { BoatDetailsComponent } from './components/boats/details-boats/details-boats.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
     AlertComponent,
     ProfileComponent,
     EditProfileComponent,
+    BoatDetailsComponent
 
 
 
@@ -48,6 +50,7 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+     CommonModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

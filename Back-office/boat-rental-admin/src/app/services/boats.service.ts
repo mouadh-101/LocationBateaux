@@ -19,6 +19,8 @@ export class BoatService {
     return this.http.get<Boat>(`${this.apiUrl}/${id}`);
   }
 
+  
+
   getTop5Boats(): Observable<Boat[]> {
     return this.http.get<Boat[]>(`${this.apiUrl}/list/top5`);
   }
