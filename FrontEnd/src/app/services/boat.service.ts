@@ -45,8 +45,7 @@ export class BoatService {
     const params = new HttpParams({
       fromObject: {
         port: searchDetails.port,
-        dateDebut: searchDetails.dateDebut ? this.formatDate(searchDetails.dateDebut) : '',
-        dateFin: searchDetails.dateFin ? this.formatDate(searchDetails.dateFin) : '',
+        date: searchDetails.date ? this.formatDate(searchDetails.date) : '',
         nbPersonnes: searchDetails.nbPersonnes
       }
     });

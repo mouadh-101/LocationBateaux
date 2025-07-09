@@ -26,8 +26,7 @@ export class BoatCardComponent {
     this.route.queryParams.subscribe(params => {
       this.searchDetails = {
         port: params['port'],
-        dateDebut: params['dateDebut'],
-        dateFin: params['dateFin'],
+        date: params['date'],
         nbPersonnes: params['nbPersonnes']
       };
     });

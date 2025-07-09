@@ -13,32 +13,18 @@ export function dateNotPastValidator(): ValidatorFn {
     return null;
   };
 }
-export function dateRangeValidator(startControlName: string, endControlName: string): ValidatorFn {
-    return (formGroup: AbstractControl): ValidationErrors | null => {
-      const start = formGroup.get(startControlName)?.value;
-      const end = formGroup.get(endControlName)?.value;
-  
-      if (start && end && new Date(end) < new Date(start)) {
-        return { endBeforeStart: true };
-      }
-      return null;
-    };
-  }
+
   export function noOverlapValidator(reservations: Reservation[]): ValidatorFn {
     return (formGroup: AbstractControl): ValidationErrors | null => {
-      const start = new Date(formGroup.get('dateDebut')?.value);
-      const end = new Date(formGroup.get('dateFin')?.value);
+      const date = new Date(formGroup.get('date')?.value);
   
-      if (!start || !end) return null;
+      if (!date) return null;
   
       for (const res of reservations) {
         if (res.status !== 'ACCEPTER') continue;
-  
-        const resStart = new Date(res.dateDebut);
-        const resEnd = new Date(res.dateFin);
-  
+        const resDate = new Date(res.date);
         // Check if ranges overlap
-        if (start <= resEnd && end >= resStart) {
+        if (date==res.date) {
           return { overlap: true };
         }
       }

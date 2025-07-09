@@ -1,5 +1,5 @@
 import { Port } from "./port";
-import { Reservation } from "./reservation";
+import { Reservation,ReservationTypeSettings } from "./reservation";
 import { User } from "./user";
 
 export interface Boat {
@@ -13,6 +13,8 @@ export interface Boat {
   reservations: Reservation[];
   port:Port;
   carecteristique: Caracteristique;
+  reservationTypeSettings:ReservationTypeSettings
+  
 
 }
 export interface Avis {
@@ -54,8 +56,7 @@ export interface Caracteristique {
 }
 export interface BoatFilter {
   port:string;
-  dateDebut:Date;
-  dateFin:Date;
+  date:Date;
   nbPersonnes:number ;
 }
 

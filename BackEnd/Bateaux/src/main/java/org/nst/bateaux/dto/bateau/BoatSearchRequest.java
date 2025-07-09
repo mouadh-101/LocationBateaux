@@ -14,7 +14,6 @@ public class BoatSearchRequest {
     private String port;
     private int nbPersonnes;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private LocalDateTime dateDebut;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private LocalDateTime dateFin;
+    private LocalDateTime date;
+
 }

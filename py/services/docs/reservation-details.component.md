@@ -1,7 +1,7 @@
 # 📄 reservation-details.component.html — Documentation HTML
 *Chemin : `G:\project\Stage4to5\application\FrontEnd\src\app\components\reservation-details\reservation-details.component.html`*
 
-> 🕒 Généré le 2025-07-05 14:48:26
+> 🕒 Généré le 2025-07-08 13:56:57
 
 ## 🔘 Boutons (11 trouvés)
 - `Retour aux réservations`

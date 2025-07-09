@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.nst.bateaux.entity.StatusRes;
+import org.nst.bateaux.entity.TypeReservation;
 
 import java.time.LocalDateTime;
 @Data
@@ -11,8 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 
 public class ReservationAdd {
-    LocalDateTime dateDebut ;
-    LocalDateTime dateFin ;
+    LocalDateTime date ;
+    TypeReservation typeReservation;
     int nbPersonnes;
     StatusRes status;
 }

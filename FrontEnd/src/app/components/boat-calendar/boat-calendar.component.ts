@@ -46,29 +46,21 @@ export class BoatCalendarComponent implements OnChanges, OnInit {
     }
     console.log(this.reservations);
     const events: EventInput[] = [];
-
     for (const res of this.reservations) {
-      if (!res.dateDebut || !res.dateFin) continue;
+      if (!res.date) continue;
 
-      const start = new Date(res.dateDebut);
-      const end = new Date(res.dateFin);
+      const date = new Date(res.date);
 
-      if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      if (isNaN(date.getTime())) {
         console.warn('Invalid date format:', res);
         continue;
       }
-
-      const adjustedEnd = new Date(end);
-      adjustedEnd.setDate(adjustedEnd.getDate() + 1);
-
       let color = '#facc15'; // default yellow for PENDING
       if (res.status === 'ACCEPTER') color = '#ef4444'; // red
       else if (res.status === 'REJECTED') continue; // skip rejected if needed
-
       events.push({
         title: res.status === 'ACCEPTER' ? 'Réservé' : 'En attente',
-        start: start.toISOString().split('T')[0],
-        end: adjustedEnd.toISOString().split('T')[0],
+        date: date.toISOString().split('T')[0],
         display: 'background',
         color: color
       });

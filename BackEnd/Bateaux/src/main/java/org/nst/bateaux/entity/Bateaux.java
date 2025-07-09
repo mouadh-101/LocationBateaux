@@ -39,5 +39,8 @@ public class Bateaux {
     Port port;
     @OneToOne(cascade = CascadeType.ALL)
     Carecteristique Carecteristique;
+    @OneToOne(cascade = CascadeType.ALL)
+    ReservationTypeSettings reservationTypeSettings = new ReservationTypeSettings();
+
 
 }

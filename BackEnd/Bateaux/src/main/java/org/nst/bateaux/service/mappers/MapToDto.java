@@ -9,6 +9,7 @@ import org.nst.bateaux.dto.port.PortAddDto;
 import org.nst.bateaux.dto.port.PortDto;
 import org.nst.bateaux.dto.reservation.ReservationAdd;
 import org.nst.bateaux.dto.reservation.ReservationData;
+import org.nst.bateaux.dto.reservation.ReservationTypeSettingsDto;
 import org.nst.bateaux.dto.user.UserData;
 import org.nst.bateaux.dto.user.UserDataWithName;
 import org.nst.bateaux.entity.*;
@@ -52,7 +53,8 @@ public class MapToDto {
                         .map(avis -> mapToAvisDto(avis)).toList(),
                 reservation,
                 mapToPortAddDto(bateau.getPort()),
-                maptoDtoCarecteristique(bateau.getCarecteristique())
+                maptoDtoCarecteristique(bateau.getCarecteristique()),
+                mapToReservationTypeSettingsDto(bateau.getReservationTypeSettings())
 
 
         );
@@ -71,8 +73,8 @@ public class MapToDto {
     public ReservationData mapToReservationDto(Reservation reservation) {
         ReservationData reservationData = new ReservationData();
         reservationData.setReservationId(reservation.getReservationId());
-        reservationData.setDateDebut(reservation.getDateDebut());
-        reservationData.setDateFin(reservation.getDateFin());
+        reservationData.setDate(reservation.getDate());
+        reservationData.setTypeReservation(reservation.getTypeReservation());
         reservationData.setNbPersonnes(reservation.getNbPersonnes());
         reservationData.setStatus(reservation.getStatus());
         reservationData.setUtilisateur(mapToDtoWithName(reservation.getUtilisateur()));
@@ -82,8 +84,8 @@ public class MapToDto {
 
     public ReservationAdd mapToAddReservationDto(Reservation reservation) {
         ReservationAdd reservationAdd = new ReservationAdd();
-        reservationAdd.setDateDebut(reservation.getDateDebut());
-        reservationAdd.setDateFin(reservation.getDateFin());
+        reservationAdd.setDate(reservation.getDate());
+        reservationAdd.setTypeReservation(reservation.getTypeReservation());
         reservationAdd.setNbPersonnes(reservation.getNbPersonnes());
         reservationAdd.setStatus(reservation.getStatus());
         return reservationAdd;
@@ -129,6 +131,15 @@ public class MapToDto {
                 paiement.getMethode(),
                 paiement.getStatus(),
                 mapToReservationDto(paiement.getReservation())
+        );
+    }
+    // ReservationTypeSettings
+    public ReservationTypeSettingsDto mapToReservationTypeSettingsDto(ReservationTypeSettings reservationTypeSettings){
+        return new ReservationTypeSettingsDto(
+                reservationTypeSettings.getId(),
+                reservationTypeSettings.isFull_day_enabled(),
+                reservationTypeSettings.isHalf_day_enabled(),
+                reservationTypeSettings.isTwo_hours_enabled()
         );
     }
 }
