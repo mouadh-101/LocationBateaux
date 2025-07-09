@@ -1,7 +1,7 @@
 # 📄 boat-list.component.html — Documentation HTML
 *Chemin : `G:\project\Stage4to5\application\FrontEnd\src\app\components\boat-list\boat-list.component.html`*
 
-> 🕒 Généré le 2025-07-05 14:48:25
+> 🕒 Généré le 2025-07-08 13:56:57
 
 ## 🔘 Boutons (8 trouvés)
 - `{{ showFilters ? 'Masquer les filtres' : 'Afficher les filtres' }}`

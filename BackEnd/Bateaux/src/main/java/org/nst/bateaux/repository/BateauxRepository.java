@@ -26,14 +26,14 @@ public interface BateauxRepository extends JpaRepository<Bateaux,Long> {
       SELECT r FROM Reservation r
       WHERE r.bateau = b
         AND r.status = 'ACCEPTER'
-        AND (:dateDebut < r.dateFin AND :dateFin > r.dateDebut)
+        AND (:date = r.date)
     )
 """)
     List<Bateaux> searchAvailableBoats(
             @Param("portName") String portName,
             @Param("nbPersonnes") int nbPersonnes,
-            @Param("dateDebut") LocalDateTime dateDebut,
-            @Param("dateFin") LocalDateTime dateFin
+            @Param("date") LocalDateTime date
+
     );
 
 }

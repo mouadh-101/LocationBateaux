@@ -17,5 +17,5 @@ public interface IBateauxService {
     List<BateauData> getTop5BateauxByNote();
     BateauData favoritBateau(Long userId, Long bateauId);
     List<BateauData> getFavoritBateaux(Long userId);
-    List<BateauData> chercherBateaux(String portName,int nbPersonnes,LocalDateTime dateDebut,LocalDateTime dateFin);
+    List<BateauData> chercherBateaux(String portName,int nbPersonnes,LocalDateTime date);
 }

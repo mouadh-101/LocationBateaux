@@ -43,6 +43,9 @@ public class BateauxService implements IBateauxService {
         newBat.setPrix(bateaux.getPrix());
         newBat.setProprietaire(user);
         newBat.setDisponible(true);
+        newBat.getReservationTypeSettings().setFull_day_enabled(bateaux.getReservationTypeSettings().isFull_day_enabled());
+        newBat.getReservationTypeSettings().setHalf_day_enabled(bateaux.getReservationTypeSettings().isHalf_day_enabled());
+        newBat.getReservationTypeSettings().setTwo_hours_enabled(bateaux.getReservationTypeSettings().isTwo_hours_enabled());
 
         // Images
         for (ImageDto i : bateaux.getImages()) {
@@ -112,6 +115,9 @@ public class BateauxService implements IBateauxService {
         caracteristique.setNombreMoteurs(c.getNombreMoteurs());
         caracteristique.setType(c.getType());
         b.setCarecteristique(caracteristique);
+        b.getReservationTypeSettings().setFull_day_enabled(bateauxDto.getReservationTypeSettings().isFull_day_enabled());
+        b.getReservationTypeSettings().setHalf_day_enabled(bateauxDto.getReservationTypeSettings().isHalf_day_enabled());
+        b.getReservationTypeSettings().setTwo_hours_enabled(bateauxDto.getReservationTypeSettings().isTwo_hours_enabled());
 
         return mapToDto.mapToBatauxDto(bateauxRepository.save(b));
     }
@@ -174,8 +180,8 @@ public class BateauxService implements IBateauxService {
     }
 
     @Override
-    public List<BateauData> chercherBateaux(String portName, int nbPersonnes, LocalDateTime dateDebut, LocalDateTime dateFin) {
-        List<Bateaux> bateauxList = bateauxRepository.searchAvailableBoats(portName, nbPersonnes, dateDebut, dateFin);
+    public List<BateauData> chercherBateaux(String portName, int nbPersonnes, LocalDateTime date) {
+        List<Bateaux> bateauxList = bateauxRepository.searchAvailableBoats(portName, nbPersonnes, date);
         return bateauxList.stream().map(bat -> mapToDto.mapToBatauxDto(bat)).toList();
     }
 

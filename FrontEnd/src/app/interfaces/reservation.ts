@@ -3,16 +3,16 @@ import { User } from "./user";
 
 export interface Reservation {
     reservationId: number;
-    dateDebut : Date ;
-    dateFin : Date ;
+    date : Date ;
+    typeReservation:string;
     nbPersonnes: number;
     status: string;
     utilisateur:User;
     bateau : Boat;
   }
   export interface ReservationAdd {
-    dateDebut : Date ;
-    dateFin : Date ;
+    date : Date ;
+    typeReservation:string;
     nbPersonnes: number;
   }
   export interface ReservationStatus {
@@ -24,4 +24,10 @@ export interface Reservation {
     canCancel: boolean;
     canModify: boolean;
   }
+  export interface ReservationTypeSettings{
+    id:number;
+    full_day_enabled:boolean;
+    half_day_enabled:boolean;
+    two_hours_enabled:boolean;
+}
   

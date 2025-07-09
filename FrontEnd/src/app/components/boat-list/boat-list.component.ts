@@ -79,13 +79,12 @@ export class BoatListComponent {
     this.route.queryParams.subscribe(params => {
       this.searchDetails = {
         port: params['port'],
-        dateDebut: params['dateDebut'],
-        dateFin: params['dateFin'],
+        date: params['date'],
         nbPersonnes: params['nbPersonnes']
       };
     });
 
-    if (this.searchDetails.port || this.searchDetails.dateDebut || this.searchDetails.dateFin || this.searchDetails.nbPersonnes) {
+    if (this.searchDetails.port || this.searchDetails.date|| this.searchDetails.nbPersonnes) {
       this.loadSearchBoats(this.searchDetails);
     } else {
       this.loadBoats();
