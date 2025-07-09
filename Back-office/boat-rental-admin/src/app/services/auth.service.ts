@@ -1,10 +1,11 @@
+import { UserService } from 'src/app/services/user.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
-import { UserRegister, UserLogin, JwtPayload } from '../interfaces/user';
+import { UserRegister, UserLogin, JwtPayload, User } from '../interfaces/user';
 import { ErrorHandlerUtil } from 'src/util/errorHandlerUtil';
 
 @Injectable({
@@ -14,14 +15,17 @@ export class AuthService {
   private baseUrl = 'http://localhost:8081/api/auth';
   private authState = new BehaviorSubject<boolean>(this.isLoggedIn());
 
+
+
   authState$ = this.authState.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {
     this.loadUserFromStorage();
+
   }
 
   login(user: UserLogin): Observable<any> {
-    return this.http.post<{ token: string }>(`${this.baseUrl}/login`, user).pipe(
+    return this.http.post<{ token: string }>(`${this.baseUrl}/loginAdmin`, user).pipe(
       tap(response => {
         this.handleAuthSuccess(response.token);
       }),
@@ -36,7 +40,7 @@ export class AuthService {
   }
 
   private handleAuthSuccess(token: string) {
-    if(!token) {
+    if (!token) {
       return;
     }
     localStorage.setItem('token', token);
@@ -96,7 +100,7 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    return this.role === 'admin';
+    return this.role === 'ADMIN';
   }
 
   private loadUserFromStorage() {
@@ -113,4 +117,5 @@ export class AuthService {
   emitAuthState() {
     this.authState.next(this.isLoggedIn());
   }
+
 }

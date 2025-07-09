@@ -10,13 +10,16 @@ import { Router } from '@angular/router';
 })
 export class ListBoatsComponent implements OnInit {
   boats: Boat[] = [];
+  filteredBoats: Boat[] = [];
   paginatedBoats: Boat[] = [];
+
   currentPage: number = 1;
   itemsPerPage: number = 6;
   totalPages: number = 1;
 
-  // Critère de tri
-  sortBy: string = 'recent'; // Valeur par défaut
+  // Critères de tri et filtre
+  sortBy: string = 'name-asc'; // 'recent', 'price-asc', 'price-desc', 'name-asc', 'name-desc'
+  availabilityFilter: 'all' | 'available' | 'unavailable' = 'all';
 
   constructor(private boatService: BoatService, private router: Router) {}
 
@@ -27,9 +30,8 @@ export class ListBoatsComponent implements OnInit {
   getBoats(): void {
     this.boatService.getAllBoats().subscribe({
       next: (data) => {
-        console.log('Bateaux récupérés depuis le backend :', data);
         this.boats = data;
-        this.applySorting(); // Appliquer le tri initial
+        this.applyFiltersAndSorting();
       },
       error: (err) => {
         console.error('Erreur lors du chargement des bateaux :', err);
@@ -37,10 +39,43 @@ export class ListBoatsComponent implements OnInit {
     });
   }
 
+  applyFiltersAndSorting(): void {
+    // Filtrage par disponibilité
+    this.filteredBoats = this.boats.filter(boat => {
+      if (this.availabilityFilter === 'available') return boat.disponible === true;
+      if (this.availabilityFilter === 'unavailable') return boat.disponible === false;
+      return true; // all
+    });
+
+    // Tri
+    switch (this.sortBy) {
+
+      case 'recent':
+        // Si tu as une date, trie par date sinon par id décroissant (exemple)
+        // this.filteredBoats.sort((a, b) => b.id - a.id);
+        break;
+      case 'price-asc':
+        this.filteredBoats.sort((a, b) => a.prix - b.prix);
+        break;
+      case 'price-desc':
+        this.filteredBoats.sort((a, b) => b.prix - a.prix);
+        break;
+      case 'name-asc':
+        this.filteredBoats.sort((a, b) => a.nom.localeCompare(b.nom));
+        break;
+      case 'name-desc':
+        this.filteredBoats.sort((a, b) => b.nom.localeCompare(a.nom));
+        break;
+    }
+
+    this.currentPage = 1;
+    this.updatePaginatedBoats();
+  }
+
   updatePaginatedBoats(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    this.paginatedBoats = this.boats.slice(startIndex, startIndex + this.itemsPerPage);
-    this.totalPages = Math.ceil(this.boats.length / this.itemsPerPage);
+    this.paginatedBoats = this.filteredBoats.slice(startIndex, startIndex + this.itemsPerPage);
+    this.totalPages = Math.ceil(this.filteredBoats.length / this.itemsPerPage);
   }
 
   goToPage(page: number): void {
@@ -69,43 +104,31 @@ export class ListBoatsComponent implements OnInit {
     return total / boat.avis.length;
   }
 
-  applySorting(): void {
-    switch (this.sortBy) {
-      case 'recent':
-      case 'price-asc':
-        this.boats.sort((a, b) => a.prix - b.prix);
-        break;
-      case 'price-desc':
-        this.boats.sort((a, b) => b.prix - a.prix);
-        break;
-      case 'name-asc':
-        this.boats.sort((a, b) => a.nom.localeCompare(b.nom));
-        break;
-      case 'name-desc':
-        this.boats.sort((a, b) => b.nom.localeCompare(a.nom));
-        break;
-      default:
-        break;
-    }
-
-    this.currentPage = 1; // Réinitialiser à la première page après le tri
-    this.updatePaginatedBoats();
-  }
-
   editBoat(boat: Boat) {
     if (boat.bateauxId) {
-      this.boatService.editBoat(boat.bateauxId, boat).subscribe(updatedBoat => {
-        console.log('Bateau mis à jour', updatedBoat);
-      });
+      this.router.navigate(['/edit-boat', boat.bateauxId]);
     }
   }
 
   deleteBoat(id: number) {
     if (confirm('Êtes-vous sûr de vouloir supprimer ce bateau ?')) {
       this.boatService.deleteBoat(id).subscribe(() => {
-        console.log('Bateau supprimé');
-        this.getBoats(); // Rafraîchir la liste après suppression
+        alert('Bateau supprimé');
+        this.getBoats();
       });
     }
+  }
+
+  // Méthodes pour changer le filtre ou le tri via l'UI
+  onSortChange(event: Event) {
+    const value = (event.target as HTMLSelectElement).value;
+    this.sortBy = value;
+    this.applyFiltersAndSorting();
+  }
+
+  onAvailabilityFilterChange(event: Event) {
+    const value = (event.target as HTMLSelectElement).value as 'all' | 'available' | 'unavailable';
+    this.availabilityFilter = value;
+    this.applyFiltersAndSorting();
   }
 }
