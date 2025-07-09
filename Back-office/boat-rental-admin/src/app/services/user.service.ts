@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { User } from '../interfaces/user';
 
@@ -15,8 +15,8 @@ export class UserService {
 
   constructor(private http: HttpClient, private router: Router) {
     this.loadCurrentUser();
-
   }
+
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.baseUrl);
   }
@@ -33,15 +33,26 @@ export class UserService {
     return this.http.get<User>(`${this.baseUrl}/${id}`);
   }
 
-  updateUser(id: number, user: User): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/${id}`, user);
+  // Ici on retourne Observable<User> au lieu de void
+  updateUser(id: number, user: User): Observable<User> {
+    return this.http.put<User>(`${this.baseUrl}/${id}`, user).pipe(
+      tap(updatedUser => {
+        // Mettre à jour le BehaviorSubject avec le user modifié
+        if (this.currentUserSubject.value?.id === updatedUser.id) {
+          this.currentUserSubject.next(updatedUser);
+        }
+      })
+    );
   }
-  
+
   getMe(): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/me`).pipe(
       catchError(err => {
         console.error('Error fetching user:', err);
         return throwError(() => new Error('Failed to fetch user'));
+      }),
+      tap(user => {
+        this.currentUserSubject.next(user);
       })
     );
   }
@@ -56,6 +67,4 @@ export class UserService {
   refreshCurrentUser() {
     this.loadCurrentUser();
   }
-
-
 }

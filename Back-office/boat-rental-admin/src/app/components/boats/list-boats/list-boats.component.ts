@@ -17,8 +17,7 @@ export class ListBoatsComponent implements OnInit {
   itemsPerPage: number = 6;
   totalPages: number = 1;
 
-  // Critères de tri et filtre
-  sortBy: string = 'name-asc'; // 'recent', 'price-asc', 'price-desc', 'name-asc', 'name-desc'
+  sortBy: string = 'name-asc';
   availabilityFilter: 'all' | 'available' | 'unavailable' = 'all';
 
   constructor(private boatService: BoatService, private router: Router) {}
@@ -40,20 +39,13 @@ export class ListBoatsComponent implements OnInit {
   }
 
   applyFiltersAndSorting(): void {
-    // Filtrage par disponibilité
     this.filteredBoats = this.boats.filter(boat => {
       if (this.availabilityFilter === 'available') return boat.disponible === true;
       if (this.availabilityFilter === 'unavailable') return boat.disponible === false;
-      return true; // all
+      return true;
     });
 
-    // Tri
     switch (this.sortBy) {
-
-      case 'recent':
-        // Si tu as une date, trie par date sinon par id décroissant (exemple)
-        // this.filteredBoats.sort((a, b) => b.id - a.id);
-        break;
       case 'price-asc':
         this.filteredBoats.sort((a, b) => a.prix - b.prix);
         break;
@@ -65,6 +57,9 @@ export class ListBoatsComponent implements OnInit {
         break;
       case 'name-desc':
         this.filteredBoats.sort((a, b) => b.nom.localeCompare(a.nom));
+        break;
+      case 'recent':
+        // TODO: trier par date si disponible
         break;
     }
 
@@ -104,13 +99,19 @@ export class ListBoatsComponent implements OnInit {
     return total / boat.avis.length;
   }
 
-  editBoat(boat: Boat) {
+  viewBoatDetails(id: number): void {
+    this.router.navigate(['/boat-details', id]);
+  }
+
+  editBoat(boat: Boat, event: Event) {
+    event.stopPropagation(); // Empêche la propagation du clic à la card
     if (boat.bateauxId) {
       this.router.navigate(['/edit-boat', boat.bateauxId]);
     }
   }
 
-  deleteBoat(id: number) {
+  deleteBoat(id: number, event: Event) {
+    event.stopPropagation(); // Empêche la propagation du clic à la card
     if (confirm('Êtes-vous sûr de vouloir supprimer ce bateau ?')) {
       this.boatService.deleteBoat(id).subscribe(() => {
         alert('Bateau supprimé');
@@ -119,7 +120,6 @@ export class ListBoatsComponent implements OnInit {
     }
   }
 
-  // Méthodes pour changer le filtre ou le tri via l'UI
   onSortChange(event: Event) {
     const value = (event.target as HTMLSelectElement).value;
     this.sortBy = value;
