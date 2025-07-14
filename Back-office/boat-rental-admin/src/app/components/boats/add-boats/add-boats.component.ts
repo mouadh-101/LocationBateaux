@@ -21,9 +21,14 @@ export class AddBoatComponent implements OnInit, OnDestroy {
       longueur: 0,
       largeur: 0,
       nombreMoteurs: 0,
-      type: 'AUTRE' // valeur par défaut
+      type: 'AUTRE'
     },
-    images: []
+    images: [],
+    reservationTypeSettings: {
+      full_day_enabled: true,
+      half_day_enabled: true,
+      two_hours_enabled: true
+    }
   };
 
   imageUrl: string = '';
@@ -62,16 +67,16 @@ export class AddBoatComponent implements OnInit, OnDestroy {
     this.boatService.addBoat(this.boat).subscribe({
       next: () => {
         alert('Bateau ajouté avec succès ✅');
-        this.router.navigate(['/list']); // redirection vers la liste des bateaux
+        this.router.navigate(['/list']);
       },
       error: err => {
         console.error('Erreur ajout bateau :', err);
-        alert('Erreur lors de l\'ajout.');
+        alert("Erreur lors de l'ajout.");
       }
     });
   }
 
   goBack(): void {
-    this.router.navigate(['/list']); // redirection vers la liste des bateaux
+    this.router.navigate(['/list']);
   }
 }
