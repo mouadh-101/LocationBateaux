@@ -42,7 +42,6 @@ export class BoatCardComponent {
         }
       });
     }
-    console.log('Favorites loaded:', this.favorites);
     
   }
   onSeeMore(batauxId: number) {
