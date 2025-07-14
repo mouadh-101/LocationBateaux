@@ -1,47 +1,110 @@
 <div class="app-container">
-  <!-- Sidebar -->
-  <div class="sidebar" [class.collapsed]="sidebarCollapsed">
+
+  <!-- Sidebar Desktop & Mobile -->
+  <nav
+    class="sidebar"
+    [class.collapsed]="sidebarCollapsed && !isMobile"
+    [class.mobile-open]="sidebarMobileOpen && isMobile"
+  >
     <div class="sidebar-header">
-      <h3 *ngIf="!sidebarCollapsed">Menu</h3>
+      <h3 *ngIf="!sidebarCollapsed || isMobile">Africa Boat</h3>
+      <button class="sidebar-toggle-btn" (click)="toggleSidebar()" aria-label="Toggle sidebar">
+        <i class="fas" [ngClass]="{
+          'fa-chevron-left': !sidebarCollapsed && !isMobile,
+          'fa-chevron-right': sidebarCollapsed && !isMobile,
+          'fa-bars': isMobile
+        }"></i>
+      </button>
     </div>
 
     <ul class="sidebar-menu">
-      <li><a routerLink="/dashboard">Dashboard</a></li>
-      <li><a routerLink="/users">Users</a></li>
-      <li><a routerLink="/list">Les Bateaux</a></li>
-      <li><a routerLink="/dashboard">Les Réservations</a></li>
-
-
-      <!-- Profil connecté -->
-      <li *ngIf="user">
-        <a *ngIf="isLoggedIn" routerLink="/profile" class="flex items-center gap-2">
-          <div
-            class="w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center shadow"
-            title="Profil"
-          >
-            {{ user.name.charAt(0) | uppercase }}
-          </div>
-          <span *ngIf="!sidebarCollapsed">{{ user.name }}</span>
+      <li>
+        <a routerLink="/dashboard" (click)="closeSidebarMobile()">
+          <i class="fas fa-tachometer-alt"></i>
+          <span *ngIf="!sidebarCollapsed || isMobile">Dashboard</span>
         </a>
       </li>
       <li>
-  <a *ngIf="isLoggedIn" (click)="onLogout()" class="cursor-pointer flex items-center gap-2" title="Déconnexion">
-    <i class="fas fa-sign-out-alt"></i>
-    <span>Déconnexion</span>
+        <a routerLink="/users" (click)="closeSidebarMobile()">
+          <i class="fas fa-users"></i>
+          <span *ngIf="!sidebarCollapsed || isMobile">Users</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/list" (click)="closeSidebarMobile()">
+          <i class="fas fa-ship"></i>
+          <span *ngIf="!sidebarCollapsed || isMobile">Les Bateaux</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/dashboard" (click)="closeSidebarMobile()">
+          <i class="fas fa-calendar-check"></i>
+          <span *ngIf="!sidebarCollapsed || isMobile">Les Réservations</span>
+        </a>
+      </li>
+     <li *ngIf="user && isLoggedIn">
+  <a
+    routerLink="/profile"
+    (click)="closeSidebarMobile()"
+    title="Profil"
+    style="
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #2d3748;
+    "
+    onmouseover="this.style.backgroundColor='#ebf8ff'"
+    onmouseout="this.style.backgroundColor='transparent'"
+  >
+    <div
+      style="
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #3b82f6;
+        color: white;
+        font-weight: 700;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        user-select: none;
+        box-shadow: 0 2px 6px rgb(0 0 0 / 0.2);
+      "
+    >
+      {{ user.name.charAt(0) | uppercase }}
+    </div>
+    <span style="white-space: nowrap; font-weight: 600;">
+      {{ user.name }}
+    </span>
+  </a>
+</li>
+
+
+     <li *ngIf="isLoggedIn">
+  <a
+    (click)="onLogout()"
+    class="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-100 hover:text-red-800 rounded-md cursor-pointer transition"
+    title="Déconnexion"
+  >
+    <i class="fas fa-sign-out-alt w-5"></i>
+    <span *ngIf="!sidebarCollapsed || isMobile" class="select-none font-medium">Déconnexion</span>
   </a>
 </li>
 
     </ul>
+  </nav>
 
-    <!-- Toggle Sidebar -->
-    <button class="sidebar-toggle-btn" (click)="toggleSidebar()">⮘</button>
-  </div>
+  <!-- Overlay for mobile when sidebar is open -->
+  <div class="overlay" *ngIf="sidebarMobileOpen && isMobile" (click)="closeSidebarMobile()"></div>
 
-  <!-- Main content -->
-  <div class="main-content" [class.expanded]="sidebarCollapsed">
+  <!-- Main Content -->
+  <main class="main-content" [class.sidebar-collapsed]="sidebarCollapsed && !isMobile">
     <router-outlet></router-outlet>
-
     <app-alert></app-alert>
+  </main>
 
-  </div>
 </div>
