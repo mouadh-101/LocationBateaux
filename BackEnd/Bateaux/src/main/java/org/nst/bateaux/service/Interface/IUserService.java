@@ -29,6 +29,8 @@ public interface IUserService {
     UserDataWithName findUserById(Long id);
     StatsUserProfile getUserStats(Long userId);
     AuthenticationResponse loginAdmin(AuthenticationRequest user);
+    ResponseEntity<AuthenticationResponse> authenticateWithGoogle(Map<String, String> body);
+    ResponseEntity<AuthenticationResponse> authenticateWithFacebook(Map<String, String> body);
 
 
 }
