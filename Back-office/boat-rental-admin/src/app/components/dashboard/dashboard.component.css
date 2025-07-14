@@ -97,3 +97,56 @@ h2::after {
 
 .card-6 { background-color: #b191ce; } /* Rouge clair */
 .card-6 .icon { color: #e0212a; }
+
+
+.stat-card {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.15);
+}
+
+.stat-card .icon {
+  font-size: 3rem;
+  margin-bottom: 0.75rem;
+  color: #4B5563; /* couleur par défaut */
+}
+
+.stat-card .label {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+.stat-card h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1F2937;
+}
+
+/* Spécifique à la card-8 pour partenaire avec icône violet */
+.card-8 .icon {
+  color: #7C3AED; /* violet */
+}
+
+
+.card-8 {
+  background: linear-gradient(135deg, #7C3AED, #A78BFA); /* dégradé violet clair à foncé */
+  color: white;
+  box-shadow: 0 10px 20px rgba(124, 58, 237, 0.5);
+}
+
+.card-8 .icon {
+  color: white; /* icône blanche */
+  font-size: 3rem;
+  margin-bottom: 0.75rem;
+}
