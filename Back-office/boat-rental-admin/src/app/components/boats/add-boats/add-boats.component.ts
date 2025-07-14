@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { BoatService } from '../../../services/boats.service';
 import { Boat, Image } from '../../../interfaces/boats';
 import { Router } from '@angular/router';
+import { ImageUploadComponent } from '../../image-upload/image-upload.component';
 
 @Component({
   selector: 'app-add-boat',
@@ -9,7 +10,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-boats.component.css']
 })
 export class AddBoatComponent implements OnInit, OnDestroy {
-  images: Image[] = [];
+
+  @ViewChild('imageUploader') imageUploaderComponent!: ImageUploadComponent;
 
 
   boat: Boat = {
@@ -36,7 +38,7 @@ export class AddBoatComponent implements OnInit, OnDestroy {
 
   imageUrl: string = '';
 
-  constructor(private boatService: BoatService, private router: Router) {}
+  constructor(private boatService: BoatService, private router: Router) { }
 
   ngOnInit(): void {
     document.body.style.backgroundImage = "url('')";
@@ -60,16 +62,9 @@ export class AddBoatComponent implements OnInit, OnDestroy {
       this.imageUrl = '';
     }
   }
-  onImageUploaded(image: Image) {
-    this.images.push(image);
-  }
-
-  removeImage(index: number): void {
-    this.boat.images.splice(index, 1);
-  }
 
   saveBoat(): void {
-    this.boat.images=this.images;
+    this.boat.images = this.imageUploaderComponent.getImages();
     console.log(this.boat);
     this.boatService.addBoat(this.boat).subscribe({
       next: () => {

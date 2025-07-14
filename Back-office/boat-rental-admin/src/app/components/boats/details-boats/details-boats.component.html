@@ -5,11 +5,11 @@
   </h2>
 
   <div class="flex flex-col md:flex-row gap-8">
-    <!-- Image -->
+    <!-- Image slideshow -->
     <div class="md:w-1/2 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition-transform duration-500 ease-in-out cursor-pointer h-72">
       <img
         *ngIf="boat.images?.length"
-        [src]="boat.images[0].url"
+        [src]="getCurrentImageUrl()"
         alt="{{ boat.nom }}"
         class="w-full h-full object-cover"
       />
@@ -47,8 +47,7 @@
           <span class="font-semibold text-primary">Disponible :</span>
           <span
             class="inline-block px-3 py-1 rounded-full text-white text-sm font-semibold"
-            [ngClass]="boat.disponible ? 'bg-green-600' : 'bg-red-600'"
-          >
+            [ngClass]="boat.disponible ? 'bg-green-600' : 'bg-red-600'">
             {{ boat.disponible ? 'Oui' : 'Non' }}
           </span>
         </div>
