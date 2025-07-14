@@ -1,0 +1,19 @@
+<div class="image-upload-wrapper">
+    <label for="fileInput" class="upload-label">Upload Boat Images</label>
+  
+    <input
+      type="file"
+      id="fileInput"
+      multiple
+      (change)="onFileChange($event)"
+      class="file-input"
+    />
+  
+    <div class="preview-grid" *ngIf="images.length > 0">
+      <div class="image-preview" *ngFor="let img of images">
+        <img [src]="img.url" alt="Uploaded image" />
+        <button type="button" class="delete-btn" (click)="removeImage(img)">✖</button>
+      </div>
+    </div>
+  </div>
+  

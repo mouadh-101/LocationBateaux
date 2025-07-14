@@ -20,6 +20,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { CommonModule } from '@angular/common';
 import { BoatDetailsComponent } from './components/boats/details-boats/details-boats.component';
+import { ImageUploadComponent } from './components/image-upload/image-upload.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { BoatDetailsComponent } from './components/boats/details-boats/details-b
     AlertComponent,
     ProfileComponent,
     EditProfileComponent,
-    BoatDetailsComponent
+    BoatDetailsComponent,
+    ImageUploadComponent
 
 
 

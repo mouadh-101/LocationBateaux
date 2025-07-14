@@ -152,4 +152,8 @@ public class MapToDto {
                 partner.getLogo()
         );
     }
+    // images
+    public ImageDto mapToImageDto(Image image){
+        return new ImageDto(image.getImageId(),image.getUrl());
+    }
 }

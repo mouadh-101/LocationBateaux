@@ -63,7 +63,8 @@ public class SecurityConfig {
                                 "/api/bateaux/**",
                                 "/api/avis/bateaux/**",
                                 "/error",
-                                "/api/ports"
+                                "/api/ports",
+                                "/uploads/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 );
