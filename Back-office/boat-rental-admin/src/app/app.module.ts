@@ -23,6 +23,7 @@ import { BoatDetailsComponent } from './components/boats/details-boats/details-b
 import { AddPartnerComponent } from './components/partner/add-partner/add-partner.component';
 import { EditPartnerComponent } from './components/partner/edit-partner/edit-partner.component';
 import { ListPartnersComponent } from './components/partner/list-partner/list-partner.component';
+import { ImageUploadComponent } from './components/image-upload/image-upload.component';
 
 
 @NgModule({
@@ -41,6 +42,8 @@ import { ListPartnersComponent } from './components/partner/list-partner/list-pa
     AlertComponent,
     ProfileComponent,
     EditProfileComponent,
+    BoatDetailsComponent,
+    ImageUploadComponent,
     BoatDetailsComponent,
     ListPartnersComponent,
     AddPartnerComponent,

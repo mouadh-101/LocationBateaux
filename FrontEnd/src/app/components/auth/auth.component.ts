@@ -1,10 +1,12 @@
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthModalService } from 'src/app/services/auth-modal.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { GoogleAuthService } from 'src/app/services/google-auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -12,35 +14,43 @@ import { GoogleAuthService } from 'src/app/services/google-auth.service';
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent {
-
   isLoginMode = true;
   loginForm: FormGroup;
   registerForm: FormGroup;
   isOpen = false;
   showPassword = false;
+  user: SocialUser | null = null;
 
-
-  constructor(private fb: FormBuilder, private authService: AuthService, private authModalService: AuthModalService, private router: Router, private alertService: AlertService,private googleService: GoogleAuthService) { // Replace 'any' with the actual type of your Google service if available
-
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private authModalService: AuthModalService,
+    private router: Router,
+    private alertService: AlertService,
+    private socialAuthService: SocialAuthService,
+    private http: HttpClient
+  ) {
     this.authModalService.modalState$.subscribe(open => {
       this.isOpen = open;
     });
+
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
-      
     });
-
 
     this.registerForm = this.fb.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern('^\\+?[0-9]{10,15}$')]],
-      password: ['', [Validators.required,Validators.minLength(8),Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/)]],
       role: ['CLIENT', [Validators.required]],
     });
   }
 
+  ngOnInit() {
+
+  }
 
   close() {
     this.authModalService.close();
@@ -60,16 +70,14 @@ export class AuthComponent {
               this.close();
               this.loginForm.reset();
             }, 1000);
-          }
-          else if (response.status === 'BANNED') {
+          } else if (response.status === 'BANNED') {
             this.alertService.showAlert(response.message, 'banned');
-          }
-          else {
+          } else {
             this.alertService.showAlert(response.message, 'error');
           }
         },
         error: (error) => {
-          this.alertService.showAlert('error.message', 'error');
+          this.alertService.showAlert(error.message || 'An error occurred during login.', 'error');
         }
       });
     }
@@ -82,19 +90,56 @@ export class AuthComponent {
           this.alertService.showAlert(response.message, 'success');
           setTimeout(() => {
             this.close();
-            this.loginForm.reset();
+            this.registerForm.reset();
           }, 1000);
         },
         error: (error) => {
-          this.alertService.showAlert(error.message, 'error');
+          this.alertService.showAlert(error.message || 'An error occurred during registration.', 'error');
         }
       });
     }
   }
+
+  loginWithGoogle(): void {
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then((user: SocialUser) => {
+      const accessToken = user.idToken;
+      this.handleSocialLogin(accessToken, (token) => this.authService.loginWithGoogleToken(token));
+    });
+  }
+
+  loginWithFacebook(): void {
+    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID).then((user: SocialUser) => {
+      const accessToken = user.authToken;
+      this.handleSocialLogin(accessToken, (token) => this.authService.loginWithFacebookToken(token));
+    });
+  }
+
+  private handleSocialLogin(token: string, loginMethod: (token: string) => Observable<any>): void {
+    loginMethod(token).subscribe({
+      next: (response) => {
+        if (response.status === 'SUCCESS') {
+          this.alertService.showAlert(response.message, 'success');
+          setTimeout(() => {
+            this.close();
+            this.router.navigate(['/dashboard']);
+          }, 1000);
+        } else if (response.status === 'BANNED') {
+          this.alertService.showAlert(response.message, 'banned');
+        } else {
+          this.alertService.showAlert(response.message, 'error');
+        }
+      },
+      error: (err) => {
+        this.alertService.showAlert(err.message || 'An error occurred during social login.', 'error');
+      }
+    });
+  }
+
   isTouchedAndDirtyWithError(form: FormGroup, controlName: string, error: string): boolean {
     const control = form.get(controlName);
     return !!(control && control.touched && control.dirty && control.hasError(error));
   }
+
   getPasswordStrength(): number {
     const password = this.registerForm.get('password')?.value || '';
     let strength = 0;
@@ -135,6 +180,7 @@ export class AuthComponent {
     if (strength < 80) return 'Bon';
     return 'Excellent';
   }
+
   getPasswordCriteria(): { text: string; valid: boolean }[] {
     const password = this.registerForm.get('password')?.value || '';
     return [
@@ -160,11 +206,8 @@ export class AuthComponent {
       }
     ];
   }
+
   resetPasswordVisibility() {
     this.showPassword = false;
   }
-
 }
-
-
-

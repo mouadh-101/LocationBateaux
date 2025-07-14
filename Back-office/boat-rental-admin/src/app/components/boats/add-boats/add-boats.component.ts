@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BoatService } from '../../../services/boats.service';
-import { Boat } from '../../../interfaces/boats';
+import { Boat, Image } from '../../../interfaces/boats';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,6 +9,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-boats.component.css']
 })
 export class AddBoatComponent implements OnInit, OnDestroy {
+  images: Image[] = [];
+
+
   boat: Boat = {
     nom: '',
     description: '',
@@ -57,12 +60,16 @@ export class AddBoatComponent implements OnInit, OnDestroy {
       this.imageUrl = '';
     }
   }
+  onImageUploaded(image: Image) {
+    this.images.push(image);
+  }
 
   removeImage(index: number): void {
     this.boat.images.splice(index, 1);
   }
 
   saveBoat(): void {
+    this.boat.images=this.images;
     console.log(this.boat);
     this.boatService.addBoat(this.boat).subscribe({
       next: () => {

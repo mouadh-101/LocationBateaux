@@ -1,0 +1,45 @@
+.image-upload-wrapper {
+    margin: 1rem 0;
+  }
+  
+  .upload-btn {
+    background-color: #1c768f;
+    color: white;
+    padding: 0.5rem 1rem;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 6px;
+  }
+  
+  .preview-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    gap: 10px;
+  }
+  
+  .image-preview {
+    position: relative;
+  }
+  
+  .image-preview img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+  
+  .delete-btn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+  

@@ -7,6 +7,7 @@ import org.nst.bateaux.dto.bateau.CarecteristiqueBateauxDto;
 import org.nst.bateaux.dto.bateau.ImageDto;
 import org.nst.bateaux.entity.*;
 import org.nst.bateaux.repository.BateauxRepository;
+import org.nst.bateaux.repository.ImageRepository;
 import org.nst.bateaux.repository.PortRepository;
 import org.nst.bateaux.repository.UserRepository;
 import org.nst.bateaux.service.Interface.IBateauxService;
@@ -29,6 +30,8 @@ public class BateauxService implements IBateauxService {
     MapToDto mapToDto;
     @Autowired
     PortRepository portRepository;
+    @Autowired
+    ImageRepository imageRepository;
 
     @Override
     public BateauData ajouterBateaux(BateauData bateaux, Long adminId) {
@@ -47,15 +50,22 @@ public class BateauxService implements IBateauxService {
         newBat.getReservationTypeSettings().setHalf_day_enabled(bateaux.getReservationTypeSettings().isHalf_day_enabled());
         newBat.getReservationTypeSettings().setTwo_hours_enabled(bateaux.getReservationTypeSettings().isTwo_hours_enabled());
 
-        // Images
-        for (ImageDto i : bateaux.getImages()) {
-            Image im = new Image();
-            im.setUrl(i.getUrl());
-            im.setBateau(newBat); // lien inverse
-            newBat.getImages().add(im);
+        newBat = bateauxRepository.save(newBat); // Save first to link
+
+        // ✅ Handle images (full DTOs)
+        if (bateaux.getImages() != null && !bateaux.getImages().isEmpty()) {
+            for (ImageDto i : bateaux.getImages()) {
+                if (i.getImageId() != null) {
+                    Image image = imageRepository.findById(i.getImageId())
+                            .orElseThrow(() -> new BusinessException("Image not found with id: " + i.getImageId()));
+                    image.setBateau(newBat);
+                    imageRepository.save(image);
+                    newBat.getImages().add(image);
+                }
+            }
         }
 
-        // Caractéristiques
+        // ✅ Caractéristiques
         CarecteristiqueBateauxDto c = bateaux.getCarecteristique();
         if (c != null) {
             Carecteristique caracteristique = new Carecteristique();
@@ -67,7 +77,7 @@ public class BateauxService implements IBateauxService {
             newBat.setCarecteristique(caracteristique);
         }
 
-        // Port
+        // ✅ Port
         if (port == null) {
             Port newPort = new Port();
             newPort.setNom(bateaux.getPort().getNom());
@@ -78,11 +88,11 @@ public class BateauxService implements IBateauxService {
             newBat.setPort(port);
         }
 
-        // ✅ Sauvegarde
         bateauxRepository.save(newBat);
 
         return mapToDto.mapToBatauxDto(newBat);
     }
+
 
 
     @Override
