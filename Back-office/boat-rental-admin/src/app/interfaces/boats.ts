@@ -14,19 +14,26 @@ export interface Caracteristique {
   type: string; // ou enum TypeBateaux
 }
 
+export interface ReservationTypeSettings {
+  full_day_enabled: boolean;
+  half_day_enabled: boolean;
+  two_hours_enabled: boolean;
+}
+
 export interface Boat {
   bateauxId?: number;
   nom: string;
   description: string;
   prix: number;
   port: {
-    nom:string
+  nom:string
   };
   carecteristique: Caracteristique;
   images: Image[];
   disponible?: boolean;
   avis?: any[];          // si tu ne les utilises pas, mets any[] ou un type plus précis plus tard
   reservations?: any[];
+  reservationTypeSettings: ReservationTypeSettings;
 }
 export interface Avis {
   avisId: number;

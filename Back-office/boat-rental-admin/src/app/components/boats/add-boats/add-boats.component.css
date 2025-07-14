@@ -207,3 +207,66 @@ textarea.ng-invalid.ng-touched,
 select.ng-invalid.ng-touched {
   border-color: #dc2626;
 }
+
+
+/* Style pour la section types de réservation */
+.reservation-types-section label {
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-top: 12px;
+}
+
+/* Cacher la checkbox native */
+.reservation-types-section input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Carré personnalisé */
+.reservation-types-section label span::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 20px;
+  width: 20px;
+  border: 2px solid #007bff;
+  border-radius: 4px;
+  background-color: white;
+  box-sizing: border-box;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+/* Coche quand checked */
+.reservation-types-section input[type="checkbox"]:checked + span::before {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.reservation-types-section input[type="checkbox"]:checked + span::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+}
+
+/* Hover */
+.reservation-types-section label:hover span::before {
+  border-color: #0056b3;
+}
