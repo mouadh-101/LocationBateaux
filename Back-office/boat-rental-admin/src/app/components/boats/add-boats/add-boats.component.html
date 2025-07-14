@@ -208,41 +208,10 @@
   </label>
 </fieldset>
 
-    <!-- Image URL -->
-    <label for="imageUrl">Ajouter une image (URL)</label>
-    <div class="image-input-wrapper">
-      <input
-        type="text"
-        id="imageUrl"
-        [(ngModel)]="imageUrl"
-        name="imageUrl"
-        placeholder="https://..."
-        #imageUrlInput="ngModel"
-        pattern="https?://.+"
-      />
-      <button type="button" class="btn-mini" (click)="addImage()" [disabled]="!imageUrlInput.valid || !imageUrlInput.dirty">
-        Ajouter
-      </button>
-    </div>
-    <div *ngIf="imageUrlInput.invalid && imageUrlInput.touched" class="error-msg">
-      <small>L'URL doit commencer par http:// ou https://</small>
-    </div>
 
-     <!-- Liste des images -->
-    <div *ngIf="boat.images.length > 0" class="images-list">
-      <h4>Images ajoutées :</h4>
-      <ul>
-        <li *ngFor="let img of boat.images; let i = index">
-          {{ img.url }}
-          <button type="button" class="btn-delete" (click)="removeImage(i)">❌</button>
-        </li>
-      </ul>
-    </div> 
-  
-    <!-- <app-image-upload (imageUploaded)="onImageUploaded($event)"></app-image-upload> -->
+
+        <app-image-upload [initialImages]="boat.images"  #imageUploader></app-image-upload>
 
     <div class="form-actions flex gap-4 mt-6">
       <button type="submit" class="btn-primary flex-1" [disabled]="form.invalid">Enregistrer</button>
     </div>
-  </form>
-</div>

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BoatService } from '../../../services/boats.service';
 import { Boat } from '../../../interfaces/boats';
+import { ImageUploadComponent } from '../../image-upload/image-upload.component';
 
 @Component({
   selector: 'app-edit-boat',
@@ -9,6 +10,9 @@ import { Boat } from '../../../interfaces/boats';
   styleUrls: ['./edit-boats.component.css']
 })
 export class EditBoatComponent implements OnInit {
+
+  @ViewChild('imageUploader') imageUploaderComponent!: ImageUploadComponent;
+
   boatId!: number;
 
   boat: Boat = {
@@ -86,6 +90,7 @@ export class EditBoatComponent implements OnInit {
   }
 
   updateBoat(): void {
+    this.boat.images = this.imageUploaderComponent.getImages();
     this.boatService.updateBoat(this.boatId, this.boat).subscribe({
       next: () => {
         alert('Bateau mis à jour avec succès ✅');

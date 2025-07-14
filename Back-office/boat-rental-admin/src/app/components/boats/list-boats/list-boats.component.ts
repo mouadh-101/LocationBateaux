@@ -131,4 +131,26 @@ export class ListBoatsComponent implements OnInit {
     this.availabilityFilter = value;
     this.applyFiltersAndSorting();
   }
+
+  // Gestion de l'image affichée (caroussel simple)
+  prevImage(boat: Boat): void {
+    const b = boat as any;
+    if (!b.images || b.images.length === 0) return;
+    b.currentImageIndex = (b.currentImageIndex ?? 0) - 1;
+    if (b.currentImageIndex < 0) b.currentImageIndex = b.images.length - 1;
+  }
+
+  nextImage(boat: Boat): void {
+    const b = boat as any;
+    if (!b.images || b.images.length === 0) return;
+    b.currentImageIndex = (b.currentImageIndex ?? 0) + 1;
+    if (b.currentImageIndex >= b.images.length) b.currentImageIndex = 0;
+  }
+
+  getCurrentImageUrl(boat: Boat): string {
+    const b = boat as any;
+    if (!b.images || b.images.length === 0) return '';
+    const index = b.currentImageIndex ?? 0;
+    return b.images[index].url;
+  }
 }

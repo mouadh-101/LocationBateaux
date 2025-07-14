@@ -31,14 +31,26 @@
       <div *ngFor="let boat of paginatedBoats"
         class="bg-gradient-to-r from-green-50 via-green-100 to-green-50 shadow-md rounded-lg p-3 border border-gray-200 hover:shadow-xl hover:scale-[1.03] transition-transform duration-300 ease-in-out flex flex-col justify-between">
 
-        <!-- Image cliquable -->
-        <div class="mb-3 overflow-hidden rounded-lg cursor-pointer" (click)="viewBoatDetails(boat.bateauxId!)">
-          <img *ngIf="boat.images.length > 0" [src]="boat.images[0].url" alt="Image du bateau {{ boat.nom }}"
-            class="w-full h-36 object-cover rounded-lg hover:scale-105 hover:shadow-lg transition-transform duration-300" />
+        <!-- Image cliquable avec navigation -->
+        <div class="mb-3 overflow-hidden rounded-lg cursor-pointer relative" (click)="viewBoatDetails(boat.bateauxId!)" style="height: 144px;">
+          <img *ngIf="boat.images && boat.images.length > 0"
+            [src]="getCurrentImageUrl(boat)"
+            alt="Image du bateau {{ boat.nom }}"
+            class="w-full h-full object-cover rounded-lg hover:scale-105 hover:shadow-lg transition-transform duration-300" />
           <div *ngIf="!boat.images || boat.images.length === 0"
-            class="w-full h-36 bg-gray-200 flex items-center justify-center rounded-lg text-gray-500 text-sm">
+            class="w-full h-full bg-gray-200 flex items-center justify-center rounded-lg text-gray-500 text-sm">
             Pas d'image disponible
           </div>
+
+          <!-- Boutons précédent / suivant -->
+          <button (click)="prevImage(boat); $event.stopPropagation();"
+            class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-1 hover:bg-opacity-90 transition">
+            <i class="fas fa-chevron-left text-gray-700"></i>
+          </button>
+          <button (click)="nextImage(boat); $event.stopPropagation();"
+            class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-1 hover:bg-opacity-90 transition">
+            <i class="fas fa-chevron-right text-gray-700"></i>
+          </button>
         </div>
 
         <!-- Infos cliquables -->
@@ -65,7 +77,7 @@
             Note: {{ getAverageRating(boat) | number:'1.1-1' }}
           </p>
 
-          <!-- ✅ Types de réservation disponibles -->
+          <!-- Types de réservation disponibles -->
           <div *ngIf="boat.reservationTypeSettings" class="mt-2">
             <span class="text-[13px] font-semibold text-gray-700">Réservations :</span>
             <div class="flex flex-wrap gap-2 mt-1">
