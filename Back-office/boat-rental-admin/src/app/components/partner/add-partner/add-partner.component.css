@@ -1,0 +1,11 @@
+.text-primary {
+  color: #2563eb; /* Bleu Tailwind par exemple */
+}
+
+.bg-primary {
+  background-color: #2563eb;
+}
+
+.bg-primary-dark:hover {
+  background-color: #1e40af;
+}

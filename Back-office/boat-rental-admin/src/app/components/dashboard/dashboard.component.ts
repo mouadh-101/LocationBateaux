@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BoatService } from '../../services/boats.service';
 import { UserService } from '../../services/user.service';
-import { ReservationService } from '../../services/reservation.service';
-import { Boat } from '../../interfaces/boats';
-import { User } from '../../interfaces/user';
-
+import { PartnerService } from '../../services/partner.service';
+// import { ReservationService } from '../../services/reservation.service'; // si tu veux activer
 
 @Component({
   selector: 'app-dashboard',
@@ -23,10 +21,13 @@ export class DashboardComponent implements OnInit {
 
   totalReservations: number = 0;
 
+  totalPartners: number = 0;
+
   constructor(
     private boatService: BoatService,
     private userService: UserService,
-    private reservationService: ReservationService
+    private partnerService: PartnerService,
+    // private reservationService: ReservationService,
   ) {}
 
   ngOnInit(): void {
@@ -34,38 +35,46 @@ export class DashboardComponent implements OnInit {
   }
 
   loadDashboardData(): void {
-    // 🔵 Récupération des bateaux
     this.boatService.getAllBoats().subscribe({
-      next: (boats: Boat[]) => {
+      next: boats => {
         this.totalBoats = boats.length;
         this.availableBoats = boats.filter(b => b.disponible).length;
         this.unavailableBoats = this.totalBoats - this.availableBoats;
       },
-      error: (err) => {
+      error: err => {
         console.error("Erreur récupération bateaux :", err);
       }
     });
 
-    // 🟢 Récupération des utilisateurs
     this.userService.getAllUsers().subscribe({
-      next: (users: User[]) => {
+      next: users => {
         this.totalUsers = users.length;
         this.activeUsers = users.filter(u => u.isActive).length;
         this.bannedUsers = users.filter(u => !u.isActive).length;
       },
-      error: (err) => {
+      error: err => {
         console.error("Erreur récupération utilisateurs :", err);
       }
     });
 
-    // 🟠 Récupération des réservations
-   // this.reservationService.getAllReservations().subscribe({
-     // next: (reservations: Reservation[]) => {
-     //   this.totalReservations = reservations.length;
-    //  },
-    //  error: (err) => {
-     //   console.error("Erreur récupération réservations :", err);
-    //  }
-   // });
+    /*
+    this.reservationService.getAllReservations().subscribe({
+      next: reservations => {
+        this.totalReservations = reservations.length;
+      },
+      error: err => {
+        console.error("Erreur récupération réservations :", err);
+      }
+    });
+    */
+
+    this.partnerService.getAllPartners().subscribe({
+      next: partners => {
+        this.totalPartners = partners.length;
+      },
+      error: err => {
+        console.error("Erreur récupération partenaires :", err);
+      }
+    });
   }
 }

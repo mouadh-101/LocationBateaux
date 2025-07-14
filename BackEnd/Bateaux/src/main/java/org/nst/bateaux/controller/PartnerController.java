@@ -18,8 +18,8 @@ import static org.springframework.security.authorization.AuthorityReactiveAuthor
 public class PartnerController {
     @Autowired
     IPartnerService partnerService;
-    @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping
     public PartnerDto ajouterPartner(@RequestBody PartnerDto partnerDto)
     {
        return partnerService.ajouterPartner(partnerDto);

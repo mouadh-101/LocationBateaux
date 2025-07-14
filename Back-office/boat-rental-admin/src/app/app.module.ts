@@ -20,6 +20,9 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { CommonModule } from '@angular/common';
 import { BoatDetailsComponent } from './components/boats/details-boats/details-boats.component';
+import { AddPartnerComponent } from './components/partner/add-partner/add-partner.component';
+import { EditPartnerComponent } from './components/partner/edit-partner/edit-partner.component';
+import { ListPartnersComponent } from './components/partner/list-partner/list-partner.component';
 
 
 @NgModule({
@@ -38,7 +41,10 @@ import { BoatDetailsComponent } from './components/boats/details-boats/details-b
     AlertComponent,
     ProfileComponent,
     EditProfileComponent,
-    BoatDetailsComponent
+    BoatDetailsComponent,
+    ListPartnersComponent,
+    AddPartnerComponent,
+    EditPartnerComponent
 
 
 
