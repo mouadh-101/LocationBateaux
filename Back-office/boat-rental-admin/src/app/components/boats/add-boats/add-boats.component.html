@@ -1,8 +1,8 @@
 <h2 class="form-title">Ajouter un bateau</h2>
 
 <button type="button" class="btn-secondary flex-1" (click)="goBack()">Retour à la liste</button>
-<div class="card-form">
 
+<div class="card-form">
   <form #form="ngForm" (ngSubmit)="saveBoat()" class="form-card" novalidate>
 
     <!-- Nom -->
@@ -141,24 +141,72 @@
       </div>
 
       <label for="type">Type de bateau</label>
-      <select
-        id="type"
-        [(ngModel)]="boat.carecteristique.type"
-        name="caracteristique.type"
-        #type="ngModel"
-        required
-      >
-        <option value="">-- Choisir un type --</option>
-        <option value="YACHT">Yacht</option>
-        <option value="VOILIER">Voilier</option>
-        <option value="CATAMARAN">Catamaran</option>
-        <option value="SPORT">Sport</option>
-        <option value="AUTRE">Autre</option>
-      </select>
+     <select
+  id="type"
+  [(ngModel)]="boat.carecteristique.type"
+  name="caracteristique.type"
+  #type="ngModel"
+  required
+  class="
+    w-full
+    px-4 py-2
+    rounded-lg
+    border-2 border-indigo-400
+    bg-gradient-to-r from-indigo-100 to-indigo-50
+    text-indigo-900
+    shadow-md
+    hover:border-indigo-600
+    focus:outline-none
+    focus:ring-4 focus:ring-indigo-300
+    transition
+    duration-300
+    ease-in-out
+    cursor-pointer
+  "
+>
+  <option value="" disabled>-- Choisir un type --</option>
+  <option value="YACHT">Yacht</option>
+  <option value="VOILIER">Voilier</option>
+  <option value="CATAMARAN">Catamaran</option>
+  <option value="SPORT">Sport</option>
+  <option value="AUTRE">Autre</option>
+</select>
       <div *ngIf="type.invalid && type.touched" class="error-msg">
         <small>Le type de bateau est obligatoire.</small>
       </div>
     </fieldset>
+
+    <!-- ✅ Types de réservation -->
+    <fieldset class="reservation-types-section">
+  <label>Types de réservation disponibles</label><br>
+
+  <label>
+    <input
+      type="checkbox"
+      [(ngModel)]="boat.reservationTypeSettings.full_day_enabled"
+      name="reservation.fullDay"
+    />
+    <span>Journée complète</span>
+  </label>
+
+  <label>
+    <input
+      type="checkbox"
+      [(ngModel)]="boat.reservationTypeSettings.half_day_enabled"
+      name="reservation.halfDay"
+    />
+    <span>Demi-journée</span>
+  </label>
+
+  <label>
+    <input
+      type="checkbox"
+      [(ngModel)]="boat.reservationTypeSettings.two_hours_enabled"
+      name="reservation.twoHours"
+    />
+    <span>2 heures</span>
+  </label>
+</fieldset>
 
     <!-- Image URL -->
     <label for="imageUrl">Ajouter une image (URL)</label>
@@ -194,6 +242,5 @@
     <div class="form-actions flex gap-4 mt-6">
       <button type="submit" class="btn-primary flex-1" [disabled]="form.invalid">Enregistrer</button>
     </div>
-
   </form>
 </div>

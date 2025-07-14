@@ -6,34 +6,45 @@
 
   <div class="flex flex-col md:flex-row gap-8">
     <!-- Image -->
-    <div class="md:w-1/2 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition-transform duration-500 ease-in-out cursor-pointer">
+    <div class="md:w-1/2 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition-transform duration-500 ease-in-out cursor-pointer h-72">
       <img
         *ngIf="boat.images?.length"
         [src]="boat.images[0].url"
         alt="{{ boat.nom }}"
-        class="w-full h-72 object-cover"
+        class="w-full h-full object-cover"
       />
-      <div *ngIf="!boat.images || boat.images.length === 0" class="flex items-center justify-center h-72 bg-gray-100 text-gray-400 font-semibold text-lg">
+      <div *ngIf="!boat.images || boat.images.length === 0" class="flex items-center justify-center h-full bg-gray-100 text-gray-400 font-semibold text-lg">
         Pas d'image disponible
       </div>
     </div>
 
     <!-- Infos -->
     <div class="md:w-1/2 flex flex-col justify-between">
-      <p class="mb-5 text-lg leading-relaxed text-gray-700">
-        <span class="font-semibold text-primary">Description :</span> {{ boat.description }}
-      </p>
+      <!-- Description stylée -->
+      <div class="mb-8 p-6 bg-blue-50 border border-blue-200 rounded-lg shadow-sm">
+        <h3 class="text-xl font-semibold text-primary mb-3">Description :</h3>
+        <p class="text-gray-700 leading-relaxed text-base whitespace-pre-line">{{ boat.description }}</p>
+      </div>
 
-      <div class="grid grid-cols-2 gap-4 text-gray-700 font-medium text-lg">
-        <div>
-          <span class="text-primary">Prix :</span>
+      <!-- Autres infos regroupées -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700 font-medium text-lg">
+        <div class="bg-green-50 p-4 rounded-lg shadow-inner">
+          <span class="font-semibold text-primary block mb-1">Prix :</span>
           <span class="text-green-600 font-bold">{{ boat.prix }} TND/Jour</span>
         </div>
-        <div>
-          <span class="text-primary">Port :</span> {{ boat.port.nom }}
+
+        <div class="bg-blue-50 p-4 rounded-lg shadow-inner">
+          <span class="font-semibold text-primary block mb-1">Port :</span>
+          <span>{{ boat.port.nom }}</span>
         </div>
-        <div>
-          <span class="text-primary">Disponible :</span>
+
+        <div class="bg-yellow-50 p-4 rounded-lg shadow-inner">
+          <span class="font-semibold text-primary block mb-1">Type :</span>
+          <span>{{ boat.carecteristique?.type }}</span>
+        </div>
+
+        <div class="bg-gray-50 p-4 rounded-lg shadow-inner flex items-center justify-between">
+          <span class="font-semibold text-primary">Disponible :</span>
           <span
             class="inline-block px-3 py-1 rounded-full text-white text-sm font-semibold"
             [ngClass]="boat.disponible ? 'bg-green-600' : 'bg-red-600'"
@@ -41,17 +52,39 @@
             {{ boat.disponible ? 'Oui' : 'Non' }}
           </span>
         </div>
-        <div class="flex items-center gap-2 text-yellow-500 text-xl font-semibold">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24" stroke="none">
-            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-          </svg>
-          <span>Note moyenne : {{ getAverageRating(boat) | number:'1.1-1' }}</span>
+      </div>
+
+      <!-- Note stylée -->
+      <div class="mt-8 flex items-center gap-3 text-yellow-500 text-2xl font-semibold drop-shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" fill="currentColor" viewBox="0 0 24 24" stroke="none">
+          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+        </svg>
+        <span class="text-xl">Note: {{ getAverageRating(boat) | number:'1.1-1' }}</span>
+      </div>
+
+      <!-- Types de réservation -->
+      <div *ngIf="boat.reservationTypeSettings" class="mt-8">
+        <h4 class="text-lg font-semibold text-primary mb-3">Types de réservation disponibles :</h4>
+        <div class="flex flex-wrap gap-3">
+          <span *ngIf="boat.reservationTypeSettings.full_day_enabled"
+                class="bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full shadow-sm">
+            Journée complète
+          </span>
+          <span *ngIf="boat.reservationTypeSettings.half_day_enabled"
+                class="bg-purple-100 text-purple-800 text-sm font-semibold px-3 py-1 rounded-full shadow-sm">
+            Demi-journée
+          </span>
+          <span *ngIf="boat.reservationTypeSettings.two_hours_enabled"
+                class="bg-teal-100 text-teal-800 text-sm font-semibold px-3 py-1 rounded-full shadow-sm">
+            2 heures
+          </span>
         </div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- Loading -->
 <div *ngIf="loading" class="flex flex-col items-center justify-center h-48 text-gray-400">
   <svg class="animate-spin h-12 w-12 mb-4 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -60,6 +93,7 @@
   <p class="text-lg font-semibold">Chargement...</p>
 </div>
 
+<!-- Erreur -->
 <div *ngIf="error" class="max-w-xl mx-auto mt-10 text-center text-red-600 font-bold text-xl">
   {{ error }}
 </div>

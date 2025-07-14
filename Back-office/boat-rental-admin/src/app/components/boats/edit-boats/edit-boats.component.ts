@@ -10,11 +10,12 @@ import { Boat } from '../../../interfaces/boats';
 })
 export class EditBoatComponent implements OnInit {
   boatId!: number;
+
   boat: Boat = {
     nom: '',
     description: '',
     prix: 0,
-    port: {nom:''},
+    port: { nom: '' },
     disponible: true,
     carecteristique: {
       capacite: 0,
@@ -22,6 +23,11 @@ export class EditBoatComponent implements OnInit {
       largeur: 0,
       nombreMoteurs: 0,
       type: 'AUTRE'
+    },
+    reservationTypeSettings: {
+      full_day_enabled: true,
+      half_day_enabled: true,
+      two_hours_enabled: true
     },
     images: []
   };
@@ -42,11 +48,8 @@ export class EditBoatComponent implements OnInit {
   getBoatDetails(): void {
     this.boatService.getBoatById(this.boatId).subscribe({
       next: (data) => {
-        // Assure une initialisation sûre si certaines propriétés sont nulles
         this.boat = {
           ...data,
-          disponible: data.disponible,
-          port: data.port ,
           carecteristique: data.carecteristique || {
             capacite: 0,
             longueur: 0,
@@ -54,7 +57,14 @@ export class EditBoatComponent implements OnInit {
             nombreMoteurs: 0,
             type: 'AUTRE'
           },
-          images: data.images || []
+          reservationTypeSettings: data.reservationTypeSettings || {
+            full_day_enabled: true,
+            half_day_enabled: true,
+            two_hours_enabled: true
+          },
+          port: data.port || { nom: '' },
+          images: data.images || [],
+          disponible: data.disponible ?? true
         };
       },
       error: (err) => {
