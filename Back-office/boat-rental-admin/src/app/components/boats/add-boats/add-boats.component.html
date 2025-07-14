@@ -228,7 +228,7 @@
       <small>L'URL doit commencer par http:// ou https://</small>
     </div>
 
-    <!-- Liste des images -->
+     <!-- Liste des images -->
     <div *ngIf="boat.images.length > 0" class="images-list">
       <h4>Images ajoutées :</h4>
       <ul>
@@ -237,7 +237,9 @@
           <button type="button" class="btn-delete" (click)="removeImage(i)">❌</button>
         </li>
       </ul>
-    </div>
+    </div> 
+  
+    <!-- <app-image-upload (imageUploaded)="onImageUploaded($event)"></app-image-upload> -->
 
     <div class="form-actions flex gap-4 mt-6">
       <button type="submit" class="btn-primary flex-1" [disabled]="form.invalid">Enregistrer</button>
