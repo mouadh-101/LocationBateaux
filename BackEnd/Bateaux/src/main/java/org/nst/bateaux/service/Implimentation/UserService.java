@@ -1,17 +1,17 @@
 package org.nst.bateaux.service.Implimentation;
 
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
 import org.nst.bateaux.config.BusinessException;
 import org.nst.bateaux.dto.auth.AuthenticationRequest;
 import org.nst.bateaux.dto.auth.AuthenticationResponse;
 import org.nst.bateaux.dto.auth.RegisterRequest;
-import org.nst.bateaux.dto.bateau.BateauData;
-import org.nst.bateaux.dto.bateau.ImageDto;
 import org.nst.bateaux.dto.stats.StatsUserProfile;
 import org.nst.bateaux.dto.user.ChangePasswordRequest;
-import org.nst.bateaux.dto.user.UserData;
 import org.nst.bateaux.dto.user.UserDataWithName;
-import org.nst.bateaux.entity.Bateaux;
 import org.nst.bateaux.entity.Role;
 import org.nst.bateaux.entity.User;
 import org.nst.bateaux.repository.BateauxRepository;
@@ -22,15 +22,15 @@ import org.nst.bateaux.service.mappers.MapToDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class UserService implements IUserService {
@@ -209,6 +209,99 @@ public class UserService implements IUserService {
 
         return new AuthenticationResponse(token,"SUCCESS","Authentication successful");
     }
+    @Override
+    public ResponseEntity<AuthenticationResponse> authenticateWithGoogle(Map<String, String> body) {
+        String idTokenString = body.get("idToken");
+
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
+                new NetHttpTransport(),
+                GsonFactory.getDefaultInstance()
+        )
+                .setAudience(Collections.singletonList("702034366364-h92rafiso21l7puiboock14h5f1cuetl.apps.googleusercontent.com"))
+                .build();
+
+        try {
+            GoogleIdToken idToken = verifier.verify(idTokenString);
+            if (idToken == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(new AuthenticationResponse(null, "ERROR", "Invalid Google ID Token"));
+            }
+
+            GoogleIdToken.Payload payload = idToken.getPayload();
+            String email = payload.getEmail();
+            String name = (String) payload.get("name");
+            String phone=(String) payload.get("phone_number");
+
+            User user = userRepository.findUserByEmail(email);
+            if (user == null) {
+                RegisterRequest requestReg = new RegisterRequest();
+                requestReg.setEmail(email);
+                requestReg.setName(name);
+                requestReg.setPassword(UUID.randomUUID().toString());
+                requestReg.setPhone(phone);
+                requestReg.setRole(Role.CLIENT);
+                user=this.creatUser(requestReg);
+            }
+
+            if (!user.isActive()) {
+                return ResponseEntity.ok(new AuthenticationResponse(null, "BANNED", "User is banned or inactive"));
+            }
+
+            String token = jwtService.generateToken(
+                    user.getEmail(),
+                    user.getRole(),
+                    user.getId(),
+                    user.isActive()
+            );
+
+            return ResponseEntity.ok(new AuthenticationResponse(token, "SUCCESS", "Google login successful"));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new AuthenticationResponse(null, "ERROR", "Token validation failed: " + e.getMessage()));
+        }
+    }
+    @Override
+    public ResponseEntity<AuthenticationResponse> authenticateWithFacebook(Map<String, String> body) {
+        String accessToken = body.get("accessToken");
+
+        String url = "https://graph.facebook.com/me?fields=id,name,email&access_token=" + accessToken;
+
+        RestTemplate restTemplate = new RestTemplate();
+        Map<String, Object> fbResponse = restTemplate.getForObject(url, Map.class);
+
+        if (fbResponse == null || fbResponse.get("email") == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new AuthenticationResponse(null, "ERROR", "Invalid Facebook token or email permission missing"));
+        }
+
+        String email = (String) fbResponse.get("email");
+        String name = (String) fbResponse.get("name");
+
+        User user = userRepository.findUserByEmail(email);
+        if (user == null) {
+            RegisterRequest requestReg = new RegisterRequest();
+            requestReg.setEmail(email);
+            requestReg.setName(name);
+            requestReg.setPassword(UUID.randomUUID().toString());
+            requestReg.setRole(Role.CLIENT);
+            this.creatUser(requestReg);
+        }
+
+        if (!user.isActive()) {
+            return ResponseEntity.ok(new AuthenticationResponse(null, "BANNED", "User is banned or inactive"));
+        }
+
+        String token = jwtService.generateToken(
+                user.getEmail(),
+                user.getRole(),
+                user.getId(),
+                user.isActive()
+        );
+
+        return ResponseEntity.ok(new AuthenticationResponse(token, "SUCCESS", "Facebook login successful"));
+    }
+
 
 
 }

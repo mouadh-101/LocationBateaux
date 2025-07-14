@@ -5,6 +5,7 @@ import org.nst.bateaux.dto.bateau.BateauData;
 import org.nst.bateaux.dto.bateau.CarecteristiqueBateauxDto;
 import org.nst.bateaux.dto.bateau.ImageDto;
 import org.nst.bateaux.dto.paiement.PaimentData;
+import org.nst.bateaux.dto.partner.PartnerDto;
 import org.nst.bateaux.dto.port.PortAddDto;
 import org.nst.bateaux.dto.port.PortDto;
 import org.nst.bateaux.dto.reservation.ReservationAdd;
@@ -140,6 +141,15 @@ public class MapToDto {
                 reservationTypeSettings.isFull_day_enabled(),
                 reservationTypeSettings.isHalf_day_enabled(),
                 reservationTypeSettings.isTwo_hours_enabled()
+        );
+    }
+    // Partner
+    public PartnerDto mapToPartnerDto(Partners partner)
+    {
+        return new PartnerDto(
+                partner.getPartnerId(),
+                partner.getNom(),
+                partner.getLogo()
         );
     }
 }
