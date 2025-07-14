@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, ViewChild,OnDestroy } from '@angular/core';
-import { Partner } from 'src/app/interfaces/boat';
-import { MokeDataService } from 'src/app/services/moke-data.service';
+import { Partner } from 'src/app/interfaces/partner';
+import { PartnerService } from 'src/app/services/partner.service';
 
 
 @Component({
@@ -45,14 +45,16 @@ export class PartnerComponent {
     }
   }
 
-  constructor(private mockDataService: MokeDataService) {}
+  constructor(private partnerService:PartnerService) {}
 
   ngOnInit() {
-    this.partners = this.mockDataService.getPartners();
+    this.partnerService.getPartners().subscribe((partners)=>{
+      this.partners=partners;
+    });
   }
 
   trackByPartnerId(index: number, partner: Partner): number {
-    return partner.id;
+    return partner.partnerId;
   }
 
 }

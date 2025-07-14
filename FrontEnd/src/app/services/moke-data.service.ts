@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Boat, Service, Partner, Benefit } from '../interfaces/boat';
+import { Boat, Service, Benefit } from '../interfaces/boat';
 
 
 @Injectable({
@@ -38,18 +38,7 @@ export class MokeDataService {
     ];
   }
 
-  getPartners(): Partner[] {
-    return [
-      { id: 1, logo: "/assets/img/partners/afkar.png?height=80&width=120" },
-      { id: 2, logo: "/assets/img/partners/fifthApp.png?height=80&width=120" },
-      { id: 3,logo: "/assets/img/partners/gamarthYachting.png?height=80&width=120" },
-      { id: 4,logo: "/assets/img/partners/kayak.png?height=80&width=120" },
-      { id: 5,logo: "/assets/img/partners/StartupTunisia.png?height=80&width=120" },
-      { id: 6,logo: "/assets/img/partners/technoPole.png?height=80&width=120" },
-      { id: 7,logo: "/assets/img/partners/ticDce.png?height=80&width=120" }
 
-    ];
-  }
 
   getBenefits(): Benefit[] {
     return [

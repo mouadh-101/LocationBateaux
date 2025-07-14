@@ -116,4 +116,24 @@ export class AuthService {
   emitAuthState() {
     this.authState.next(this.isLoggedIn());
   }
+  loginWithGoogleToken(token: string): Observable<any> {
+    return this.http.post<{ token: string }>('http://localhost:8081/api/auth/google', {
+      idToken: token
+    }).pipe(
+      tap(response => {
+        this.handleAuthSuccess(response.token);
+      }),
+      catchError(ErrorHandlerUtil.handleError)
+    );
+  }
+  loginWithFacebookToken(token: string): Observable<any> {
+    return this.http.post<{ token: string }>('http://localhost:8081/api/auth/facebook', {
+      accessToken: token
+    }).pipe(
+      tap(response => {
+        this.handleAuthSuccess(response.token);
+      }),
+      catchError(ErrorHandlerUtil.handleError)
+    );
+  }
 }

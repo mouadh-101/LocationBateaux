@@ -1,5 +1,5 @@
 <!-- Modal Overlay -->
-<div *ngIf="isOpen" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center backdrop-blur-sm">
+<div *ngIf="isOpen" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center backdrop-blur-sm" >
   <!-- Modal Content -->
   <div
     class="relative flex flex-col lg:flex-row bg-white backdrop-blur-lg shadow-2xl rounded-3xl overflow-hidden w-full max-w-6xl transition-all duration-300">
@@ -26,12 +26,9 @@
 
       <!-- Social Login -->
       <div class="flex justify-center gap-6 mb-6">
-        <button
-          class="flex items-center gap-2 border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100 transition text-sm saturate-0 hover:saturate-100">
-          <img src="/assets/icons/google.png" alt="Google" class="w-5 h-5 " />
-          Google
-        </button>
-        <button
+        <asl-google-signin-button type="standard" size="large" shape="rectangular" text="signin_with"></asl-google-signin-button>
+        <button (click)="loginWithGoogle()">helo</button>
+        <button (click)="loginWithFacebook()"
           class="flex items-center gap-2 border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100 transition text-sm saturate-0 hover:saturate-100">
           <img src="/assets/icons/facebook.png" alt="Facebook" class="w-5 h-5" />
           Facebook

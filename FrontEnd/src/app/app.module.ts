@@ -32,6 +32,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { AlertComponent } from './shared/alert/alert.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ChatbotModalComponent } from './components/chatbot-modal/chatbot-modal.component';
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule, GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
 
 @NgModule({
   declarations: [
@@ -68,12 +69,31 @@ import { ChatbotModalComponent } from './components/chatbot-modal/chatbot-modal.
     FormsModule,
     BrowserAnimationsModule,
     FullCalendarModule,
+    SocialLoginModule,
+    GoogleSigninButtonModule
     
 
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
+    },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('702034366364-h92rafiso21l7puiboock14h5f1cuetl.apps.googleusercontent.com')
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('FACEBOOK_APP_ID')
+          }
+        ],
+        onError: (err) => console.error(err)
+      } as SocialAuthServiceConfig,
     }
 
   ],
