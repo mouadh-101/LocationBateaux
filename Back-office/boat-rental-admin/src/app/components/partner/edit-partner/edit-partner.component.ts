@@ -11,6 +11,9 @@ import { Partner } from '../../../interfaces/Partner';
 export class EditPartnerComponent implements OnInit {
   partnerId!: number;
   partner!: Partner;
+  selectedFile: File | null = null;
+
+  logoSuppressed = false;
   errorMessage: string = '';
   successMessage: string = '';
 
@@ -34,32 +37,45 @@ export class EditPartnerComponent implements OnInit {
       next: (data) => {
         this.partner = data;
       },
-      error: (err) => {
+      error: () => {
         this.errorMessage = "Erreur lors du chargement du partenaire.";
-        console.error(err);
       }
     });
   }
 
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  removeLogo() {
+    this.logoSuppressed = true;
+    this.partner.logo = '';
+  }
+
   updatePartner() {
-    if (!this.partner.nom || !this.partner.logo) {
-      this.errorMessage = 'Veuillez remplir tous les champs';
+    if (!this.partner.nom) {
+      this.errorMessage = 'Veuillez remplir le nom';
       return;
     }
 
-    this.partnerService.updatePartner(this.partnerId, this.partner).subscribe({
+    const formData = new FormData();
+    formData.append('nom', this.partner.nom);
+
+    if (this.selectedFile) {
+      formData.append('logoFile', this.selectedFile);
+    } else if (this.logoSuppressed) {
+      formData.append('logoFile', ''); // signal de suppression côté backend
+    }
+
+    this.partnerService.updatePartner(this.partnerId, formData).subscribe({
       next: () => {
         this.successMessage = "Partenaire mis à jour avec succès !";
         this.errorMessage = '';
-        // Redirection vers la liste après un court délai
-        setTimeout(() => {
-          this.router.navigate(['/partners']);
-        }, 1500);
+        setTimeout(() => this.router.navigate(['/partners']), 1500);
       },
-      error: (err) => {
-        this.errorMessage = "Erreur lors de la mise à jour du partenaire.";
+      error: () => {
+        this.errorMessage = "Erreur lors de la mise à jour.";
         this.successMessage = '';
-        console.error(err);
       }
     });
   }
