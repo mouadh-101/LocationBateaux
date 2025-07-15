@@ -6,9 +6,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AddBoatComponent } from './components/boats/add-boats/add-boats.component';
 import { EditBoatComponent } from './components/boats/edit-boats/edit-boats.component';
 import { ListBoatsComponent } from './components/boats/list-boats/list-boats.component';
-import { AddReservationComponent } from './components/reservation/add-reservation/add-reservation.component';
+
 import { EditReservationComponent } from './components/reservation/edit-reservation/edit-reservation.component';
-import { ListReservationComponent } from './components/reservation/list-reservation/list-reservation.component';
 import { EditUserComponent } from './components/user/edit-user/edit-user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -24,6 +23,8 @@ import { AddPartnerComponent } from './components/partner/add-partner/add-partne
 import { EditPartnerComponent } from './components/partner/edit-partner/edit-partner.component';
 import { ListPartnersComponent } from './components/partner/list-partner/list-partner.component';
 import { ImageUploadComponent } from './components/image-upload/image-upload.component';
+import { ReservationsListComponent } from './components/reservation/list-reservation/list-reservation.component';
+
 
 
 @NgModule({
@@ -33,9 +34,8 @@ import { ImageUploadComponent } from './components/image-upload/image-upload.com
     AddBoatComponent,
     EditBoatComponent,
     ListBoatsComponent,
-    AddReservationComponent,
     EditReservationComponent,
-    ListReservationComponent,
+    ReservationsListComponent,
     UserListComponent,
     EditUserComponent,
     AuthComponent,
@@ -47,7 +47,8 @@ import { ImageUploadComponent } from './components/image-upload/image-upload.com
     BoatDetailsComponent,
     ListPartnersComponent,
     AddPartnerComponent,
-    EditPartnerComponent
+    EditPartnerComponent,
+
 
 
 

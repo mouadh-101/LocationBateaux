@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BoatService } from '../../services/boats.service';
 import { UserService } from '../../services/user.service';
 import { PartnerService } from '../../services/partner.service';
-// import { ReservationService } from '../../services/reservation.service'; // si tu veux activer
-
+import { ReservationService } from '../../services/reservation.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -22,13 +21,16 @@ export class DashboardComponent implements OnInit {
   totalReservations: number = 0;
 
   totalPartners: number = 0;
+  pendingReservations: number = 0;
+  acceptedReservations: number = 0;
+  refusedReservations: number = 0;
 
   constructor(
     private boatService: BoatService,
     private userService: UserService,
     private partnerService: PartnerService,
-    // private reservationService: ReservationService,
-  ) {}
+    private reservationService: ReservationService
+  ) { }
 
   ngOnInit(): void {
     this.loadDashboardData();
@@ -57,16 +59,19 @@ export class DashboardComponent implements OnInit {
       }
     });
 
-    /*
     this.reservationService.getAllReservations().subscribe({
       next: reservations => {
         this.totalReservations = reservations.length;
+        this.pendingReservations = reservations.filter(r => r.status === 'EN_ATTENTE').length;
+        this.acceptedReservations = reservations.filter(r => r.status === 'ACCEPTER').length;
+        this.refusedReservations = reservations.filter(r => r.status === 'REFUSER').length;
+
+
       },
       error: err => {
         console.error("Erreur récupération réservations :", err);
       }
     });
-    */
 
     this.partnerService.getAllPartners().subscribe({
       next: partners => {

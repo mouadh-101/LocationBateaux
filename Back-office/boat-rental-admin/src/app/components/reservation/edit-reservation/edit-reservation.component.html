@@ -1,1 +1,140 @@
-<p>edit-reservation works!</p>
+
+<div class="p-6 bg-green-50 min-h-screen font-sans max-w-3xl mx-auto">
+
+  <h2
+    class="text-3xl font-extrabold text-blue-900 mb-8 tracking-wide
+           bg-gradient-to-r from-blue-600 via-blue-800 to-blue-900
+           text-transparent bg-clip-text drop-shadow-lg uppercase"
+  >
+    Modifier la Réservation
+  </h2>
+
+
+  <form [formGroup]="editForm" (ngSubmit)="onSubmit()" class="bg-white p-8 rounded-2xl shadow-lg space-y-6">
+    <div>
+      <label for="bateauNom" class="block text-gray-700 font-semibold mb-2">Nom du bateau</label>
+      <input
+        id="bateauNom"
+        formControlName="bateauNom"
+        type="text"
+        placeholder="Entrez le nom du bateau"
+        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition duration-200 placeholder-gray-400"
+        [class.border-red-500]="editForm.get('bateauNom')?.invalid && editForm.get('bateauNom')?.touched"
+      />
+      <p *ngIf="editForm.get('bateauNom')?.invalid && editForm.get('bateauNom')?.touched" class="text-red-600 mt-1 text-sm">
+        Le nom du bateau est requis.
+      </p>
+    </div>
+
+    <div>
+      <label for="date" class="block text-gray-700 font-semibold mb-2">Date et heure</label>
+      <input
+        id="date"
+        formControlName="date"
+        type="datetime-local"
+        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition duration-200"
+        [class.border-red-500]="editForm.get('date')?.invalid && editForm.get('date')?.touched"
+      />
+      <p *ngIf="editForm.get('date')?.invalid && editForm.get('date')?.touched" class="text-red-600 mt-1 text-sm">
+        La date et l'heure sont requises.
+      </p>
+    </div>
+
+    <div>
+      <label for="typeReservation" class="block text-gray-700 font-semibold mb-2">Durée</label>
+      <select
+        id="typeReservation"
+        formControlName="typeReservation"
+        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition duration-200"
+      >
+        <option value="JOURNEE">Journée</option>
+        <option value="DEMI_JOURNEE">Demi-journée</option>
+        <option value="DEUX_HEURES">2 heures</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="status" class="block text-gray-700 font-semibold mb-2">Statut</label>
+      <select
+        id="status"
+        formControlName="status"
+        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition duration-200"
+      >
+        <option value="EN_ATTENTE">En attente</option>
+        <option value="ACCEPTER">Acceptée</option>
+        <option value="REFUSER">Refusée</option>
+      </select>
+    </div>
+
+   <button
+  type="submit"
+  class="
+    block
+    mx-auto
+    w-auto
+    px-6
+    py-1.5
+    bg-gradient-to-r
+    from-blue-500
+    via-blue-600
+    to-blue-700
+    hover:from-blue-600
+    hover:via-blue-700
+    hover:to-blue-800
+    text-white
+    font-semibold
+    text-sm
+    rounded-md
+    shadow
+    transition
+    duration-300
+    disabled:opacity-50
+    disabled:cursor-not-allowed
+    focus:outline-none
+    focus:ring-2
+    focus:ring-blue-300
+  "
+  [disabled]="editForm.invalid"
+>
+  Mettre à jour
+</button>
+
+<button
+  (click)="goBack()"
+  type="button"
+  class="
+    block
+    mx-auto
+    mt-3
+    w-auto
+    px-6
+    py-1.5
+    bg-gradient-to-r
+    from-blue-500
+    via-blue-600
+    to-blue-700
+    hover:from-blue-600
+    hover:via-blue-700
+    hover:to-blue-800
+    text-white
+    font-semibold
+    text-sm
+    rounded-md
+    shadow
+    transition
+    duration-300
+    focus:outline-none
+    focus:ring-2
+    focus:ring-blue-300
+  "
+>
+  Annuler
+</button>
+
+
+  </form>
+
+  <div *ngIf="error" class="mt-6 text-red-600 font-semibold text-center">
+    {{ error }}
+  </div>
+</div>

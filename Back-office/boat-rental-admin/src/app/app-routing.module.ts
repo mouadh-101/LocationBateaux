@@ -14,6 +14,8 @@ import { BoatDetailsComponent } from './components/boats/details-boats/details-b
 import { AddPartnerComponent } from './components/partner/add-partner/add-partner.component';
 import { EditPartnerComponent } from './components/partner/edit-partner/edit-partner.component';
 import { ListPartnersComponent } from './components/partner/list-partner/list-partner.component';
+import { ReservationsListComponent } from './components/reservation/list-reservation/list-reservation.component';
+import { EditReservationComponent } from './components/reservation/edit-reservation/edit-reservation.component';
 
 
 const routes: Routes = [
@@ -30,10 +32,14 @@ const routes: Routes = [
    { path: 'profile',canActivate: [AuthGuard], component: ProfileComponent },
     { path: 'edit-profile',canActivate: [AuthGuard], component: EditProfileComponent },
     {
-  path: 'boat-details/:id',component: BoatDetailsComponent},
+  path: 'boat-details/:id',canActivate: [AuthGuard],component: BoatDetailsComponent},
   { path: 'partners', component: ListPartnersComponent },
 { path: 'partners/add', component: AddPartnerComponent },
 { path: 'partners/edit/:id', component: EditPartnerComponent },
+{
+    path: 'reservations', component: ReservationsListComponent },
+    { path: 'reservations/edit/:id', component: EditReservationComponent },
+
 
   { path: '**', redirectTo: '' }
 
