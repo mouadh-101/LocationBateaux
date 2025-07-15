@@ -36,12 +36,13 @@
           <span *ngIf="!sidebarCollapsed || isMobile">Les Bateaux</span>
         </a>
       </li>
-      <li>
-        <a routerLink="/dashboard" (click)="closeSidebarMobile()">
-          <i class="fas fa-calendar-check"></i>
-          <span *ngIf="!sidebarCollapsed || isMobile">Les Réservations</span>
-        </a>
-      </li>
+    <li>
+  <a routerLink="/partners" (click)="closeSidebarMobile()">
+    <i class="fas fa-handshake"></i>
+    <span *ngIf="!sidebarCollapsed || isMobile">Les Partenaires</span>
+  </a>
+</li>
+
      <li *ngIf="user && isLoggedIn">
   <a
     routerLink="/profile"

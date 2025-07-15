@@ -1,0 +1,121 @@
+<div class="max-w-6xl mx-auto p-6 bg-white rounded-xl shadow-lg ring-1 ring-gray-200">
+
+  <!-- Titre -->
+  <div class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
+    <h2 class="text-4xl font-extrabold text-center mx-auto bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 bg-clip-text text-transparent drop-shadow-lg select-none">
+      Liste des partenaires
+    </h2>
+  </div>
+
+  <!-- Barre filtres et recherche -->
+  <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+    <!-- Select filtre -->
+    <select
+      [(ngModel)]="selectedFilter"
+      (change)="applyFilter()"
+      class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+    >
+      <option value="nom">Trier par nom</option>
+      <option value="recent">Trier par plus récents</option>
+    </select>
+
+    <!-- Zone de recherche -->
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="applyFilter()"
+      placeholder="Rechercher par nom..."
+      class="w-full md:w-72 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+    />
+  </div>
+
+  <!-- Bouton Ajouter -->
+  <div class="mb-6 text-start">
+  <button
+    (click)="goToAddPartner()"
+    class="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700
+           text-white font-semibold text-base rounded-lg shadow-md
+           hover:from-blue-600 hover:via-blue-700 hover:to-blue-800
+           active:scale-95 transition transform duration-150
+           focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 stroke-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+    </svg>
+    Ajouter Partenaire
+  </button>
+</div>
+
+
+  <!-- Message succès -->
+  <div *ngIf="successMessage" class="mb-6 p-4 bg-green-100 text-green-800 rounded-xl font-semibold text-center shadow-inner select-none">
+    {{ successMessage }}
+  </div>
+
+  <!-- Liste des partenaires -->
+  <div *ngIf="pagedPartners.length > 0; else noPartners">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+      <div *ngFor="let partner of pagedPartners"
+           class="bg-white rounded-xl shadow-md hover:shadow-2xl transition-shadow duration-300 p-6 flex flex-col items-center text-center
+                  hover:-translate-y-1 hover:bg-blue-50 transform cursor-pointer">
+        <img
+          [src]="partner.logo"
+          alt="{{ partner.nom }}"
+          class="w-32 h-32 object-contain mb-6 rounded-lg border border-gray-300 drop-shadow-sm"
+          loading="lazy"
+        />
+        <h3 class="text-2xl font-semibold text-blue-800 mb-4 border-b-2 border-blue-400 pb-2 w-full">
+          {{ partner.nom }}
+        </h3>
+
+        <div class="flex space-x-6 mt-auto">
+          <button
+            (click)="editPartner(partner)"
+            class="px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-full
+                   shadow-lg hover:from-blue-700 hover:to-blue-800 active:scale-95 transition"
+          >
+            <i class="fas fa-edit"></i>
+          </button>
+
+          <button
+            *ngIf="partner.partnerId !== undefined"
+            (click)="deletePartner(partner.partnerId)"
+            class="px-6 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white font-semibold rounded-full
+                   shadow-lg hover:from-red-700 hover:to-red-800 active:scale-95 transition"
+          >
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Pagination" class="flex justify-center mt-10 space-x-2 select-none">
+      <button
+        (click)="goToPage(currentPage - 1)"
+        [disabled]="currentPage === 1"
+        class="px-3 py-1 rounded-md border border-gray-300 hover:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed"
+      >&laquo;</button>
+
+      <ng-container *ngFor="let page of pages">
+        <button
+          (click)="goToPage(page)"
+          [class.bg-blue-600]="currentPage === page"
+          [class.text-white]="currentPage === page"
+          class="px-3 py-1 rounded-md border border-gray-300 hover:bg-blue-100 transition"
+        >{{ page }}</button>
+      </ng-container>
+
+      <button
+        (click)="goToPage(currentPage + 1)"
+        [disabled]="currentPage === totalPages"
+        class="px-3 py-1 rounded-md border border-gray-300 hover:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed"
+      >&raquo;</button>
+    </nav>
+  </div>
+
+  <!-- Aucun partenaire -->
+  <ng-template #noPartners>
+    <p class="text-center text-gray-500 text-lg mt-8">Aucun partenaire disponible.</p>
+  </ng-template>
+</div>

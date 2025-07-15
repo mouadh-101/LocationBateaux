@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BoatService } from '../../../services/boats.service';
 import { Boat } from '../../../interfaces/boats';
@@ -8,10 +8,13 @@ import { Boat } from '../../../interfaces/boats';
   templateUrl: './details-boats.component.html',
   styleUrls: ['./details-boats.component.css']
 })
-export class BoatDetailsComponent implements OnInit {
+export class BoatDetailsComponent implements OnInit, OnDestroy {
   boat: Boat | null = null;
   error: string = '';
   loading: boolean = true;
+
+  currentImageIndex: number = 0;
+  private imageIntervalId: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,6 +28,10 @@ export class BoatDetailsComponent implements OnInit {
         next: (data) => {
           this.boat = data;
           this.loading = false;
+
+          if (this.boat.images && this.boat.images.length > 1) {
+            this.startImageSlideshow();
+          }
         },
         error: (err) => {
           this.error = 'Erreur lors du chargement du bateau.';
@@ -33,6 +40,29 @@ export class BoatDetailsComponent implements OnInit {
         }
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.stopImageSlideshow();
+  }
+
+  startImageSlideshow(): void {
+    this.imageIntervalId = setInterval(() => {
+      if (this.boat && this.boat.images && this.boat.images.length > 0) {
+        this.currentImageIndex = (this.currentImageIndex + 1) % this.boat.images.length;
+      }
+    }, 3000); // Change image toutes les 3 secondes
+  }
+
+  stopImageSlideshow(): void {
+    if (this.imageIntervalId) {
+      clearInterval(this.imageIntervalId);
+    }
+  }
+
+  getCurrentImageUrl(): string {
+    if (!this.boat || !this.boat.images || this.boat.images.length === 0) return '';
+    return this.boat.images[this.currentImageIndex].url;
   }
 
   getAverageRating(boat: Boat): number {
