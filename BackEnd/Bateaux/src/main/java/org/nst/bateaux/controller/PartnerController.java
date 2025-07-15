@@ -1,11 +1,13 @@
 package org.nst.bateaux.controller;
 
 import lombok.AllArgsConstructor;
+import org.nst.bateaux.dto.partner.PartnerAddDto;
 import org.nst.bateaux.dto.partner.PartnerDto;
 import org.nst.bateaux.service.Interface.IPartnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,11 +20,11 @@ import static org.springframework.security.authorization.AuthorityReactiveAuthor
 public class PartnerController {
     @Autowired
     IPartnerService partnerService;
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public PartnerDto ajouterPartner(@RequestBody PartnerDto partnerDto)
+    @PreAuthorize("hasRole('ADMIN')")
+    public PartnerDto ajouterPartner(@RequestBody PartnerAddDto partnerAddDto)
     {
-       return partnerService.ajouterPartner(partnerDto);
+       return partnerService.ajouterPartner(partnerAddDto);
     }
     @DeleteMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -31,8 +33,8 @@ public class PartnerController {
     }
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public PartnerDto updatePartner(@PathVariable("id") Long id,@RequestBody PartnerDto partnerDto){
-        return partnerService.updatePartner(id,partnerDto);
+    public PartnerDto updatePartner(@PathVariable("id") Long id,@RequestBody PartnerAddDto partnerAddDto){
+        return partnerService.updatePartner(id,partnerAddDto);
     }
     @GetMapping("/{id}")
     public PartnerDto findPartnerbyId(@PathVariable("id") Long id){
