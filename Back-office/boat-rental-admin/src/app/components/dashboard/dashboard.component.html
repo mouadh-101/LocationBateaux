@@ -1,46 +1,13 @@
 <div class="dashboard-container">
-  <h2>Tableau de Bord</h2>
+  <h2>Tableau de Bord</h2> <br>
 
   <div class="stats-grid">
-    <!-- Bateaux -->
-    <div class="stat-card card-1">
-      <i class="fas fa-ship icon"></i>
-      <p class="label">Total des Bateaux</p>
-      <h3>{{ totalBoats }}</h3>
-    </div>
 
     <!-- Utilisateurs -->
-    <div class="stat-card card-2">
+    <div class="stat-card card-1">
       <i class="fas fa-users icon"></i>
       <p class="label">Total des Utilisateurs</p>
       <h3>{{ totalUsers }}</h3>
-    </div>
-
-    <!-- Réservations -->
-    <div class="stat-card card-3">
-      <i class="fas fa-calendar-check icon"></i>
-      <p class="label">Total des Réservations</p>
-      <h3>{{ totalReservations }}</h3>
-    </div>
-
-    <!-- Disponibilité -->
-    <div class="stat-card card-4">
-      <i class="fas fa-ship icon"></i>
-      <p class="label">Bateaux Disponibles</p>
-      <h3>{{ availableBoats }}</h3>
-    </div>
-
-    <div class="stat-card card-5">
-      <i class="fas fa-ship icon"></i>
-      <p class="label">Bateaux Indisponibles</p>
-      <h3>{{ unavailableBoats }}</h3>
-    </div>
-
-    <!-- Utilisateurs Bannis -->
-    <div class="stat-card card-6">
-      <i class="fas fa-user-slash icon text-red-600"></i>
-      <p class="label">Utilisateurs Bannis</p>
-      <h3>{{ bannedUsers }}</h3>
     </div>
 
     <!-- Utilisateurs Actifs -->
@@ -50,11 +17,68 @@
       <h3>{{ activeUsers }}</h3>
     </div>
 
+    <!-- Utilisateurs Bannis -->
+    <div class="stat-card card-6">
+      <i class="fas fa-user-slash icon text-red-600"></i>
+      <p class="label">Utilisateurs Bannis</p>
+      <h3>{{ bannedUsers }}</h3>
+    </div>
+
+    <!-- Bateaux -->
+    <div class="stat-card card-1">
+      <i class="fas fa-ship icon"></i>
+      <p class="label">Total des Bateaux</p>
+      <h3>{{ totalBoats }}</h3>
+    </div>
+
+    <!-- Bateaux Disponibles -->
+    <div class="stat-card card-4">
+      <i class="fas fa-ship icon"></i>
+      <p class="label">Bateaux Disponibles</p>
+      <h3>{{ availableBoats }}</h3>
+    </div>
+
+    <!-- Bateaux Indisponibles -->
+    <div class="stat-card card-5">
+      <i class="fas fa-ship icon"></i>
+      <p class="label">Bateaux Indisponibles</p>
+      <h3>{{ unavailableBoats }}</h3>
+    </div>
+
+    <!-- Total Réservations -->
+    <div class="stat-card card-3">
+      <i class="fas fa-calendar-check icon"></i>
+      <p class="label">Total des Réservations</p>
+      <h3>{{ totalReservations }}</h3>
+    </div>
+
+    <!-- Réservations en attente -->
+    <div class="stat-card card-4" style="background-color: #fbbf24; color: #333;">
+      <i class="fas fa-hourglass-half icon"></i>
+      <p class="label">Réservations en attente</p>
+      <h3>{{ pendingReservations }}</h3>
+    </div>
+
+    <!-- Réservations acceptées -->
+    <div class="stat-card card-5" style="background-color: #10b981; color: white;">
+      <i class="fas fa-check-circle icon"></i>
+      <p class="label">Réservations acceptées</p>
+      <h3>{{ acceptedReservations }}</h3>
+    </div>
+
+    <!-- Réservations refusées -->
+    <div class="stat-card card-6" style="background-color: #ef4444; color: white;">
+      <i class="fas fa-times-circle icon"></i>
+      <p class="label">Réservations refusées</p>
+      <h3>{{ refusedReservations }}</h3>
+    </div>
+
     <!-- Partenaires -->
     <div class="stat-card card-8">
       <i class="fas fa-handshake icon text-purple-600"></i>
       <p class="label">Partenaires</p>
       <h3>{{ totalPartners }}</h3>
     </div>
+
   </div>
 </div>

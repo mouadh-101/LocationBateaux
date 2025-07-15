@@ -7,7 +7,7 @@
     [class.mobile-open]="sidebarMobileOpen && isMobile"
   >
     <div class="sidebar-header">
-      <h3 *ngIf="!sidebarCollapsed || isMobile">Africa Boat</h3>
+      <h3 *ngIf="!sidebarCollapsed || isMobile">AfroBoat</h3>
       <button class="sidebar-toggle-btn" (click)="toggleSidebar()" aria-label="Toggle sidebar">
         <i class="fas" [ngClass]="{
           'fa-chevron-left': !sidebarCollapsed && !isMobile,
@@ -36,12 +36,21 @@
           <span *ngIf="!sidebarCollapsed || isMobile">Les Bateaux</span>
         </a>
       </li>
+      <li>
+  <a routerLink="/reservations" (click)="closeSidebarMobile()">
+    <i class="fas fa-calendar-check"></i>
+    <span *ngIf="!sidebarCollapsed || isMobile">Les Reservations</span>
+  </a>
+</li>
     <li>
   <a routerLink="/partners" (click)="closeSidebarMobile()">
     <i class="fas fa-handshake"></i>
     <span *ngIf="!sidebarCollapsed || isMobile">Les Partenaires</span>
   </a>
+
 </li>
+
+
 
      <li *ngIf="user && isLoggedIn">
   <a
