@@ -22,10 +22,16 @@ public class PartnerController {
     IPartnerService partnerService;
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public PartnerDto ajouterPartner(@RequestBody PartnerAddDto partnerAddDto)
-    {
-       return partnerService.ajouterPartner(partnerAddDto);
+    public PartnerDto ajouterPartner(
+            @RequestParam("nom") String nom,
+            @RequestParam("logoFile") MultipartFile logoFile
+    ) {
+        PartnerAddDto dto = new PartnerAddDto();
+        dto.setNom(nom);
+        dto.setLogoFile(logoFile);
+        return partnerService.ajouterPartner(dto);
     }
+
     @DeleteMapping
     @PreAuthorize("hasRole('ADMIN')")
     public void supprimerPartner(Long id){
@@ -33,9 +39,18 @@ public class PartnerController {
     }
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public PartnerDto updatePartner(@PathVariable("id") Long id,@RequestBody PartnerAddDto partnerAddDto){
-        return partnerService.updatePartner(id,partnerAddDto);
+    public PartnerDto updatePartner(
+            @PathVariable("id") Long id,
+            @RequestParam("nom") String nom,
+            @RequestParam(value = "logoFile", required = false) MultipartFile logoFile
+    ) {
+        PartnerAddDto dto = new PartnerAddDto();
+        dto.setNom(nom);
+        dto.setLogoFile(logoFile);  // peut être null si non envoyé
+
+        return partnerService.updatePartner(id, dto);
     }
+
     @GetMapping("/{id}")
     public PartnerDto findPartnerbyId(@PathVariable("id") Long id){
         return partnerService.findPartnerbyId(id);

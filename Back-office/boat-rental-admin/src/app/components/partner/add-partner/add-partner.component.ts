@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { PartnerService } from '../../../services/partner.service';
-import { Partner } from '../../../interfaces/Partner';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,39 +8,43 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-partner.component.css']
 })
 export class AddPartnerComponent {
-  partner: Partner = {
-    nom: '',
-    logo: ''
-  };
+  partnerName: string = '';
+  selectedFile: File | null = null;
 
   errorMessage: string = '';
   successMessage: string = '';
 
   constructor(private partnerService: PartnerService, private router: Router) {}
 
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
   savePartner() {
-    if (!this.partner.nom || !this.partner.logo) {
+    if (!this.partnerName || !this.selectedFile) {
       this.errorMessage = 'Veuillez remplir tous les champs';
       this.successMessage = '';
       return;
     }
-    this.partnerService.addPartner(this.partner).subscribe({
-      next: data => {
+
+    const formData = new FormData();
+    formData.append('nom', this.partnerName);
+    formData.append('logoFile', this.selectedFile);
+
+    this.partnerService.addPartner(formData).subscribe({
+      next: () => {
         this.successMessage = 'Partenaire ajouté avec succès !';
         this.errorMessage = '';
-        // Après un court délai, retourner à la liste
-        setTimeout(() => {
-          this.router.navigate(['/partners']);
-        }, 1500);
+        setTimeout(() => this.router.navigate(['/partners']), 1500);
       },
-      error: err => {
+      error: (err) => {
         this.errorMessage = 'Erreur lors de l\'ajout du partenaire';
         this.successMessage = '';
+        console.error(err);
       }
     });
   }
-
   goBackToList() {
-    this.router.navigate(['/partners']);
-  }
+  this.router.navigate(['/partners']); // adapte la route selon ta config Angular
+}
 }

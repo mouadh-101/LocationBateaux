@@ -11,4 +11,5 @@ import org.springframework.web.multipart.MultipartFile;
 public class PartnerAddDto {
     String nom;
     MultipartFile logoFile;
+
 }
