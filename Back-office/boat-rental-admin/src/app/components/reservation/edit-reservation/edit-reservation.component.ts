@@ -31,9 +31,9 @@ export class EditReservationComponent implements OnInit {
 
   buildForm(): void {
     this.editForm = this.fb.group({
-      bateauNom: ['', Validators.required],
-      date: ['', Validators.required],
-      typeReservation: ['', Validators.required],
+      bateauNom: [{ value: '', disabled: true }, Validators.required],
+      date: [{ value: '', disabled: true }, Validators.required],
+      typeReservation: [{ value: '', disabled: true }, Validators.required],
       status: ['', Validators.required]
     });
   }
@@ -49,12 +49,6 @@ export class EditReservationComponent implements OnInit {
           typeReservation: res.typeReservation,
           status: res.status
         });
-
-        // Désactivation des champs non modifiables
-        this.editForm.controls['bateauNom'].disable();
-        this.editForm.controls['date'].disable();
-        this.editForm.controls['typeReservation'].disable();
-        // status reste activé pour modification
       },
       error: () => {
         this.error = "Erreur lors du chargement de la réservation.";
@@ -62,10 +56,10 @@ export class EditReservationComponent implements OnInit {
     });
   }
 
-  formatDateForInput(dateString: string): string {
-    const date = new Date(dateString);
+  formatDateForInput(date: string | Date): string {
+    const d = (date instanceof Date) ? date : new Date(date);
     const pad = (n: number) => n < 10 ? '0' + n : n;
-    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
   }
 
   onSubmit(): void {
@@ -74,21 +68,12 @@ export class EditReservationComponent implements OnInit {
       return;
     }
 
-    // Pour récupérer la valeur même des champs désactivés, on utilise getRawValue()
     const formValues = this.editForm.getRawValue();
 
     const updatedReservation: ReservationData = {
-      reservationId: this.reservationId,
-      bateau: {
-        ...this.originalReservation.bateau,
-        nom: formValues.bateauNom // valeur récupérée même si désactivée
-      },
-      date: new Date(formValues.date).toISOString(),
-      typeReservation: formValues.typeReservation,
+      ...this.originalReservation,
       status: formValues.status,
-      utilisateur: this.originalReservation.utilisateur,
-      nbPersonnes: this.originalReservation.nbPersonnes,
-      paiement: this.originalReservation.paiement
+      date: (this.originalReservation.date instanceof Date) ? this.originalReservation.date : new Date(this.originalReservation.date)
     };
 
     this.reservationService.updateReservation(this.reservationId, updatedReservation).subscribe({
@@ -99,9 +84,9 @@ export class EditReservationComponent implements OnInit {
         this.error = "Erreur lors de la mise à jour.";
       }
     });
-
   }
-  public goBack(): void {
-  this.router.navigate(['/reservations']);
-}
+
+  goBack(): void {
+    this.router.navigate(['/reservations']);
+  }
 }

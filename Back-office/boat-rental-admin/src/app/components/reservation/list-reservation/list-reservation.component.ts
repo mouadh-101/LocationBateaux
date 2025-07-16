@@ -51,9 +51,8 @@ export class ReservationsListComponent implements OnInit {
   }
 
   // Actions boutons
-  viewReservation(r: ReservationData): void {
-    // TODO: Ajouter la logique pour voir la réservation (ex: ouvrir modal ou page)
-    console.log('Voir réservation:', r);
+viewReservation(reservation: ReservationData): void {
+    this.router.navigate(['/reservation-details', reservation.reservationId]);
   }
 
 editReservation(reservation: ReservationData): void {

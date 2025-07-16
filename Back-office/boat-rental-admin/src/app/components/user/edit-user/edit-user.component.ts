@@ -16,7 +16,8 @@ export class EditUserComponent implements OnInit {
     email: '',
     password: '', // optionnel ici, ou à gérer séparément
     role: '',
-    isActive:false
+    isActive:false,
+    phone:''
 
   };
 

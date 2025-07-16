@@ -24,6 +24,7 @@ import { EditPartnerComponent } from './components/partner/edit-partner/edit-par
 import { ListPartnersComponent } from './components/partner/list-partner/list-partner.component';
 import { ImageUploadComponent } from './components/image-upload/image-upload.component';
 import { ReservationsListComponent } from './components/reservation/list-reservation/list-reservation.component';
+import { ReservationDetailsComponent } from './components/reservation/reservation-details/reservation-details.component';
 
 
 
@@ -48,6 +49,7 @@ import { ReservationsListComponent } from './components/reservation/list-reserva
     ListPartnersComponent,
     AddPartnerComponent,
     EditPartnerComponent,
+    ReservationDetailsComponent,
 
 
 
