@@ -194,9 +194,9 @@ public class UserService implements IUserService {
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             return new AuthenticationResponse(null,"ERROR", "Invalid credentials");
         }
-        if(user.getRole()!=Role.ADMIN)
+        if(user.getRole()!=Role.ADMIN && user.getRole()!=Role.GESTIONNAIRE)
         {
-            return new AuthenticationResponse(null,"ERROR", "Vous n'etes pas un admin");
+            return new AuthenticationResponse(null,"ERROR", "Accès refusé");
         }
 
         // Generate token

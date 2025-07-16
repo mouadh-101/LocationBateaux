@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BoatService } from '../../../services/boats.service';
 import { Boat } from '../../../interfaces/boats';
 import { ImageUploadComponent } from '../../image-upload/image-upload.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-edit-boat',
@@ -14,11 +15,13 @@ export class EditBoatComponent implements OnInit {
   @ViewChild('imageUploader') imageUploaderComponent!: ImageUploadComponent;
 
   boatId!: number;
+  role=false;
 
   boat: Boat = {
     nom: '',
     description: '',
     prix: 0,
+    commission:0,
     port: { nom: '' },
     disponible: true,
     carecteristique: {
@@ -41,12 +44,14 @@ export class EditBoatComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private boatService: BoatService,
-    private router: Router
+    private router: Router,
+    private authService:AuthService
   ) {}
 
   ngOnInit(): void {
     this.boatId = Number(this.route.snapshot.paramMap.get('id'));
     this.getBoatDetails();
+    this.role=this.authService.isAdmin();
   }
 
   getBoatDetails(): void {
@@ -68,7 +73,8 @@ export class EditBoatComponent implements OnInit {
           },
           port: data.port || { nom: '' },
           images: data.images || [],
-          disponible: data.disponible ?? true
+          disponible: data.disponible ?? true,
+          commission:data.commission,
         };
       },
       error: (err) => {

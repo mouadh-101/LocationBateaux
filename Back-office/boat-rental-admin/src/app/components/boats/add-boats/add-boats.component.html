@@ -55,6 +55,11 @@
       <small *ngIf="prix.errors?.['required']">Le prix est obligatoire.</small>
       <small *ngIf="prix.errors?.['min']">Le prix doit être positif ou nul.</small>
     </div>
+    <!-- Commision -->
+     <div *ngIf="admin">
+    <label for="commission">commission % </label>
+    <input type="number" id="commission" [(ngModel)]="boat.commission" name="commission" #commission="ngModel" min="0"  />
+    </div>
 
     <!-- Port -->
     <label for="port">Port</label>

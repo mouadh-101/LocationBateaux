@@ -31,6 +31,7 @@ export interface Boat {
   carecteristique: Caracteristique;
   images: Image[];
   disponible?: boolean;
+  commission:number
   avis?: any[];          // si tu ne les utilises pas, mets any[] ou un type plus précis plus tard
   reservations?: any[];
   reservationTypeSettings: ReservationTypeSettings;
