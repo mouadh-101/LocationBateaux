@@ -54,4 +54,9 @@ export class ReservationService {
   getReservationById(id: number): Observable<ReservationData> {
     return this.http.get<ReservationData>(`${this.apiUrl}/${id}`);
   }
+
+
+cancelReservation(id: number): Observable<any> {
+  return this.http.put(`/api/reservations/${id}/cancel`, {});
+}
 }

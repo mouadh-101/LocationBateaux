@@ -16,6 +16,7 @@ import { EditPartnerComponent } from './components/partner/edit-partner/edit-par
 import { ListPartnersComponent } from './components/partner/list-partner/list-partner.component';
 import { ReservationsListComponent } from './components/reservation/list-reservation/list-reservation.component';
 import { EditReservationComponent } from './components/reservation/edit-reservation/edit-reservation.component';
+import { ReservationDetailsComponent } from './components/reservation/reservation-details/reservation-details.component';
 
 
 const routes: Routes = [
@@ -39,6 +40,7 @@ const routes: Routes = [
 {
     path: 'reservations', component: ReservationsListComponent },
     { path: 'reservations/edit/:id', component: EditReservationComponent },
+    { path: 'reservation-details/:id', component: ReservationDetailsComponent },
 
 
   { path: '**', redirectTo: '' }

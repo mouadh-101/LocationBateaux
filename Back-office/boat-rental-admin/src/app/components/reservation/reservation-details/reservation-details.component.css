@@ -1,0 +1,10 @@
+h2 {
+  font-size: 2.5rem;            /* Gros titre moderne */
+  color: #007bff;              /* Bleu Bootstrap-like */
+  font-weight: 700;
+  letter-spacing: 2px;
+  position: relative;
+  padding-bottom: 10px;
+  text-align: center;
+}
+

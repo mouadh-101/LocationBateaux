@@ -5,6 +5,7 @@ export interface User {
     name: string,
     role: string,
     isActive:boolean,
+    phone :string,
 }
 export interface UserLogin {
     email: string,
