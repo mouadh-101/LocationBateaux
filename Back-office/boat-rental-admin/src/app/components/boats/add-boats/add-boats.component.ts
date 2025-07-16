@@ -3,6 +3,7 @@ import { BoatService } from '../../../services/boats.service';
 import { Boat, Image } from '../../../interfaces/boats';
 import { Router } from '@angular/router';
 import { ImageUploadComponent } from '../../image-upload/image-upload.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-add-boat',
@@ -12,12 +13,14 @@ import { ImageUploadComponent } from '../../image-upload/image-upload.component'
 export class AddBoatComponent implements OnInit, OnDestroy {
 
   @ViewChild('imageUploader') imageUploaderComponent!: ImageUploadComponent;
+  admin=false
 
 
   boat: Boat = {
     nom: '',
     description: '',
     prix: 0,
+    commission:0,
     port: {
       nom: ''
     },
@@ -38,7 +41,7 @@ export class AddBoatComponent implements OnInit, OnDestroy {
 
   imageUrl: string = '';
 
-  constructor(private boatService: BoatService, private router: Router) { }
+  constructor(private boatService: BoatService, private router: Router,private authService:AuthService) { }
 
   ngOnInit(): void {
     document.body.style.backgroundImage = "url('')";
@@ -46,6 +49,7 @@ export class AddBoatComponent implements OnInit, OnDestroy {
     document.body.style.backgroundPosition = 'center center';
     document.body.style.backgroundRepeat = 'no-repeat';
     document.body.style.backgroundAttachment = 'fixed';
+    this.admin=this.authService.isAdmin();
   }
 
   ngOnDestroy(): void {

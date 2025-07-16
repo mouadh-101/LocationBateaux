@@ -20,6 +20,7 @@ import java.util.List;
 
 @Service
 public class MapToDto {
+
     //Carecteristique Bateaux :
     public CarecteristiqueBateauxDto maptoDtoCarecteristique(Carecteristique caracteristique) {
         if (caracteristique == null) {
@@ -50,6 +51,7 @@ public class MapToDto {
                 bateau.getPrix(),
                 images,
                 bateau.isDisponible(),
+                bateau.getCommission(),
                 bateau.getAvis().stream()
                         .map(avis -> mapToAvisDto(avis)).toList(),
                 reservation,

@@ -22,6 +22,7 @@ public class BateauData {
     double prix ;
     List<ImageDto> images;
     boolean disponible;
+    float commission;
     List<AviData> avis;
     List<ReservationAdd> reservations;
     PortAddDto port;

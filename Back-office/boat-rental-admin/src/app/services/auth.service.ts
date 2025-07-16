@@ -102,6 +102,9 @@ export class AuthService {
   isAdmin(): boolean {
     return this.role === 'ADMIN';
   }
+  isGestionnaire(): boolean {
+    return this.role === 'GESTIONNAIRE';
+  }
 
   private loadUserFromStorage() {
     const token = this.token;

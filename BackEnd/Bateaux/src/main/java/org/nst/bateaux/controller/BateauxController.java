@@ -24,7 +24,7 @@ public class BateauxController {
     BateauxService bateauxService;
 
     @PostMapping()
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('GESTIONNAIRE')")
     public ResponseEntity<BateauData> ajouterBateaux(@RequestBody BateauData bateaux) {
         UserData loggedInUser = (UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         BateauData saved = bateauxService.ajouterBateaux(bateaux, loggedInUser.getId());
@@ -39,9 +39,10 @@ public class BateauxController {
     }
 
     @PutMapping(path = "/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('GESTIONNAIRE')")
     public ResponseEntity<BateauData> updateBateaux(@PathVariable Long id, @RequestBody BateauData bateaux) {
-        BateauData updated = bateauxService.updateBateaux(id, bateaux);
+        UserData loggedInUser = (UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        BateauData updated = bateauxService.updateBateaux(id, bateaux,loggedInUser.getRole());
         return ResponseEntity.ok(updated);
     }
 

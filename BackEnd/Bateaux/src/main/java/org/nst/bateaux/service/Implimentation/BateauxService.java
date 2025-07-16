@@ -49,10 +49,11 @@ public class BateauxService implements IBateauxService {
         newBat.getReservationTypeSettings().setFull_day_enabled(bateaux.getReservationTypeSettings().isFull_day_enabled());
         newBat.getReservationTypeSettings().setHalf_day_enabled(bateaux.getReservationTypeSettings().isHalf_day_enabled());
         newBat.getReservationTypeSettings().setTwo_hours_enabled(bateaux.getReservationTypeSettings().isTwo_hours_enabled());
+        newBat.setCommission(bateaux.getCommission());
 
         newBat = bateauxRepository.save(newBat); // Save first to link
 
-        // ✅ Handle images (full DTOs)
+
         if (bateaux.getImages() != null && !bateaux.getImages().isEmpty()) {
             for (ImageDto i : bateaux.getImages()) {
                 if (i.getImageId() != null) {
@@ -65,7 +66,6 @@ public class BateauxService implements IBateauxService {
             }
         }
 
-        // ✅ Caractéristiques
         CarecteristiqueBateauxDto c = bateaux.getCarecteristique();
         if (c != null) {
             Carecteristique caracteristique = new Carecteristique();
@@ -77,7 +77,6 @@ public class BateauxService implements IBateauxService {
             newBat.setCarecteristique(caracteristique);
         }
 
-        // ✅ Port
         if (port == null) {
             Port newPort = new Port();
             newPort.setNom(bateaux.getPort().getNom());
@@ -102,7 +101,7 @@ public class BateauxService implements IBateauxService {
     }
 
     @Override
-    public BateauData updateBateaux(Long id, BateauData bateauxDto) {
+    public BateauData updateBateaux(Long id, BateauData bateauxDto,Role role) {
         Bateaux b = bateauxRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Bateau not found"));
 
@@ -128,6 +127,10 @@ public class BateauxService implements IBateauxService {
         b.getReservationTypeSettings().setFull_day_enabled(bateauxDto.getReservationTypeSettings().isFull_day_enabled());
         b.getReservationTypeSettings().setHalf_day_enabled(bateauxDto.getReservationTypeSettings().isHalf_day_enabled());
         b.getReservationTypeSettings().setTwo_hours_enabled(bateauxDto.getReservationTypeSettings().isTwo_hours_enabled());
+        if (role==Role.ADMIN)
+        {
+            b.setCommission(bateauxDto.getCommission());
+        }
 
         return mapToDto.mapToBatauxDto(bateauxRepository.save(b));
     }

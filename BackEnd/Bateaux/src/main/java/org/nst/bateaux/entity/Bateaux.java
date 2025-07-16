@@ -25,6 +25,7 @@ public class Bateaux {
     String description ;
     double prix ;
     boolean disponible ;
+    float commission;
     @ManyToOne
     private User proprietaire;
     @OneToMany(mappedBy = "bateau", cascade = CascadeType.ALL, orphanRemoval = true)
