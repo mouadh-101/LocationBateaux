@@ -19,6 +19,7 @@ export class UserListComponent implements OnInit {
   // Filtres
   filterName: string = '';
   filterRole: string = '';
+  filterBanned: '' | 'active' | 'banned' = '';
 
   constructor(private userService: UserService, private router: Router) {}
 
@@ -26,12 +27,25 @@ export class UserListComponent implements OnInit {
     this.refreshUsers();
   }
 
+  setFilterBanned(status: '' | 'active' | 'banned'): void {
+    this.filterBanned = status;
+    this.page = 1;
+  }
+
   // Applique les filtres + pagination
   get paginatedUsers(): User[] {
-    const filtered = this.users.filter(user =>
-      user.name.toLowerCase().includes(this.filterName.toLowerCase()) &&
-      (this.filterRole === '' || user.role === this.filterRole)
-    );
+    const filtered = this.users.filter(user => {
+      const matchName = user.name.toLowerCase().includes(this.filterName.toLowerCase());
+      const matchRole = this.filterRole === '' || user.role === this.filterRole;
+      const matchBanned =
+        this.filterBanned === ''
+          ? true
+          : this.filterBanned === 'active'
+          ? user.isActive === true
+          : user.isActive === false;
+
+      return matchName && matchRole && matchBanned;
+    });
 
     this.totalPages = Math.ceil(filtered.length / this.pageSize);
     if (this.page > this.totalPages && this.totalPages > 0) {
@@ -95,9 +109,9 @@ export class UserListComponent implements OnInit {
   }
 
   resetFilters(): void {
-  this.filterName = '';
-  this.filterRole = '';
-  this.page = 1;
-}
-
+    this.filterName = '';
+    this.filterRole = '';
+    this.filterBanned = '';
+    this.page = 1;
+  }
 }

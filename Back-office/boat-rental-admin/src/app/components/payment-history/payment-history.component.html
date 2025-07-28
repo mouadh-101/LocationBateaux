@@ -1,0 +1,61 @@
+<h2 class="text-4xl font-extrabold text-center text-gray-900 mb-12 tracking-tight">
+  Historique des paiements
+</h2>
+
+<div *ngIf="paiements.length === 0" class="text-center text-gray-500 italic mt-20">
+  Aucun paiement trouvé.
+</div>
+
+<ul class="max-w-6xl mx-auto divide-y divide-gray-300 px-6 sm:px-0">
+  <li
+    *ngFor="let paiement of paiements"
+    [ngClass]="{
+      'border-l-4 border-green-600 bg-green-50': paiement.status === 'ACCEPTER',
+      'border-l-4 border-yellow-500 bg-yellow-50': paiement.status === 'EN_ATTENTE',
+      'border-l-4 border-red-600 bg-red-50': paiement.status === 'REFUSER'
+    }"
+    class="py-5 px-6 flex flex-col sm:flex-row sm:justify-between sm:items-center shadow-sm rounded-md mb-4
+           transition-shadow duration-300 hover:shadow-lg cursor-pointer"
+  >
+
+
+    <div
+      class="mt-4 sm:mt-0 grid grid-cols-1 sm:grid-cols-4 gap-x-8 text-gray-700 text-sm font-medium leading-relaxed w-full"
+    >
+
+      <p>
+        <strong class="text-gray-900">CLIENT :</strong>
+        <span>{{ paiement.reservation?.utilisateur?.name || 'Non disponible' }}</span>
+      </p>
+      <p>
+        <strong class="text-gray-900">BATEAU :</strong>
+        <span>{{ paiement.reservation?.bateau?.nom || 'Non disponible' }}</span>
+      </p>
+      <p>
+        <strong class="text-gray-900">Date De Paiement :</strong>
+        <span>{{ paiement.datePaiement | date: 'dd/MM/yyyy HH:mm' }}</span>
+      </p>
+          <p>
+        <strong class="text-gray-900">Méthode De Paiement :</strong>
+        <span class="italic text-gray-600">{{ paiement.methode }}</span>
+      </p>
+    </div>
+
+    <div class="flex flex-col sm:flex-row sm:items-center gap-5 w-full sm:w-auto">
+     <span class="font-semibold text-xl text-gray-900 drop-shadow-sm">
+  {{ paiement.montant | number:'1.2-2' }} DT
+</span>
+
+      <span
+        class="uppercase font-bold px-4 py-1 rounded-full text-sm tracking-wide select-none border"
+        [ngClass]="{
+          'bg-green-600 border-green-700 text-white': paiement.status === 'ACCEPTER',
+          'bg-yellow-400 border-yellow-500 text-yellow-900': paiement.status === 'EN_ATTENTE',
+          'bg-red-600 border-red-700 text-white': paiement.status === 'REFUSER'
+        }"
+      >
+        {{ paiement.status }}
+      </span>
+    </div>
+  </li>
+</ul>

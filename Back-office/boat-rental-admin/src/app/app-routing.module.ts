@@ -17,31 +17,28 @@ import { ListPartnersComponent } from './components/partner/list-partner/list-pa
 import { ReservationsListComponent } from './components/reservation/list-reservation/list-reservation.component';
 import { EditReservationComponent } from './components/reservation/edit-reservation/edit-reservation.component';
 import { ReservationDetailsComponent } from './components/reservation/reservation-details/reservation-details.component';
+import { HistoriquePaiementComponent } from './components/payment-history/payment-history.component';
 
 
 const routes: Routes = [
 
- { path: 'dashboard',canActivate: [AuthGuard], component: DashboardComponent },
-  { path: 'list',canActivate: [AuthGuard], component: ListBoatsComponent },
-   { path: 'add-boat',canActivate: [AuthGuard], component: AddBoatComponent },
-   { path: 'edit-boat/:id',canActivate: [AuthGuard], component: EditBoatComponent },
-   {path : '' ,  component:AuthComponent},
-   { path: 'users',canActivate: [AuthGuard], component: UserListComponent },
-   { path: 'edit-user/:id', canActivate: [AuthGuard],component: EditUserComponent,
-
-  data: { roles: ['ADMIN'] } },
-   { path: 'profile',canActivate: [AuthGuard], component: ProfileComponent },
-    { path: 'edit-profile',canActivate: [AuthGuard], component: EditProfileComponent },
-    {
-  path: 'boat-details/:id',canActivate: [AuthGuard],component: BoatDetailsComponent},
+  { path: 'dashboard', canActivate: [AuthGuard], component: DashboardComponent },
+  { path: 'list', canActivate: [AuthGuard], component: ListBoatsComponent },
+  { path: 'add-boat', canActivate: [AuthGuard], component: AddBoatComponent },
+  { path: 'edit-boat/:id', canActivate: [AuthGuard], component: EditBoatComponent },
+  { path: '', component: AuthComponent },
+  { path: 'users', canActivate: [AuthGuard], component: UserListComponent },
+  { path: 'edit-user/:id', canActivate: [AuthGuard], component: EditUserComponent,data: { roles: ['ADMIN'] }},
+  { path: 'profile', canActivate: [AuthGuard], component: ProfileComponent },
+  { path: 'edit-profile', canActivate: [AuthGuard], component: EditProfileComponent },
+  { path: 'boat-details/:id', canActivate: [AuthGuard], component: BoatDetailsComponent},
   { path: 'partners', component: ListPartnersComponent },
-{ path: 'partners/add', component: AddPartnerComponent },
-{ path: 'partners/edit/:id', component: EditPartnerComponent },
-{
-    path: 'reservations', component: ReservationsListComponent },
-    { path: 'reservations/edit/:id', component: EditReservationComponent },
-    { path: 'reservation-details/:id', component: ReservationDetailsComponent },
-
+  { path: 'partners/add', component: AddPartnerComponent },
+  { path: 'partners/edit/:id', component: EditPartnerComponent },
+  { path: 'reservations', component: ReservationsListComponent},
+  { path: 'reservations/edit/:id', component: EditReservationComponent },
+  { path: 'reservation-details/:id', component: ReservationDetailsComponent },
+  { path: 'paiements', component: HistoriquePaiementComponent },
 
   { path: '**', redirectTo: '' }
 
