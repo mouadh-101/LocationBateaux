@@ -9,6 +9,7 @@ export interface Boat {
   prix: number;
   images: { url: string }[];
   disponible: boolean;
+  commission:number;
   avis: Avis[];
   reservations: Reservation[];
   port:Port;

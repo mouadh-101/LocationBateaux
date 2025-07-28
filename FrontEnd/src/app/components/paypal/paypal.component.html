@@ -1,0 +1,12 @@
+<form [formGroup]="paypalForm" (ngSubmit)="paypalForm.valid && paypalForm.markAllAsTouched()">
+  <label for="amount">Enter Amount (USD):</label>
+  <input id="amount" formControlName="amount" type="text" />
+
+  <div *ngIf="paypalForm.controls['amount'].invalid && paypalForm.controls['amount'].touched" style="color: red;">
+    Please enter a valid amount (e.g., 50.00).
+  </div>
+
+  <p>Click below to pay:</p>
+</form>
+
+<div id="paypal-button-container"></div>

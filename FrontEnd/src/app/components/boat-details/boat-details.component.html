@@ -232,10 +232,16 @@
                                 <span class="text-gray-600">Nombre de personnes</span>
                                 <span class="font-medium">{{ reservationForm.value.nbPersonnes }}</span>
                             </div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-gray-600">Tax</span>
+                                <span class="font-medium">{{
+                                    calculateTax(boat.prix,boat.commission,reservationForm.value.typeReservation)
+                                    }}TND</span>
+                            </div>
                             <div class="flex justify-between items-center text-lg font-bold text-primary border-t pt-4">
                                 <span>Total</span>
                                 <span>{{
-                                    calculateTotalPrice(boat.prix,reservationForm.value.nbPersonnes,reservationForm.value.typeReservation)
+                                    calculateTotalPrice(boat.prix,boat.commission,reservationForm.value.typeReservation)
                                     }}TND</span>
                             </div>
                         </div>
