@@ -33,6 +33,9 @@ import { AlertComponent } from './shared/alert/alert.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ChatbotModalComponent } from './components/chatbot-modal/chatbot-modal.component';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule, GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
+import { PaypalComponent } from './components/paypal/paypal.component';
+import { PaimentListComponent } from './components/paiment-list/paiment-list.component';
+import { PaimentDetailsComponent } from './components/paiment-details/paiment-details.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +62,9 @@ import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, So
     AlertComponent,
     UserProfileComponent,
     ChatbotModalComponent,
+    PaypalComponent,
+    PaimentListComponent,
+    PaimentDetailsComponent,
   ],
   imports: [
     BoatCalendarComponent,

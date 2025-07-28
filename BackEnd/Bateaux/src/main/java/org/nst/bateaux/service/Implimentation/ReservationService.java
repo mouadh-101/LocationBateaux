@@ -5,17 +5,17 @@ import org.nst.bateaux.config.BusinessException;
 import org.nst.bateaux.dto.avis.AviData;
 import org.nst.bateaux.dto.bateau.BateauData;
 import org.nst.bateaux.dto.bateau.ImageDto;
+import org.nst.bateaux.dto.paiement.PaimentData;
 import org.nst.bateaux.dto.reservation.ReservationAdd;
 import org.nst.bateaux.dto.reservation.ReservationData;
 import org.nst.bateaux.entity.Bateaux;
+import org.nst.bateaux.entity.Paiement;
 import org.nst.bateaux.entity.Reservation;
 import org.nst.bateaux.entity.StatusRes;
 import org.nst.bateaux.repository.BateauxRepository;
 import org.nst.bateaux.repository.ReservationRepository;
 import org.nst.bateaux.repository.UserRepository;
-import org.nst.bateaux.service.Interface.IBateauxService;
-import org.nst.bateaux.service.Interface.IReservationService;
-import org.nst.bateaux.service.Interface.IUserService;
+import org.nst.bateaux.service.Interface.*;
 import org.nst.bateaux.service.mappers.MapToDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,11 @@ public class ReservationService implements IReservationService {
     @Autowired
     IUserService userService;
     @Autowired
+    IPaiementService paiementService;
+    @Autowired
     MapToDto mapToDto;
+    @Autowired
+    IMailService mailService;
 
 
     @Override
@@ -85,7 +89,17 @@ public class ReservationService implements IReservationService {
         i.setTypeReservation(reservation.getTypeReservation());
         i.setStatus(reservation.getStatus());
         i.setNbPersonnes(reservation.getNbPersonnes());
-        return mapToDto.mapToReservationDto(reservationRepository.save(i));
+        i=reservationRepository.save(i);
+        if (i.getStatus()==StatusRes.ACCEPTER)
+        {
+            PaimentData p  =paiementService.ajouterPaiement(i);
+            try {
+                mailService.sendReservationConfirmation(i.getUtilisateur().getEmail(),i.getUtilisateur().getName(),p.getPaiementId(),p.getMontant(),i.getBateau(),i.getDate(),i.getNbPersonnes());
+            }catch (Exception e) {
+                throw new BusinessException("Error sending email: " + e.getMessage());
+            }
+        }
+        return mapToDto.mapToReservationDto(i);
     }
 
     @Override

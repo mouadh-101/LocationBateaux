@@ -10,14 +10,20 @@ import { AuthGuard } from './guards/auth.guard';
 import { MyReservationsComponent } from './components/my-reservations/my-reservations.component';
 import { FavoriteBoatsComponent } from './components/favorite-boats/favorite-boats.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { PaypalComponent } from './components/paypal/paypal.component';
+import { PaimentListComponent } from './components/paiment-list/paiment-list.component';
+import { PaimentDetailsComponent } from './components/paiment-details/paiment-details.component';
 
 const routes: Routes = [
   { path: 'boats',component:BoatListComponent},
   { path: 'boat-details/:id', component:BoatDetailsComponent},
   { path: 'reservation-details/:id',canActivate:[AuthGuard] ,component: ReservationDetailsComponent},
+  { path: 'paiment-details/:id',canActivate:[AuthGuard] ,component: PaimentDetailsComponent},
   { path: 'my-reservations', canActivate:[AuthGuard], component:MyReservationsComponent},
+  { path: 'my-paiments', canActivate:[AuthGuard], component:PaimentListComponent},
   { path: 'favorite', canActivate:[AuthGuard], component:FavoriteBoatsComponent},
   { path: 'profile', canActivate:[AuthGuard],component:UserProfileComponent},
+  {path : 'paiment/paypal',canActivate:[AuthGuard],component:PaypalComponent},
   { path: '', component: HomeComponent },
   { path: '**',component:NotFoundComponent}
   
