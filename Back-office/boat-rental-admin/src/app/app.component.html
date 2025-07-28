@@ -7,7 +7,13 @@
     [class.mobile-open]="sidebarMobileOpen && isMobile"
   >
     <div class="sidebar-header">
-      <h3 *ngIf="!sidebarCollapsed || isMobile">AfroBoat</h3>
+    <h3
+  *ngIf="!sidebarCollapsed || isMobile"
+  class="text-2xl font-extrabold text-center text-transparent bg-clip-text
+         bg-gradient-to-r from-blue-600 via-teal-500 to-green-500 drop-shadow-sm tracking-wide">
+  AfricaBoat
+</h3>
+
       <button class="sidebar-toggle-btn" (click)="toggleSidebar()" aria-label="Toggle sidebar">
         <i class="fas" [ngClass]="{
           'fa-chevron-left': !sidebarCollapsed && !isMobile,
@@ -21,31 +27,57 @@
       <li>
         <a routerLink="/dashboard" (click)="closeSidebarMobile()">
           <i class="fas fa-tachometer-alt"></i>
-          <span *ngIf="!sidebarCollapsed || isMobile">Dashboard</span>
+          <span
+  *ngIf="!sidebarCollapsed || isMobile"
+  class="text-base font-bold text-white tracking-wide
+         hover:text-yellow-400 transition duration-300 ease-in-out">
+  Dashboard
+</span>
+
         </a>
       </li>
       <li>
         <a routerLink="/users" (click)="closeSidebarMobile()">
           <i class="fas fa-users"></i>
-          <span *ngIf="!sidebarCollapsed || isMobile">Users</span>
+<span
+  *ngIf="!sidebarCollapsed || isMobile"
+  class="text-base font-semibold text-white tracking-wide
+         hover:text-cyan-300 hover:scale-105 transition-all duration-300 ease-in-out">
+  Users
+</span>
         </a>
       </li>
       <li>
         <a routerLink="/list" (click)="closeSidebarMobile()">
           <i class="fas fa-ship"></i>
-          <span *ngIf="!sidebarCollapsed || isMobile">Les Bateaux</span>
+<span
+  *ngIf="!sidebarCollapsed || isMobile"
+  class="text-base font-semibold text-white tracking-wide
+         hover:text-orange-300 transition-colors duration-200">
+  Les Bateaux
+</span>
         </a>
       </li>
       <li>
   <a routerLink="/reservations" (click)="closeSidebarMobile()">
     <i class="fas fa-calendar-check"></i>
-    <span *ngIf="!sidebarCollapsed || isMobile">Les Reservations</span>
+<span
+  *ngIf="!sidebarCollapsed || isMobile"
+  class="text-base font-semibold text-white tracking-wide
+         hover:text-green-400 hover:scale-105 transition-all duration-300 ease-in-out">
+  Les Reservations
+</span>
   </a>
 </li>
     <li>
   <a routerLink="/partners" (click)="closeSidebarMobile()">
     <i class="fas fa-handshake"></i>
-    <span *ngIf="!sidebarCollapsed || isMobile">Les Partenaires</span>
+<span
+  *ngIf="!sidebarCollapsed || isMobile"
+  class="text-base font-semibold text-white tracking-wide
+         hover:text-purple-400 hover:scale-105 transition-all duration-300 ease-in-out">
+  Les Partenaires
+</span>
   </a>
 
 </li>
