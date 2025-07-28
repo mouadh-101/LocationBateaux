@@ -115,17 +115,19 @@ export class BoatDetailsComponent {
     const average = total / boat.avis.length;
     return Math.round(average);
   }
-  calculateTotalPrice(pricePerDay: number, nbPersonnes: number , typeReservation:string): number {
-
+  calculateTotalPrice(pricePerDay: number, commission: number , typeReservation:string): number {
+    return pricePerDay + this.calculateTax(pricePerDay,commission,typeReservation)
+  }
+  calculateTax(pricePerDay: number, commission: number , typeReservation:string){
     if(typeReservation=="DEMI_JOURNEE")
       {
-        return (pricePerDay*1/2) * nbPersonnes
+        return ((pricePerDay*1/2) * commission)/100
       }
       if(typeReservation=="DEUX_HEURES")
         {
-          return ((pricePerDay/24)*2) * nbPersonnes
+          return (((pricePerDay/24)*2) * commission)/100
         }
-      return pricePerDay * nbPersonnes;
+      return (pricePerDay * commission)/100;
   }
 
   decrementNbPersonnes() {
