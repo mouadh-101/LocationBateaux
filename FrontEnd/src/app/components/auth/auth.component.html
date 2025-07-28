@@ -127,7 +127,8 @@
             <span class="text-primary">Gestionnaire</span>
           </label>
         </div>
-        <button type="submit" class="w-full bg-primary text-white py-3 rounded-xl font-semibold hover:bg-accent transition-all duration-300 disabled:bg-gray-300 disabled:cursor-not-allowed">
+        <button type="submit" [disabled]="registerForm.invalid"
+          class="w-full bg-primary text-white py-3 rounded-xl font-semibold hover:bg-accent transition-all duration-300 disabled:bg-gray-300 disabled:cursor-not-allowed">
           Créer un compte
         </button>
       </form>

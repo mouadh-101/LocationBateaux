@@ -1,0 +1,20 @@
+h2 {
+  font-size: 2.5rem;            /* Gros titre moderne */
+  color: #007bff;              /* Bleu Bootstrap-like */
+  font-weight: 700;
+  letter-spacing: 2px;
+  position: relative;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+/* Ligne décorative sous le titre */
+h2::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(to right, #007bff, #00c6ff);
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
