@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { BoatService } from '../../../services/boats.service';
 import { Boat } from '../../../interfaces/boats';
@@ -20,22 +21,36 @@ export class ListBoatsComponent implements OnInit {
   sortBy: string = 'name-asc';
   availabilityFilter: 'all' | 'available' | 'unavailable' = 'all';
 
-  constructor(private boatService: BoatService, private router: Router) {}
+  constructor(private boatService: BoatService, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.getBoats();
   }
 
   getBoats(): void {
-    this.boatService.getAllBoats().subscribe({
-      next: (data) => {
-        this.boats = data;
-        this.applyFiltersAndSorting();
-      },
-      error: (err) => {
-        console.error('Erreur lors du chargement des bateaux :', err);
-      }
-    });
+    if (this.authService.isGestionnaire()) {
+      this.boatService.getBoatsByUser().subscribe({
+        next: (data) => {
+          this.boats = data;
+          this.applyFiltersAndSorting();
+        },
+        error: (err) => {
+          console.error('Erreur lors du chargement des bateaux :', err);
+        }
+      });
+
+    }
+    if (this.authService.isAdmin()) {
+      this.boatService.getAllBoats().subscribe({
+        next: (data) => {
+          this.boats = data;
+          this.applyFiltersAndSorting();
+        },
+        error: (err) => {
+          console.error('Erreur lors du chargement des bateaux :', err);
+        }
+      });
+    }
   }
 
   applyFiltersAndSorting(): void {
