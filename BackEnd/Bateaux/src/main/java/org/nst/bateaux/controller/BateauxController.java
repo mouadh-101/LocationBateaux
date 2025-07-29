@@ -84,8 +84,8 @@ public class BateauxController {
     }
     @GetMapping("/listBpU")
     public List<BateauData> getBateauxProprietaire(Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-        return bateauxService.getBateauxByProprietaireId(user.getId());
+        UserData loggedInUser = (UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return bateauxService.getBateauxByProprietaireId(loggedInUser.getId());
     }
 
 
