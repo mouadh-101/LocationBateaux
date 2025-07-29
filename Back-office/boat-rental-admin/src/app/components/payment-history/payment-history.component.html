@@ -23,6 +23,7 @@
     <span class="text-lg">📊</span>
     <span>Exporter en Excel</span>
   </button>
+  
 </div>
 
 
@@ -35,9 +36,13 @@
   </div>
   <div class="bg-yellow-100 text-yellow-800 p-6 rounded-2xl shadow">
     <div class="text-2xl font-bold">{{ totalEnAttente }}</div>
-    <div class="text-sm font-semibold">En attente</div>
+    <div class="text-sm font-semibold">Paiements En attente</div>
   </div>
-  <div class="bg-blue-100 text-blue-800 p-6 rounded-2xl shadow">
+   <div class="bg-red-100 text-red-800 p-6 rounded-2xl shadow">
+    <div class="text-2xl font-bold">{{ totalRefuser }}</div>
+    <div class="text-sm font-semibold">Paiements Refuser</div>
+  </div>
+  <div class="bg-blue-100 text-blue-800 p-6 rounded-2xl shadow ">
     <div class="text-2xl font-bold">{{ montantTotal | number:'1.2-2' }} DT</div>
     <div class="text-sm font-semibold">Montant total payé</div>
   </div>
@@ -68,11 +73,11 @@
         <span>{{ paiement.reservation?.bateau?.nom || 'Non disponible' }}</span>
       </div>
       <div>
-        <span class="block text-gray-600 font-semibold mb-1">Date de paiement</span>
+        <span class="block text-gray-600 font-semibold mb-1">Date De Paiement</span>
         <span>{{ paiement.datePaiement | date: 'dd/MM/yyyy HH:mm' }}</span>
       </div>
       <div>
-        <span class="block text-gray-600 font-semibold mb-1">Méthode</span>
+        <span class="block text-gray-600 font-semibold mb-1">Méthode De Paiement</span>
         <span class="italic text-gray-700">{{ paiement.methode }}</span>
       </div>
     </div>

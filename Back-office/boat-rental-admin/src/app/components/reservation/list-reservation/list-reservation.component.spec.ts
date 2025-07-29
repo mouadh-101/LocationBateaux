@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListReservationComponent } from './list-reservation.component';
+import { ReservationsListComponent } from './list-reservation.component';
 
 describe('ListReservationComponent', () => {
-  let component: ListReservationComponent;
-  let fixture: ComponentFixture<ListReservationComponent>;
+  let component: ReservationsListComponent;
+  let fixture: ComponentFixture<ReservationsListComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ListReservationComponent]
+      declarations: [ReservationsListComponent]
     });
-    fixture = TestBed.createComponent(ListReservationComponent);
+    fixture = TestBed.createComponent(ReservationsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

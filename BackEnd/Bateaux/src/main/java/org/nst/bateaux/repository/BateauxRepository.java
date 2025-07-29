@@ -36,4 +36,9 @@ public interface BateauxRepository extends JpaRepository<Bateaux,Long> {
 
     );
 
+
+    List<Bateaux> findByProprietaireId(Long proprietaireId);
+
+
+
 }

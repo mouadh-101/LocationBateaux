@@ -35,6 +35,13 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+    @DeleteMapping(path = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> supprimerUser(@PathVariable Long id) {
+        userService.supprimerUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @PutMapping
     public ResponseEntity<UserDataWithName> updateUser(@RequestBody UserDataWithName user) {
         UserData loggedInUser = (UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

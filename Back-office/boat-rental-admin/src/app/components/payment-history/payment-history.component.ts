@@ -16,6 +16,7 @@ export class HistoriquePaiementComponent implements OnInit {
 
   totalAcceptes: number = 0;
   totalEnAttente: number = 0;
+  totalRefuser: number = 0;
   montantTotal: number = 0;
 
   constructor(private paiementService: PaiementService) {}
@@ -33,6 +34,7 @@ export class HistoriquePaiementComponent implements OnInit {
   calculerStatistiques(): void {
     this.totalAcceptes = this.paiements.filter(p => p.status === 'ACCEPTER').length;
     this.totalEnAttente = this.paiements.filter(p => p.status === 'EN_ATTENTE').length;
+    this.totalRefuser = this.paiements.filter(p => p.status === 'REFUSER').length;
     this.montantTotal = this.paiements
       .filter(p => p.status === 'ACCEPTER')
       .reduce((acc, p) => acc + (p.montant || 0), 0);

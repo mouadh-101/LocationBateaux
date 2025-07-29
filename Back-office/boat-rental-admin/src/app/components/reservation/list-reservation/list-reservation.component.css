@@ -32,3 +32,41 @@ h2::after {
   margin: 10px auto 0;
   border-radius: 2px;
 }
+
+/* Pour une meilleure lisibilité */
+.text-gray-900 {
+  font-family: 'Inter', sans-serif;
+}
+
+.text-gray-500 {
+  font-family: 'Inter', sans-serif;
+}
+
+.text-gray-900, .text-gray-500 {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+/* Animation compteur */
+@keyframes countUp {
+  0% {
+    opacity: 0;
+    transform: translateY(15%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-count-up {
+  animation: countUp 0.8s ease forwards;
+}
+
+/* Optional: smooth background color transition on dark mode toggle */
+.bg-white,
+.bg-gray-50,
+.bg-gray-800,
+.bg-gray-900 {
+  transition: background-color 0.3s ease;
+}

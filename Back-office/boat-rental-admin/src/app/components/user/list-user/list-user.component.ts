@@ -32,7 +32,6 @@ export class UserListComponent implements OnInit {
     this.page = 1;
   }
 
-  // Applique les filtres + pagination
   get paginatedUsers(): User[] {
     const filtered = this.users.filter(user => {
       const matchName = user.name.toLowerCase().includes(this.filterName.toLowerCase());
@@ -106,6 +105,21 @@ export class UserListComponent implements OnInit {
         alert('Erreur lors du débannissement.');
       }
     });
+  }
+
+  deleteUser(user: User): void {
+    if (confirm(`Es-tu sûr de vouloir supprimer définitivement ${user.name} ? Cette action est irréversible.`)) {
+      this.userService.deleteUser(user.id).subscribe({
+        next: () => {
+          alert(`${user.name} a été supprimé avec succès.`);
+          this.refreshUsers();
+        },
+        error: (err) => {
+          console.error('Erreur lors de la suppression:', err);
+          alert('Une erreur est survenue lors de la suppression.');
+        }
+      });
+    }
   }
 
   resetFilters(): void {
