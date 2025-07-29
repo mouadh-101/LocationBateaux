@@ -199,4 +199,13 @@ public class BateauxService implements IBateauxService {
     }
 
 
+    @Override
+    public List<BateauData> getBateauxByProprietaireId(Long userId) {
+        List<Bateaux> bateauxList = bateauxRepository.findByProprietaireId(userId);
+        return bateauxList.stream()
+                .map(bat -> mapToDto.mapToBatauxDto(bat))
+                .toList();
+    }
+
+
 }

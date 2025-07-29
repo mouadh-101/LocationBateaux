@@ -2,7 +2,8 @@
 h2 {
   font-size: 3rem;
   font-weight: 900;
-  color: #2563eb; /* Bleu vif */
+  color: #2563eb;
+  /* Bleu vif */
   letter-spacing: 3px;
   text-align: center;
   position: relative;
@@ -40,7 +41,8 @@ h2:hover::after {
 .filters-container select {
   padding: 0.75rem 1.25rem;
   font-size: 1.1rem;
-  border: 2px solid #94a3b8; /* Gris bleuté */
+  border: 2px solid #94a3b8;
+  /* Gris bleuté */
   border-radius: 12px;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   min-width: 250px;
@@ -176,8 +178,10 @@ h2:hover::after {
   display: inline-block;
   margin-left: 0.5rem;
   padding: 0.15rem 0.7rem;
-  background-color: #f87171; /* rouge clair */
-  color: #7f1d1d; /* rouge foncé */
+  background-color: #f87171;
+  /* rouge clair */
+  color: #7f1d1d;
+  /* rouge foncé */
   font-size: 0.75rem;
   font-weight: 700;
   border-radius: 9999px;
@@ -301,4 +305,15 @@ h2:hover::after {
 
 .status-toggle button:hover:not(.active) {
   background: #e0e7ff;
+}
+
+
+.action-delete {
+  background-color: #b91c1c; /* rouge foncé */
+  box-shadow: 0 4px 10px rgb(185 28 28 / 0.6);
+}
+
+.action-delete:hover {
+  box-shadow: 0 6px 20px rgb(185 28 28 / 0.9);
+  transform: scale(1.1);
 }

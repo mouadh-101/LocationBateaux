@@ -19,7 +19,7 @@ export class BoatService {
     return this.http.get<Boat>(`${this.apiUrl}/${id}`);
   }
 
-  
+
 
   getTop5Boats(): Observable<Boat[]> {
     return this.http.get<Boat[]>(`${this.apiUrl}/list/top5`);
@@ -43,10 +43,7 @@ export class BoatService {
 
   updateBoat(id: number, boat: Boat): Observable<any> {
   return this.http.put(`${this.apiUrl}/${id}`, boat);
-}
-
-
-
+  }
 }
 
 

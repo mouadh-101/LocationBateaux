@@ -27,6 +27,9 @@ public interface IUserService {
     void unBanUser(Long userId);
     void changePassword(Long id, ChangePasswordRequest request);
     UserDataWithName findUserById(Long id);
+
+    void supprimerUser(Long id);
+
     StatsUserProfile getUserStats(Long userId);
     AuthenticationResponse loginAdmin(AuthenticationRequest user);
     ResponseEntity<AuthenticationResponse> authenticateWithGoogle(Map<String, String> body);

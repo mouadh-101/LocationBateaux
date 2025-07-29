@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.nst.bateaux.dto.bateau.BateauData;
 import org.nst.bateaux.dto.bateau.BoatSearchRequest;
 import org.nst.bateaux.dto.user.UserData;
+import org.nst.bateaux.entity.User;
 import org.nst.bateaux.service.Implimentation.BateauxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.security.core.Authentication;
 
 @RestController
 @AllArgsConstructor
@@ -79,6 +81,11 @@ public class BateauxController {
         return bateauxService.chercherBateaux(
                 request.getPort(), request.getNbPersonnes(),request.getDate()
         );
+    }
+    @GetMapping("/listBpU")
+    public List<BateauData> getBateauxProprietaire(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return bateauxService.getBateauxByProprietaireId(user.getId());
     }
 
 
