@@ -62,15 +62,9 @@ public class PartnerService implements IPartnerService {
         Partners partner = partnersRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Partner not found with ID: " + id));
 
-        String logoUrl = partner.getLogo();
-        if (logoUrl != null && !logoUrl.isEmpty()) {
-            String filename = logoUrl.substring(logoUrl.lastIndexOf("/") + 1);
-            try {
-                Files.deleteIfExists(Paths.get("uploads", filename));
-            } catch (IOException ignored) {}
-        }
+        partner.setDeleted(true);
 
-        partnersRepository.deleteById(id);
+        partnersRepository.save(partner);
     }
 
 

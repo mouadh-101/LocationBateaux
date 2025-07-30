@@ -12,9 +12,11 @@ public interface BateauxRepository extends JpaRepository<Bateaux,Long> {
     @Query("""
     SELECT b FROM Bateaux b
     JOIN b.avis a
+    WHERE b.isDeleted = false and a.isDeleted = false
     GROUP BY b
     ORDER BY AVG(a.note) DESC
     LIMIT 4
+    
     """)
     List<Bateaux> findTop5ByOrderByAvisNoteDesc();
     @Query("""
@@ -22,6 +24,7 @@ public interface BateauxRepository extends JpaRepository<Bateaux,Long> {
   WHERE b.port.nom = :portName
     AND b.Carecteristique.capacite >= :nbPersonnes
     AND b.disponible = true
+    and b.isDeleted = false
     AND NOT EXISTS (
       SELECT r FROM Reservation r
       WHERE r.bateau = b
@@ -35,5 +38,7 @@ public interface BateauxRepository extends JpaRepository<Bateaux,Long> {
             @Param("date") LocalDateTime date
 
     );
+    Bateaux findByBateauxIdAndIsDeletedFalse(Long id);
+    List<Bateaux> findAllByIsDeletedFalse();
 
 }

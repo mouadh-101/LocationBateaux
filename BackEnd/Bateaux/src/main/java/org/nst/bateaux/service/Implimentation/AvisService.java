@@ -48,7 +48,9 @@ public class AvisService implements IAvisService {
     @Override
     public void supprimerAvis(Long id)
     {
-        avisRepository.deleteById(id);
+        Avis existingAvis = avisRepository.findById(id).orElseThrow(() -> new BusinessException("Avis not found"));
+        existingAvis.setDeleted(true);
+        avisRepository.save(existingAvis);
     }
 
     @Override
@@ -80,7 +82,7 @@ public class AvisService implements IAvisService {
     @Override
     public List<AviData> getAllAvisByBataeuxId(Long bateauId) {
         List<AviData> avisList = new ArrayList<>();
-        for (Avis avis : avisRepository.findAllByBateau(bateauxRepository.findById(bateauId)
+        for (Avis avis : avisRepository.findAllByBateauAndIsDeletedFalse(bateauxRepository.findById(bateauId)
                 .orElseThrow(() -> new BusinessException("Bateau not found")))) {
             avisList.add(mapToDto.mapToAvisDto(avis));
         }

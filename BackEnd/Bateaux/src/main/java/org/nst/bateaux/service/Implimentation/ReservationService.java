@@ -54,7 +54,7 @@ public class ReservationService implements IReservationService {
         }
 
         // Get all reservations of this boat
-        List<Reservation> existingReservations = reservationRepository.findByBateauAndStatus(bat, StatusRes.ACCEPTER);
+        List<Reservation> existingReservations = reservationRepository.findByBateauAndStatusAndIsDeletedFalse(bat, StatusRes.ACCEPTER);
         for (Reservation existing : existingReservations) {
             boolean overlap = reservation.getDate()==existing.getDate();
             if (overlap) {
@@ -78,6 +78,9 @@ public class ReservationService implements IReservationService {
     @Override
     public void supprimerReservation(Long id)
     {
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Reservation not found"));
+        reservation.setDeleted(true);
         reservationRepository.deleteById(id);
     }
 
@@ -105,13 +108,13 @@ public class ReservationService implements IReservationService {
     @Override
     public ReservationData getReservationById(Long id)
     {
-        return mapToDto.mapToReservationDto(reservationRepository.findById(id).orElse(null));
+        return mapToDto.mapToReservationDto(reservationRepository.findByReservationIdAndIsDeletedFalse(id));
     }
 
     @Override
     public List<ReservationData> getAll() {
         List<ReservationData> reservations =new ArrayList<>();
-        for(Reservation i : reservationRepository.findAll()) {
+        for(Reservation i : reservationRepository.findAllByIsDeletedFalse()) {
             reservations.add(mapToDto.mapToReservationDto(i));
         }
         return reservations;
@@ -121,7 +124,7 @@ public class ReservationService implements IReservationService {
     @Override
     public List<ReservationData> getCurrentUserReservations(Long userId) {
         List<ReservationData> reservations = new ArrayList<>();
-        for (Reservation reservation : reservationRepository.findByUtilisateur(userRepository.findById(userId)
+        for (Reservation reservation : reservationRepository.findByUtilisateurAndIsDeletedFalse(userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessException("User not found")))) {
             reservations.add(mapToDto.mapToReservationDto(reservation));
         }

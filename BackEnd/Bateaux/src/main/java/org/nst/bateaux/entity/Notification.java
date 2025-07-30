@@ -24,5 +24,7 @@ public class Notification {
 
     @ManyToOne
     private User destinataire;
+    @Column(nullable = false)
+    boolean isDeleted=false;
 
 }

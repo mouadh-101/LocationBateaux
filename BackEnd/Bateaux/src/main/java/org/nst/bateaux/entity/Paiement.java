@@ -27,5 +27,7 @@ public class Paiement {
     StatusRes status ;
     @OneToOne
     private Reservation reservation;
+    @Column(nullable = false)
+    boolean isDeleted=false;
 
 }

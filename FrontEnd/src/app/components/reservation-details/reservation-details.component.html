@@ -131,22 +131,22 @@
           <div class="space-y-3 mb-6">
             <div class="flex justify-between items-center">
               <span class="text-gray-600">Prix De location </span>
-              <span class="font-medium">{{reservation.bateau.prix}}TND</span>
+              <span class="font-medium">{{calculateTotalPrice(reservation.typeReservation)}}TND</span>
             </div>
             <div class="flex justify-between items-center mb-2">
               <span class="text-gray-600">Nombre de personnes</span>
               <span class="font-medium">{{ reservation.nbPersonnes }}</span>
             </div>
             <div class="flex justify-between items-center mb-2">
-              <span class="text-gray-600">Tax</span>
+              <span class="text-gray-600">Avance</span>
               <span class="font-medium">{{
-                calculateTax(reservation.bateau.prix,reservation.bateau.commission,reservation.typeReservation)
+                calculateAvence(reservation.bateau.commission,reservation.typeReservation)
                 }}TND</span>
             </div>
             <div class="flex justify-between items-center text-lg font-bold text-primary border-t pt-4">
               <span>Total</span>
               <span>{{
-                calculateTotalPrice(reservation.bateau.prix,reservation.bateau.commission,reservation.typeReservation)
+                calculateTotalPrice(reservation.typeReservation)
                 }}TND</span>
             </div>
           </div>

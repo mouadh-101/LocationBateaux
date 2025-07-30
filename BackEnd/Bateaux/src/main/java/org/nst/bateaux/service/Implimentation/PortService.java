@@ -27,7 +27,7 @@ public class PortService implements IPortService {
 
     @Override
     public List<PortAddDto> getAllPorts() {
-        List<PortAddDto> ports = portRepository.findAll().stream()
+        List<PortAddDto> ports = portRepository.findAllByIsDeletedFalse().stream()
                 .map(port -> mapToport.mapToPortAddDto(port))
                 .toList();
         return ports;

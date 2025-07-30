@@ -142,7 +142,11 @@ public class MapToDto {
                 reservationTypeSettings.getId(),
                 reservationTypeSettings.isFull_day_enabled(),
                 reservationTypeSettings.isHalf_day_enabled(),
-                reservationTypeSettings.isTwo_hours_enabled()
+                reservationTypeSettings.isTwo_hours_enabled(),
+                reservationTypeSettings.getFullDayPrice(),
+                reservationTypeSettings.getHalfDayPrice(),
+                reservationTypeSettings.getTwoHoursPrice()
+
         );
     }
     // Partner

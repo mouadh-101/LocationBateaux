@@ -36,6 +36,8 @@ public class User {
     private List<Bateaux> favourit = new ArrayList<>();
     @OneToMany(mappedBy = "utilisateur",cascade = CascadeType.ALL)
     private List<Avis> avis = new ArrayList<>();
+    @Column(nullable = false)
+    boolean isDeleted=false;
 
 
 }

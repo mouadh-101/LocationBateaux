@@ -20,4 +20,6 @@ public class Port {
     String nom;
     @OneToMany(mappedBy = "port" ,orphanRemoval = true, cascade = CascadeType.ALL)
     List<Bateaux> bateaux=new ArrayList<>();
+    @Column(nullable = false)
+    boolean isDeleted=false;
 }
