@@ -19,5 +19,7 @@ public class Partners {
     Long partnerId ;
     String nom;
     String logo ;
+    @Column(nullable = false)
+    boolean isDeleted=false;
 
 }

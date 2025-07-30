@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface PortRepository extends JpaRepository<Port,Long> {
-    Port findByNom(String nom);
+    Port findByNomAndIsDeletedFalse(String nom);
+    List<Port> findAllByIsDeletedFalse();
 }

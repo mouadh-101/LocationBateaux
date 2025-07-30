@@ -29,5 +29,8 @@ export interface Reservation {
     full_day_enabled:boolean;
     half_day_enabled:boolean;
     two_hours_enabled:boolean;
+    fullDayPrice: number;
+    halfDayPrice: number;
+    twoHoursPrice: number;
 }
   

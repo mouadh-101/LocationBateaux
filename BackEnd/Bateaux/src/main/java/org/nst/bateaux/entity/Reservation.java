@@ -31,5 +31,7 @@ public class Reservation {
     private Bateaux bateau;
     @OneToOne(mappedBy = "reservation",cascade = CascadeType.ALL)
     private Paiement paiement;
+    @Column(nullable = false)
+    boolean isDeleted=false;
 
 }

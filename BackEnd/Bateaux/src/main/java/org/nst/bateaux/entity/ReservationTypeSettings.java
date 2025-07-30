@@ -19,5 +19,10 @@ public class ReservationTypeSettings {
     boolean half_day_enabled = true;
     boolean two_hours_enabled = true;
 
+    private Double fullDayPrice=0.0;
+    private Double halfDayPrice=0.0;
+    private Double twoHoursPrice=0.0;
+    boolean isDeleted=false;
+
 
 }

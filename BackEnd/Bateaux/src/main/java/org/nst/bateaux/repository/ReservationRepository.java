@@ -9,7 +9,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation,Long> {
-    List<Reservation> findByUtilisateur(User utilisateur);
-    List<Reservation> findByBateauAndStatus(Bateaux bat, StatusRes status);
-    List<Reservation> findByBateau(Bateaux bat);
+    List<Reservation> findByUtilisateurAndIsDeletedFalse(User utilisateur);
+    List<Reservation> findByBateauAndStatusAndIsDeletedFalse(Bateaux bat, StatusRes status);
+    List<Reservation> findByBateauAndIsDeletedFalse(Bateaux bat);
+    Reservation findByReservationIdAndIsDeletedFalse(Long id);
+    List<Reservation> findAllByIsDeletedFalse();
 }

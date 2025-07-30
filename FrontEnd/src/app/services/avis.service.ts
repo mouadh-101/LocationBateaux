@@ -37,6 +37,14 @@ export class AvisService {
       catchError(ErrorHandlerUtil.handleError)
     );
   }
+  getAvisByBoatId(boatId: number): Observable<Avis[]> {
+    return this.http.get<Avis[]>(`${this.baseUrl}/bateaux/${boatId}`).pipe(
+      tap(avis => {
+        console.log('Avis retrieved successfully:', avis);
+      }),
+      catchError(ErrorHandlerUtil.handleError)
+    );
+  }
 
 
   

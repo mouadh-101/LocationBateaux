@@ -13,14 +13,14 @@ import { AuthService } from 'src/app/services/auth.service';
 export class AddBoatComponent implements OnInit, OnDestroy {
 
   @ViewChild('imageUploader') imageUploaderComponent!: ImageUploadComponent;
-  admin=false
+  admin = false
 
 
   boat: Boat = {
     nom: '',
     description: '',
     prix: 0,
-    commission:0,
+    commission: 0,
     port: {
       nom: ''
     },
@@ -35,13 +35,16 @@ export class AddBoatComponent implements OnInit, OnDestroy {
     reservationTypeSettings: {
       full_day_enabled: true,
       half_day_enabled: true,
-      two_hours_enabled: true
+      two_hours_enabled: true,
+      fullDayPrice: 0,
+      halfDayPrice: 0,
+      twoHoursPrice: 0,
     }
   };
 
   imageUrl: string = '';
 
-  constructor(private boatService: BoatService, private router: Router,private authService:AuthService) { }
+  constructor(private boatService: BoatService, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     document.body.style.backgroundImage = "url('')";
@@ -49,7 +52,7 @@ export class AddBoatComponent implements OnInit, OnDestroy {
     document.body.style.backgroundPosition = 'center center';
     document.body.style.backgroundRepeat = 'no-repeat';
     document.body.style.backgroundAttachment = 'fixed';
-    this.admin=this.authService.isAdmin();
+    this.admin = this.authService.isAdmin();
   }
 
   ngOnDestroy(): void {

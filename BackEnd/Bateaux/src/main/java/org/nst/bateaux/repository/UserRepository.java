@@ -11,8 +11,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface UserRepository extends JpaRepository<User,Long> {
-    User findUserByEmail(String email);
-    @Query("SELECT u.id AS id, u.email AS email, u.role AS role , u.name As name, u.isActive as isActive FROM User u")
+    User findUserByEmailAndIsDeletedFalse(String email);
+    @Query("SELECT u.id AS id, u.email AS email, u.role AS role , u.name As name, u.isActive as isActive  FROM User u where u.isDeleted = false")
     List<UserDataWithName> findAllUserData();
     @Query("""
     SELECT new org.nst.bateaux.dto.stats.StatsUserProfile (

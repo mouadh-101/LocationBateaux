@@ -42,6 +42,8 @@ public class Bateaux {
     Carecteristique Carecteristique;
     @OneToOne(cascade = CascadeType.ALL)
     ReservationTypeSettings reservationTypeSettings = new ReservationTypeSettings();
+    @Column(nullable = false)
+    boolean isDeleted=false;
 
 
 }

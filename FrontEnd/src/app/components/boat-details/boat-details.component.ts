@@ -115,19 +115,27 @@ export class BoatDetailsComponent {
     const average = total / boat.avis.length;
     return Math.round(average);
   }
-  calculateTotalPrice(pricePerDay: number, commission: number , typeReservation:string): number {
-    return pricePerDay + this.calculateTax(pricePerDay,commission,typeReservation)
-  }
-  calculateTax(pricePerDay: number, commission: number , typeReservation:string){
+  calculateTotalPrice(typeReservation:string): number {
     if(typeReservation=="DEMI_JOURNEE")
       {
-        return ((pricePerDay*1/2) * commission)/100
+        return this.boat?.reservationTypeSettings.halfDayPrice ?? 0
       }
       if(typeReservation=="DEUX_HEURES")
         {
-          return (((pricePerDay/24)*2) * commission)/100
+          return this.boat?.reservationTypeSettings.twoHoursPrice ?? 0
         }
-      return (pricePerDay * commission)/100;
+      return this.boat?.reservationTypeSettings.fullDayPrice ?? 0
+  }
+  calculateAvence(commission: number , typeReservation:string){
+    if(typeReservation=="DEMI_JOURNEE")
+      {
+        return ((this.boat?.reservationTypeSettings.halfDayPrice ?? 0)* commission)/100
+      }
+      if(typeReservation=="DEUX_HEURES")
+        {
+          return ((this.boat?.reservationTypeSettings.twoHoursPrice ?? 0)* commission)/100
+        }
+      return ((this.boat?.reservationTypeSettings.fullDayPrice ?? 0) * commission) / 100
   }
 
   decrementNbPersonnes() {
@@ -141,6 +149,24 @@ export class BoatDetailsComponent {
   isReservationTypeEnabled(typeName: string): boolean {
     return !!this.boat?.reservationTypeSettings?.[typeName as keyof typeof this.boat.reservationTypeSettings];
   }
+
+getTypePrice(typeName: string): number | null {
+  if (!this.boat || !this.boat.reservationTypeSettings) {
+    return null;
+  }
+  const settings = this.boat.reservationTypeSettings;
+  switch (typeName) {
+    case 'full_day_enabled':
+      return settings.fullDayPrice;
+    case 'half_day_enabled':
+      return settings.halfDayPrice;
+    case 'two_hours_enabled':
+      return settings.twoHoursPrice;
+    default:
+      return null;
+  }
+}
+
 
 
 

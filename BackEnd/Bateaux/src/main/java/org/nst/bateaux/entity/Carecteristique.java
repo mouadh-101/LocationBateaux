@@ -19,4 +19,6 @@ public class Carecteristique {
     int nombreMoteurs;
     @Enumerated(EnumType.STRING)
     TypeBateux type;
+    @Column(nullable = false)
+    boolean isDeleted=false;
 }

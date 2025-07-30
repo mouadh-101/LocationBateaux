@@ -154,23 +154,40 @@
     </div>
 
     <!-- ReservationTypeSettings (checkboxes) -->
-    <fieldset class="reservation-settings">
-      <label>Types de réservation disponibles</label>
+    <fieldset class="reservation-types-section">
+      <label><strong>Types de réservation disponibles</strong></label><br>
 
+      <!-- Journée complète -->
       <label>
-        <input type="checkbox" [(ngModel)]="boat.reservationTypeSettings.full_day_enabled" name="fullDay" />
+        <input type="checkbox" [(ngModel)]="boat.reservationTypeSettings.full_day_enabled" name="reservation.fullDay" />
         <span>Journée complète</span>
       </label>
+      <div *ngIf="boat.reservationTypeSettings.full_day_enabled">
+        <input type="number" [(ngModel)]="boat.reservationTypeSettings.fullDayPrice"
+          placeholder="Prix pour une journée complète (TND)" name="reservation.fullDayPrice" class="form-control"
+          min="0" />
+      </div>
 
+      <!-- Demi-journée -->
       <label>
-        <input type="checkbox" [(ngModel)]="boat.reservationTypeSettings.half_day_enabled" name="halfDay" />
+        <input type="checkbox" [(ngModel)]="boat.reservationTypeSettings.half_day_enabled" name="reservation.halfDay" />
         <span>Demi-journée</span>
       </label>
+      <div *ngIf="boat.reservationTypeSettings.half_day_enabled">
+        <input type="number" [(ngModel)]="boat.reservationTypeSettings.halfDayPrice"
+          placeholder="Prix pour une demi-journée (TND)" name="reservation.halfDayPrice" class="form-control" min="0" />
+      </div>
 
+      <!-- 2 heures -->
       <label>
-        <input type="checkbox" [(ngModel)]="boat.reservationTypeSettings.two_hours_enabled" name="twoHours" />
+        <input type="checkbox" [(ngModel)]="boat.reservationTypeSettings.two_hours_enabled"
+          name="reservation.twoHours" />
         <span>2 heures</span>
       </label>
+      <div *ngIf="boat.reservationTypeSettings.two_hours_enabled">
+        <input type="number" [(ngModel)]="boat.reservationTypeSettings.twoHoursPrice"
+          placeholder="Prix pour 2 heures (TND)" name="reservation.twoHoursPrice" class="form-control" min="0" />
+      </div>
     </fieldset>
 
     <!-- Boutons -->

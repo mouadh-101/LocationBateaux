@@ -13,4 +13,7 @@ public class ReservationTypeSettingsDto {
     boolean full_day_enabled;
     boolean half_day_enabled;
     boolean two_hours_enabled;
+    Double fullDayPrice;
+    Double halfDayPrice;
+    Double twoHoursPrice;
 }

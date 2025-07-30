@@ -38,7 +38,7 @@ public class BateauxService implements IBateauxService {
         User user = userRepository.findById(adminId)
                 .orElseThrow(() -> new BusinessException("user not found"));
 
-        Port port = portRepository.findByNom(bateaux.getPort().getNom());
+        Port port = portRepository.findByNomAndIsDeletedFalse(bateaux.getPort().getNom());
 
         Bateaux newBat = new Bateaux();
         newBat.setNom(bateaux.getNom());
@@ -49,6 +49,9 @@ public class BateauxService implements IBateauxService {
         newBat.getReservationTypeSettings().setFull_day_enabled(bateaux.getReservationTypeSettings().isFull_day_enabled());
         newBat.getReservationTypeSettings().setHalf_day_enabled(bateaux.getReservationTypeSettings().isHalf_day_enabled());
         newBat.getReservationTypeSettings().setTwo_hours_enabled(bateaux.getReservationTypeSettings().isTwo_hours_enabled());
+        newBat.getReservationTypeSettings().setFullDayPrice(bateaux.getReservationTypeSettings().getFullDayPrice());
+        newBat.getReservationTypeSettings().setHalfDayPrice(bateaux.getReservationTypeSettings().getHalfDayPrice());
+        newBat.getReservationTypeSettings().setTwoHoursPrice(bateaux.getReservationTypeSettings().getTwoHoursPrice());
         newBat.setCommission(bateaux.getCommission());
 
         newBat = bateauxRepository.save(newBat); // Save first to link
@@ -66,16 +69,17 @@ public class BateauxService implements IBateauxService {
             }
         }
 
-        CarecteristiqueBateauxDto c = bateaux.getCarecteristique();
-        if (c != null) {
+        CarecteristiqueBateauxDto carecteristiqueData = bateaux.getCarecteristique();
+        if (carecteristiqueData != null) {
             Carecteristique caracteristique = new Carecteristique();
-            caracteristique.setCapacite(c.getCapacite());
-            caracteristique.setLongueur(c.getLongueur());
-            caracteristique.setLargeur(c.getLargeur());
-            caracteristique.setNombreMoteurs(c.getNombreMoteurs());
-            caracteristique.setType(c.getType());
+            caracteristique.setCapacite(carecteristiqueData.getCapacite());
+            caracteristique.setLongueur(carecteristiqueData.getLongueur());
+            caracteristique.setLargeur(carecteristiqueData.getLargeur());
+            caracteristique.setNombreMoteurs(carecteristiqueData.getNombreMoteurs());
+            caracteristique.setType(carecteristiqueData.getType());
             newBat.setCarecteristique(caracteristique);
         }
+
 
         if (port == null) {
             Port newPort = new Port();
@@ -97,54 +101,67 @@ public class BateauxService implements IBateauxService {
     @Override
     public void supprimerBateaux(Long id)
     {
-        bateauxRepository.deleteById(id);
+        Bateaux bateau = bateauxRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Bateau not found with ID: " + id));
+        bateau.setDeleted(true);
+        bateau.getCarecteristique().setDeleted(true);
+        bateau.getReservationTypeSettings().setDeleted(true);
+        bateau.getImages().forEach(image -> {
+            image.setDeleted(true);
+            imageRepository.save(image);
+        });
+        bateauxRepository.save(bateau);
     }
 
     @Override
     public BateauData updateBateaux(Long id, BateauData bateauxDto,Role role) {
-        Bateaux b = bateauxRepository.findById(id)
+        Bateaux existingBateau = bateauxRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Bateau not found"));
 
-        b.setNom(bateauxDto.getNom());
-        b.setDescription(bateauxDto.getDescription());
-        b.setPrix(bateauxDto.getPrix());
-        b.getImages().clear();
-        b.setDisponible(bateauxDto.isDisponible());
+        existingBateau.setNom(bateauxDto.getNom());
+        existingBateau.setDescription(bateauxDto.getDescription());
+        existingBateau.setPrix(bateauxDto.getPrix());
+        existingBateau.getImages().clear();
+        existingBateau.setDisponible(bateauxDto.isDisponible());
         for (ImageDto i : bateauxDto.getImages()) {
             Image im = new Image();
             im.setUrl(i.getUrl());
-            im.setBateau(b); // Set back-reference
-            b.getImages().add(im);
+            im.setBateau(existingBateau); // Set back-reference
+            existingBateau.getImages().add(im);
         }
-        CarecteristiqueBateauxDto c = bateauxDto.getCarecteristique();
+        CarecteristiqueBateauxDto carecteristiqueData = bateauxDto.getCarecteristique();
         Carecteristique caracteristique = new Carecteristique();
-        caracteristique.setCapacite(c.getCapacite());
-        caracteristique.setLongueur(c.getLongueur());
-        caracteristique.setLargeur(c.getLargeur());
-        caracteristique.setNombreMoteurs(c.getNombreMoteurs());
-        caracteristique.setType(c.getType());
-        b.setCarecteristique(caracteristique);
-        b.getReservationTypeSettings().setFull_day_enabled(bateauxDto.getReservationTypeSettings().isFull_day_enabled());
-        b.getReservationTypeSettings().setHalf_day_enabled(bateauxDto.getReservationTypeSettings().isHalf_day_enabled());
-        b.getReservationTypeSettings().setTwo_hours_enabled(bateauxDto.getReservationTypeSettings().isTwo_hours_enabled());
+        caracteristique.setCapacite(carecteristiqueData.getCapacite());
+        caracteristique.setLongueur(carecteristiqueData.getLongueur());
+        caracteristique.setLargeur(carecteristiqueData.getLargeur());
+        caracteristique.setNombreMoteurs(carecteristiqueData.getNombreMoteurs());
+        caracteristique.setType(carecteristiqueData.getType());
+        existingBateau.setCarecteristique(caracteristique);
+        existingBateau.getReservationTypeSettings().setFull_day_enabled(bateauxDto.getReservationTypeSettings().isFull_day_enabled());
+        existingBateau.getReservationTypeSettings().setHalf_day_enabled(bateauxDto.getReservationTypeSettings().isHalf_day_enabled());
+        existingBateau.getReservationTypeSettings().setTwo_hours_enabled(bateauxDto.getReservationTypeSettings().isTwo_hours_enabled());
+        existingBateau.getReservationTypeSettings().setFullDayPrice(bateauxDto.getReservationTypeSettings().getFullDayPrice());
+        existingBateau.getReservationTypeSettings().setHalfDayPrice(bateauxDto.getReservationTypeSettings().getHalfDayPrice());
+        existingBateau.getReservationTypeSettings().setTwoHoursPrice(bateauxDto.getReservationTypeSettings().getTwoHoursPrice());
+
         if (role==Role.ADMIN)
         {
-            b.setCommission(bateauxDto.getCommission());
+            existingBateau.setCommission(bateauxDto.getCommission());
         }
 
-        return mapToDto.mapToBatauxDto(bateauxRepository.save(b));
+        return mapToDto.mapToBatauxDto(bateauxRepository.save(existingBateau));
     }
 
 
     @Override
     public BateauData getBateauxById(Long id)
     {
-        return mapToDto.mapToBatauxDto(bateauxRepository.findById(id).orElse(null));
+        return mapToDto.mapToBatauxDto(bateauxRepository.findByBateauxIdAndIsDeletedFalse(id));
     }
 
     @Override
     public List<BateauData> getAll() {
-        List<Bateaux> bateauxList = bateauxRepository.findAll();
+        List<Bateaux> bateauxList = bateauxRepository.findAllByIsDeletedFalse();
         return bateauxList.stream().map(bat -> mapToDto.mapToBatauxDto(bat)).toList();
     }
 
