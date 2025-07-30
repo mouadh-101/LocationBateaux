@@ -4,12 +4,17 @@ import lombok.AllArgsConstructor;
 import org.nst.bateaux.dto.reservation.ReservationAdd;
 import org.nst.bateaux.dto.reservation.ReservationData;
 import org.nst.bateaux.dto.user.UserData;
+import org.nst.bateaux.entity.Reservation;
+import org.nst.bateaux.entity.User;
 import org.nst.bateaux.service.Implimentation.ReservationService;
+import org.nst.bateaux.service.Implimentation.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +26,8 @@ public class ReservationController {
 
     @Autowired
     ReservationService reservationService;
+    UserService userService;
+
 
     @PostMapping(path = "/{idBateau}")
     public ResponseEntity<ReservationData> ajouterReservation(@RequestBody ReservationAdd reservation, @PathVariable Long idBateau) {
@@ -62,5 +69,14 @@ public class ReservationController {
         List<ReservationData> reservations = reservationService.getCurrentUserReservations(loggedInUser.getId());
         return ResponseEntity.ok(reservations);
     }
+
+    @GetMapping("/gestionnaire")
+    @PreAuthorize("hasRole('GESTIONNAIRE')")
+    public ResponseEntity<List<ReservationData>> getReservationsForGestionnaire() {
+        UserData loggedInUser = (UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<ReservationData> reservations = reservationService.getReservationsForGestionnaire(loggedInUser.getId());
+        return ResponseEntity.ok(reservations);
+    }
+
 
 }

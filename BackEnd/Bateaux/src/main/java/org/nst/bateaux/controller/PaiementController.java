@@ -74,4 +74,13 @@ public class PaiementController {
         return paiementService.captureOrder(orderId);
     }
 
+
+    @GetMapping("/Paie-gest")
+    public ResponseEntity<List<PaimentData>> getPaiementsByGestionnaire() {
+        UserData loggedInUser = (UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<PaimentData> paiements = paiementService.getPaiementsForGestionnaire(loggedInUser.getId());
+        return ResponseEntity.ok(paiements);
+    }
+
+
 }
