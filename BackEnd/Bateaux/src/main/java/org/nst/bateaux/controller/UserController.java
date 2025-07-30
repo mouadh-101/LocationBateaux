@@ -29,10 +29,17 @@ public class UserController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('GESTIONNAIRE')")
     public ResponseEntity<List<UserDataWithName>> getAllUsers() {
         List<UserDataWithName> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> supprimerUser(@PathVariable Long id) {
+        userService.supprimerUser(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping
@@ -80,7 +87,7 @@ public class UserController {
         StatsUserProfile stats = userService.getUserStats(loggedInUser.getId());
         return ResponseEntity.ok(stats);
     }
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('GESTIONNAIRE')")
     @GetMapping("/{id}")
     public ResponseEntity<UserDataWithName> getUserById(@PathVariable("id") Long userId) {
         UserDataWithName user = userService.findUserById(userId);

@@ -19,4 +19,6 @@ public interface IBateauxService {
     BateauData favoritBateau(Long userId, Long bateauId);
     List<BateauData> getFavoritBateaux(Long userId);
     List<BateauData> chercherBateaux(String portName,int nbPersonnes,LocalDateTime date);
+
+    List<BateauData> getBateauxByProprietaireId(Long userId);
 }

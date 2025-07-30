@@ -1,6 +1,7 @@
 package org.nst.bateaux.repository;
 
 import org.nst.bateaux.entity.Bateaux;
+import org.nst.bateaux.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -40,5 +41,10 @@ public interface BateauxRepository extends JpaRepository<Bateaux,Long> {
     );
     Bateaux findByBateauxIdAndIsDeletedFalse(Long id);
     List<Bateaux> findAllByIsDeletedFalse();
+
+
+    List<Bateaux> findByProprietaire(User user);
+
+
 
 }

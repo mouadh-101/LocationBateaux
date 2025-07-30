@@ -25,6 +25,7 @@ import { ListPartnersComponent } from './components/partner/list-partner/list-pa
 import { ImageUploadComponent } from './components/image-upload/image-upload.component';
 import { ReservationsListComponent } from './components/reservation/list-reservation/list-reservation.component';
 import { ReservationDetailsComponent } from './components/reservation/reservation-details/reservation-details.component';
+import { HistoriquePaiementComponent } from './components/payment-history/payment-history.component';
 
 
 
@@ -50,6 +51,7 @@ import { ReservationDetailsComponent } from './components/reservation/reservatio
     AddPartnerComponent,
     EditPartnerComponent,
     ReservationDetailsComponent,
+    HistoriquePaiementComponent
 
 
 

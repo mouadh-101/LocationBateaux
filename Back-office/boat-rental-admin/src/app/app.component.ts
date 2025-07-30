@@ -1,6 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { User } from './interfaces/user';
-import { UserService } from './services/user.service';
 import { AuthService } from './services/auth.service';
 import { Router } from '@angular/router';
 
@@ -18,15 +17,17 @@ export class AppComponent implements OnInit {
   isLoggedIn = false;
 
   constructor(
-    private userService: UserService,
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.checkScreenSize();
 
-    this.userService.currentUser$.subscribe({
+    // Charge l’utilisateur stocké, APRES l'initialisation du composant
+    this.authService.loadUserFromStorage();
+
+    this.authService.currentUser$.subscribe({
       next: (user) => (this.user = user),
       error: (err) => console.error('Erreur lors de la récupération du user', err),
     });
@@ -36,12 +37,11 @@ export class AppComponent implements OnInit {
     });
   }
 
-  // Ecoute le redimensionnement de la fenêtre
   @HostListener('window:resize')
   checkScreenSize() {
-    this.isMobile = window.innerWidth < 768; // breakpoint mobile (md en tailwind)
+    this.isMobile = window.innerWidth < 768;
     if (!this.isMobile) {
-      this.sidebarMobileOpen = false; // ferme menu mobile si passage desktop
+      this.sidebarMobileOpen = false;
     }
   }
 

@@ -67,4 +67,8 @@ export class UserService {
   refreshCurrentUser() {
     this.loadCurrentUser();
   }
+
+    deleteUser(userId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${userId}`);
+  }
 }

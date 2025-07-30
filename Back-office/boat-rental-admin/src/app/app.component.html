@@ -24,7 +24,7 @@
     </div>
 
     <ul class="sidebar-menu">
-      <li>
+      <li *ngIf="authService.isAdmin()">
         <a routerLink="/dashboard" (click)="closeSidebarMobile()">
           <i class="fas fa-tachometer-alt"></i>
           <span
@@ -36,7 +36,7 @@
 
         </a>
       </li>
-      <li>
+      <li *ngIf="authService.isAdmin()">
         <a routerLink="/users" (click)="closeSidebarMobile()">
           <i class="fas fa-users"></i>
 <span
@@ -69,7 +69,7 @@
 </span>
   </a>
 </li>
-    <li>
+    <li *ngIf="authService.isAdmin()">
   <a routerLink="/partners" (click)="closeSidebarMobile()">
     <i class="fas fa-handshake"></i>
 <span
@@ -81,6 +81,18 @@
   </a>
 
 </li>
+<li>
+  <a routerLink="/paiements" (click)="closeSidebarMobile()">
+    <i class="fas fa-history"></i>
+    <span
+      *ngIf="!sidebarCollapsed || isMobile"
+      class="text-base font-semibold text-white tracking-wide
+             hover:text-pink-400 hover:scale-105 transition-all duration-300 ease-in-out">
+      Historique des paiements
+    </span>
+  </a>
+</li>
+
 
 
 
@@ -138,6 +150,7 @@
 </li>
 
     </ul>
+
   </nav>
 
   <!-- Overlay for mobile when sidebar is open -->
