@@ -43,7 +43,7 @@ public interface BateauxRepository extends JpaRepository<Bateaux,Long> {
     List<Bateaux> findAllByIsDeletedFalse();
 
 
-    List<Bateaux> findByProprietaire(User user);
+    List<Bateaux> findByProprietaireAndIsDeletedFalse(User user);
 
 
 

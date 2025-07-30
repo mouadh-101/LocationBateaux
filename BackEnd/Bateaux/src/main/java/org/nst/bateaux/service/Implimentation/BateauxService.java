@@ -219,7 +219,7 @@ public class BateauxService implements IBateauxService {
     @Override
     public List<BateauData> getBateauxByProprietaireId(Long userId) {
         User user=userRepository.findById(userId).orElseThrow(()-> new BusinessException("user not found"));
-        List<Bateaux> bateauxList = bateauxRepository.findByProprietaire(user);
+        List<Bateaux> bateauxList = bateauxRepository.findByProprietaireAndIsDeletedFalse(user);
         return bateauxList.stream()
                 .map(bat -> mapToDto.mapToBatauxDto(bat))
                 .toList();

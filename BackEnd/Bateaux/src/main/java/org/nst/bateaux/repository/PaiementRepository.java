@@ -23,7 +23,7 @@ public interface PaiementRepository extends JpaRepository<Paiement,Long> {
 SELECT p FROM Paiement p
 JOIN p.reservation r
 JOIN r.bateau b
-WHERE b.proprietaire.id = :gestionnaireId
+WHERE b.proprietaire.id = :gestionnaireId and p.isDeleted=FALSE 
 """)
     List<Paiement> findPaiementsByGestionnaireId(@Param("gestionnaireId") Long gestionnaireId);
 

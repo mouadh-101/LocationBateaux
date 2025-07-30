@@ -13,7 +13,8 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation,Long> {
 
 
-    @Query("SELECT r FROM Reservation r WHERE r.bateau.proprietaire.id = :gestionnaireId")
+    @Query("SELECT r FROM Reservation r WHERE r.bateau.proprietaire.id = :gestionnaireId and r.isDeleted=false " +
+            "")
     List<Reservation> findByGestionnaireId(@Param("gestionnaireId") Long gestionnaireId);
     List<Reservation> findByUtilisateurAndIsDeletedFalse(User utilisateur);
     List<Reservation> findByBateauAndStatusAndIsDeletedFalse(Bateaux bat, StatusRes status);
