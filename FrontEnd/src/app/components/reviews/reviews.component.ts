@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { A } from '@fullcalendar/core/internal-common';
 import { Avis } from 'src/app/interfaces/boat';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -12,7 +13,6 @@ import { AvisService } from 'src/app/services/avis.service';
   styleUrls: ['./reviews.component.css']
 })
 export class ReviewsComponent {
-  @Input() avis: Avis[] = [];
   avisForm: FormGroup;
   boatId: number | null = null;
   editingAvisId: number | null = null;
@@ -21,87 +21,98 @@ export class ReviewsComponent {
   showAllReviews = false;
   currentUserId: number | null = null;
   isEditing: boolean = false;
+  avis: Avis[] = [];
 
-  constructor(private authService: AuthService, private avisService: AvisService, private fb: FormBuilder, private route: ActivatedRoute,private alertService:AlertService) {
+  constructor(private authService: AuthService, private avisService: AvisService, private fb: FormBuilder, private route: ActivatedRoute, private alertService: AlertService) {
     this.avisForm = this.fb.group({
       note: [0, Validators.required],
       commentaire: ['', Validators.required]
     });
+
   }
 
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.boatId = +params['id'];
+      this.avisService.getAvisByBoatId(this.boatId).subscribe({
+        next: (avis) => {
+          this.avis = avis;
+        },
+        error: (err) => {
+          console.error('Erreur lors de la récupération des avis:', err);
+          this.alertService.showAlert('Erreur lors de la récupération des avis.', 'error');
+        }
+      });
     });
-    this.isLoggedIn = this.authService.isLoggedIn();
-    this.currentUserId = this.authService.decodeIdFromToken();
-  }
-  editAvis(avis: any) {
-    this.isEditing = true;
-    this.editingAvisId = avis.avisId;
-    this.avisForm.patchValue({
-      note: avis.note,
-      commentaire: avis.commentaire
-    });
+      this.isLoggedIn = this.authService.isLoggedIn();
+      this.currentUserId = this.authService.decodeIdFromToken();
+    }
+  editAvis(avis:Avis) {
+      this.isEditing = true;
+      this.editingAvisId = avis.avisId;
+      this.avisForm.patchValue({
+        note: avis.note,
+        commentaire: avis.commentaire
+      });
 
-  }
-
-  deleteAvis(avisId: number) {
-    console.log('avisId:', avisId);
-    if (!avisId) {
-      alert("ID invalide.");
-      return;
     }
 
+  deleteAvis(avisId: number) {
+      console.log('avisId:', avisId);
+      if(!avisId) {
+        alert("ID invalide.");
+        return;
+      }
+
     this.avisService.deleteAvis(avisId).subscribe({
-      next: () => {
-        this.avis = this.avis.filter(a => a.avisId !== avisId);
-        this.alertService.showAlert('Avis supprimé avec succès.', 'success');
-      },
-      error: err => this.alertService.showAlert('Erreur lors de la suppression de l\'avis.', 'error')
-    });
-  }
+        next: () => {
+          this.avis = this.avis.filter(a => a.avisId !== avisId);
+          this.alertService.showAlert('Avis supprimé avec succès.', 'success');
+        },
+        error: err => this.alertService.showAlert('Erreur lors de la suppression de l\'avis.', 'error')
+      });
+    }
 
 
 
 
 
   get displayedReviews(): Avis[] {
-    return this.showAllReviews ? this.avis : this.avis.slice(0, 3);
-  }
+      return this.showAllReviews ? this.avis : this.avis.slice(0, 3);
+    }
 
   toggleShowAllReviews() {
-    this.showAllReviews = !this.showAllReviews;
-  }
+      this.showAllReviews = !this.showAllReviews;
+    }
 
   getRatingDistribution(): { rating: number; count: number; percentage: number }[] {
-    const distribution = [5, 4, 3, 2, 1].map(rating => {
-      const count = this.avis.filter(avis => avis.note === rating).length;
-      const percentage = this.avis.length > 0 ? (count / this.avis.length) * 100 : 0;
-      return { rating, count, percentage };
-    });
-    return distribution;
-  }
+      const distribution = [5, 4, 3, 2, 1].map(rating => {
+        const count = this.avis.filter(avis => avis.note === rating).length;
+        const percentage = this.avis.length > 0 ? (count / this.avis.length) * 100 : 0;
+        return { rating, count, percentage };
+      });
+      return distribution;
+    }
 
   formatDate(date: Date): string {
-    return new Intl.DateTimeFormat('fr-FR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    }).format(new Date(date));
-  }
+      return new Intl.DateTimeFormat('fr-FR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      }).format(new Date(date));
+    }
 
   trackByAvisId(index: number, avis: Avis): number {
-    return avis.avisId;
-  }
+      return avis.avisId;
+    }
 
   setRating(star: number) {
-    this.avisForm.patchValue({ note: star });
-  }
+      this.avisForm.patchValue({ note: star });
+    }
 
   submitAvis() {
-    if (this.avisForm.valid) {
+      if(this.avisForm.valid) {
       const avis: Avis = this.avisForm.value;
       if (this.boatId === null) {
         alert('Boat ID is missing.');

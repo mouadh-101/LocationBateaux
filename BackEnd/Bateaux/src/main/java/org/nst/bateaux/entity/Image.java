@@ -20,5 +20,7 @@ public class Image {
     String url ;
     @ManyToOne
     private Bateaux bateau;
+    @Column(nullable = false)
+    boolean isDeleted=false;
 
 }

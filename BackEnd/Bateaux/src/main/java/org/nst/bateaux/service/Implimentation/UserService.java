@@ -59,7 +59,7 @@ public class UserService implements IUserService {
 
     @Override
     public User findUserByEmail(String email) {
-        return userRepository.findUserByEmail(email);
+        return userRepository.findUserByEmailAndIsDeletedFalse(email);
     }
 
     @Override
@@ -237,7 +237,7 @@ public class UserService implements IUserService {
             String name = (String) payload.get("name");
             String phone=(String) payload.get("phone_number");
 
-            User user = userRepository.findUserByEmail(email);
+            User user = userRepository.findUserByEmailAndIsDeletedFalse(email);
             if (user == null) {
                 RegisterRequest requestReg = new RegisterRequest();
                 requestReg.setEmail(email);
@@ -283,7 +283,7 @@ public class UserService implements IUserService {
         String email = (String) fbResponse.get("email");
         String name = (String) fbResponse.get("name");
 
-        User user = userRepository.findUserByEmail(email);
+        User user = userRepository.findUserByEmailAndIsDeletedFalse(email);
         if (user == null) {
             RegisterRequest requestReg = new RegisterRequest();
             requestReg.setEmail(email);

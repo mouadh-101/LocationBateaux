@@ -151,19 +151,27 @@ export class ReservationDetailsComponent implements OnInit {
     console.log('Contact du support...');
     alert('Redirection vers le support (à implémenter)');
   }
-  calculateTotalPrice(pricePerDay: number, commission: number , typeReservation:string): number {
-    return pricePerDay + this.calculateTax(pricePerDay,commission,typeReservation)
-  }
-  calculateTax(pricePerDay: number, commission: number , typeReservation:string){
+  calculateTotalPrice(typeReservation:string): number {
     if(typeReservation=="DEMI_JOURNEE")
       {
-        return ((pricePerDay*1/2) * commission)/100
+        return this.reservation?.bateau.reservationTypeSettings.halfDayPrice ?? 0
       }
       if(typeReservation=="DEUX_HEURES")
         {
-          return (((pricePerDay/24)*2) * commission)/100
+          return this.reservation?.bateau.reservationTypeSettings.twoHoursPrice ?? 0
         }
-      return (pricePerDay * commission)/100;
+      return this.reservation?.bateau.reservationTypeSettings.fullDayPrice ?? 0
+  }
+  calculateAvence(commission: number , typeReservation:string){
+    if(typeReservation=="DEMI_JOURNEE")
+      {
+        return ((this.reservation?.bateau.reservationTypeSettings.halfDayPrice ?? 0)* commission)/100
+      }
+      if(typeReservation=="DEUX_HEURES")
+        {
+          return ((this.reservation?.bateau.reservationTypeSettings.twoHoursPrice ?? 0)* commission)/100
+        }
+      return ((this.reservation?.bateau.reservationTypeSettings.fullDayPrice ?? 0) * commission) / 100
   }
   decrementNbPersonnes() {
     const current = this.modifyForm.get('nbPersonnes')?.value || 1;

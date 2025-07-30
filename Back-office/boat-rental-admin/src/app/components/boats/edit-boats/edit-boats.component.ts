@@ -34,7 +34,10 @@ export class EditBoatComponent implements OnInit {
     reservationTypeSettings: {
       full_day_enabled: true,
       half_day_enabled: true,
-      two_hours_enabled: true
+      two_hours_enabled: true,
+      fullDayPrice: 0,
+      halfDayPrice: 0,
+      twoHoursPrice: 0,
     },
     images: []
   };

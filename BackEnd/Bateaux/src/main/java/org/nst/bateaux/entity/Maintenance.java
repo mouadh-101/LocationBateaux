@@ -24,6 +24,8 @@ public class Maintenance {
     LocalDateTime dateFin ;
     @ManyToOne
     private Bateaux bateau;
+    @Column(nullable = false)
+    boolean isDeleted=false;
 
 
 }

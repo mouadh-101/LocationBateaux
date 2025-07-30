@@ -151,7 +151,7 @@
                     <app-boat-calendar [reservations]="boat.reservations"></app-boat-calendar>
                 </div>
                 <!-- Reviews Section -->
-                <app-reviews [avis]="boat.avis"></app-reviews>
+                <app-reviews></app-reviews>
 
 
             </div>
@@ -185,15 +185,25 @@
                             <div class="space-y-2">
                                 <ng-container *ngFor="let type of reservationTypes">
                                     <label *ngIf="isReservationTypeEnabled(type.name)"
-                                        class="flex items-center px-4 py-3 border border-gray-300 rounded-lg cursor-pointer transition-colors duration-200 hover:border-accent">
-                                        <input type="radio" class="form-radio text-accent focus:ring-accent mr-3"
-                                            [value]="type.value" formControlName="typeReservation"
-                                            [disabled]="!isReservationTypeEnabled(type.name)" />
-                                        <span class="text-gray-800">{{ type.label }}</span>
+                                        class="flex items-center justify-between px-4 py-3 border border-gray-300 rounded-lg cursor-pointer transition-colors duration-200 hover:border-accent">
+
+                                        <div class="flex items-center">
+                                            <input type="radio" class="form-radio text-accent focus:ring-accent mr-3"
+                                                [value]="type.value" formControlName="typeReservation"
+                                                [disabled]="!isReservationTypeEnabled(type.name)" />
+                                            <span class="text-gray-800">{{ type.label }}</span>
+                                        </div>
+
+                                        <!-- Display price if available -->
+                                        <div class="text-sm text-gray-500 ml-auto pl-4"
+                                            *ngIf="getTypePrice(type.name) !== null">
+                                            {{ getTypePrice(type.name) }} TND
+                                        </div>
                                     </label>
                                 </ng-container>
                             </div>
                         </div>
+
 
 
                         <!-- nbPersonnes -->
@@ -219,8 +229,10 @@
                         <!-- Price Summary -->
                         <div class="border-t pt-6">
                             <div class="flex justify-between items-center mb-2">
-                                <span class="text-gray-600">Prix par jour</span>
-                                <span class="font-medium">{{ boat.prix }}TND</span>
+                                <span class="text-gray-600">Prix par {{reservationForm.value.typeReservation}}</span>
+                                <span class="font-medium">{{
+                                    calculateTotalPrice(reservationForm.value.typeReservation)
+                                    }}TND</span>
                             </div>
                             <div class="flex justify-between items-center mb-4">
                                 <span class="text-gray-600">Type de Reservation </span>
@@ -233,15 +245,15 @@
                                 <span class="font-medium">{{ reservationForm.value.nbPersonnes }}</span>
                             </div>
                             <div class="flex justify-between items-center mb-2">
-                                <span class="text-gray-600">Tax</span>
+                                <span class="text-gray-600">Avance</span>
                                 <span class="font-medium">{{
-                                    calculateTax(boat.prix,boat.commission,reservationForm.value.typeReservation)
+                                    calculateAvence(boat.commission,reservationForm.value.typeReservation)
                                     }}TND</span>
                             </div>
                             <div class="flex justify-between items-center text-lg font-bold text-primary border-t pt-4">
                                 <span>Total</span>
                                 <span>{{
-                                    calculateTotalPrice(boat.prix,boat.commission,reservationForm.value.typeReservation)
+                                    calculateTotalPrice(reservationForm.value.typeReservation)
                                     }}TND</span>
                             </div>
                         </div>

@@ -58,22 +58,11 @@ public class ImageService  implements IImageService {
     }
     @Override
     public ResponseEntity<Void> deleteImage(Long id) {
-        Optional<Image> optionalImage = imageRepository.findById(id);
-        if (optionalImage.isPresent()) {
-            Image image = optionalImage.get();
-
-            String filename = image.getUrl().substring(image.getUrl().lastIndexOf("/") + 1);
-            Path path = Paths.get("uploads", filename);
-            try {
-                Files.deleteIfExists(path);
-            } catch (IOException ignored) {
-            }
-
-            imageRepository.delete(image);
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        Image existingImage = imageRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Image Not Found"));
+        existingImage.setDeleted(true);
+        imageRepository.save(existingImage);
+        return ResponseEntity.ok().build();
     }
 
     @Override

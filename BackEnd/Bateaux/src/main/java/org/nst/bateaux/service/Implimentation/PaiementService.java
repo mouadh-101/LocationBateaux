@@ -60,7 +60,8 @@ public class PaiementService implements IPaiementService {
     public void supprimerPaiement(Long id) {
         Paiement paiement = paiementRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Paiement not found with id: " + id));
-        paiementRepository.delete(paiement);
+        paiement.setDeleted(true);
+        paiementRepository.save(paiement);
     }
 
     @Override
@@ -97,7 +98,7 @@ public class PaiementService implements IPaiementService {
 
     @Override
     public List<PaimentData> getAll() {
-        return paiementRepository.findAll().stream()
+        return paiementRepository.findAllByIsDeletedFalse().stream()
                 .map(mapToDto::mapToPaiementDto)
                 .toList();
     }
@@ -121,12 +122,21 @@ public class PaiementService implements IPaiementService {
     @Override
     public float calculateFees(Reservation reservation) {
         if (reservation.getTypeReservation() == TypeReservation.DEMI_JOURNEE) {
-            return (float) ((reservation.getBateau().getPrix() * 1 / 2) * reservation.getBateau().getCommission()) / 100;
+            return (float) (reservation.getBateau().getReservationTypeSettings().getHalfDayPrice() * reservation.getBateau().getCommission()) / 100;
         }
         if (reservation.getTypeReservation() == TypeReservation.DEUX_HEURES) {
-            return (float) ((reservation.getBateau().getPrix() * 2 / 24) * reservation.getBateau().getCommission()) / 100;
+            return (float) (reservation.getBateau().getReservationTypeSettings().getTwoHoursPrice() * reservation.getBateau().getCommission()) / 100;
         }
-        return (float) ((reservation.getBateau().getPrix()) * reservation.getBateau().getCommission()) / 100;
+        return (float) (reservation.getBateau().getReservationTypeSettings().getFullDayPrice() * reservation.getBateau().getCommission()) / 100;
+    }
+    public Double claculateRest(Reservation reservation, Paiement paiement) {
+        if (reservation.getTypeReservation() == TypeReservation.DEMI_JOURNEE) {
+            return reservation.getBateau().getReservationTypeSettings().getHalfDayPrice()- paiement.getMontant();
+        }
+        if (reservation.getTypeReservation() == TypeReservation.DEUX_HEURES) {
+            return reservation.getBateau().getReservationTypeSettings().getTwoHoursPrice()- paiement.getMontant();
+        }
+        return reservation.getBateau().getReservationTypeSettings().getFullDayPrice()- paiement.getMontant();
     }
 
     @Override

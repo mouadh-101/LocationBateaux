@@ -27,5 +27,7 @@ public class Avis {
     private User utilisateur;
     @ManyToOne
     private Bateaux bateau;
+    @Column(nullable = false)
+    boolean isDeleted=false;
 
 }
