@@ -24,7 +24,7 @@
     </div>
 
     <ul class="sidebar-menu">
-      <li *ngIf="authService.isAdmin()">
+      <li *ngIf="authService.isAdmin() || authService.isGestionnaire() ">
         <a routerLink="/dashboard" (click)="closeSidebarMobile()">
           <i class="fas fa-tachometer-alt"></i>
           <span
@@ -96,46 +96,19 @@
 
 
 
-     <li *ngIf="user && isLoggedIn">
-  <a
-    routerLink="/profile"
-    (click)="closeSidebarMobile()"
-    title="Profil"
-    style="
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 16px;
-      border-radius: 8px;
-      text-decoration: none;
-      color: #2d3748;
-    "
-    onmouseover="this.style.backgroundColor='#ebf8ff'"
-    onmouseout="this.style.backgroundColor='transparent'"
-  >
-    <div
-      style="
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: #3b82f6;
-        color: white;
-        font-weight: 700;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        user-select: none;
-        box-shadow: 0 2px 6px rgb(0 0 0 / 0.2);
-      "
-    >
-      {{ user.name.charAt(0) | uppercase }}
+    <li *ngIf="user && isLoggedIn && (!sidebarCollapsed || isMobile)">
+  <a [routerLink]="['/profile']" class="flex items-center space-x-2 px-4 py-3 border-t border-gray-200 hover:bg-gray-100 transition rounded-md">
+    <div class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center text-lg font-bold uppercase">
+      {{ user?.name?.charAt(0) }}
     </div>
-    <span style="white-space: nowrap; font-weight: 600;">
-      {{ user.name }}
-    </span>
+    <div *ngIf="!sidebarCollapsed || isMobile" class="flex-1 min-w-0">
+      <p class="text-sm font-medium text-gray-900 truncate">{{ user?.name }}</p>
+      <p class="text-sm text-gray-500 truncate">{{ user?.email }}</p>
+    </div>
   </a>
 </li>
+
+
 
 
      <li *ngIf="isLoggedIn">

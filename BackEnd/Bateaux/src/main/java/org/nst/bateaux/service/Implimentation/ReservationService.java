@@ -2,14 +2,10 @@ package org.nst.bateaux.service.Implimentation;
 
 import lombok.AllArgsConstructor;
 import org.nst.bateaux.config.BusinessException;
-import org.nst.bateaux.dto.avis.AviData;
-import org.nst.bateaux.dto.bateau.BateauData;
-import org.nst.bateaux.dto.bateau.ImageDto;
 import org.nst.bateaux.dto.paiement.PaimentData;
 import org.nst.bateaux.dto.reservation.ReservationAdd;
 import org.nst.bateaux.dto.reservation.ReservationData;
 import org.nst.bateaux.entity.Bateaux;
-import org.nst.bateaux.entity.Paiement;
 import org.nst.bateaux.entity.Reservation;
 import org.nst.bateaux.entity.StatusRes;
 import org.nst.bateaux.repository.BateauxRepository;
@@ -22,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -127,5 +123,16 @@ public class ReservationService implements IReservationService {
         }
         return reservations;
     }
+
+    @Override
+    public List<ReservationData> getReservationsForGestionnaire(Long gestionnaireId) {
+        List<Reservation> reservations = reservationRepository.findByGestionnaireId(gestionnaireId);
+        return reservations.stream()
+                .map(mapToDto::mapToReservationDto)
+                .collect(Collectors.toList());
+    }
+
+
+
 
 }

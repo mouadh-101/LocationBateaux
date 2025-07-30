@@ -15,4 +15,19 @@ public interface PaiementRepository extends JpaRepository<Paiement,Long> {
     where r.utilisateur.id=:userId
     """)
     List<Paiement> getPaiementByUser(@Param("userId") Long userId);
+
+
+
+    @Query("""
+SELECT p FROM Paiement p
+JOIN p.reservation r
+JOIN r.bateau b
+WHERE b.proprietaire.id = :gestionnaireId
+""")
+    List<Paiement> findPaiementsByGestionnaireId(@Param("gestionnaireId") Long gestionnaireId);
+
+
+
 }
+
+

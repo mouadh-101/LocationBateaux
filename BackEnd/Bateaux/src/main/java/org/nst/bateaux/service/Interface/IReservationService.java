@@ -17,4 +17,6 @@ public interface IReservationService {
     List<ReservationData> getAll();
     List <ReservationData> getCurrentUserReservations(Long userId);
 
+    List<ReservationData> getReservationsForGestionnaire(Long gestionnaireId);
+
 }

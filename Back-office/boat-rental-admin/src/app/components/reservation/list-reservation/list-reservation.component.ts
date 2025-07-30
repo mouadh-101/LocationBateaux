@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/services/auth.service';
 import { Boat } from './../../../interfaces/boats';
 import { Component, OnInit } from '@angular/core';
 import { ReservationService } from 'src/app/services/reservation.service';
@@ -16,18 +17,29 @@ export class ReservationsListComponent implements OnInit {
   filtered: ReservationData[] = [];
   currentFilter: string = 'ALL';
 
-  constructor(private reservationService: ReservationService,private router: Router) {}
+  constructor(private reservationService: ReservationService, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.loadReservations();
   }
 
   loadReservations(): void {
-    this.reservationService.getAllReservations().subscribe(res => {
-      this.reservations = res;
-      this.applyFilter(this.currentFilter);
-    });
+    if (this.authService.isGestionnaire()) {
+      this.reservationService.getReservationsForGestionnaire().subscribe(res => {
+        this.reservations = res;
+        this.applyFilter(this.currentFilter);
+      });
+    }
+    if (this.authService.isAdmin()) {
+      this.reservationService.getAllReservations().subscribe(res => {
+        this.reservations = res;
+        this.applyFilter(this.currentFilter);
+      });
+    }
+
+
   }
+
 
   applyFilter(filter: string): void {
     this.currentFilter = filter;
@@ -51,19 +63,19 @@ export class ReservationsListComponent implements OnInit {
   }
 
   // Actions boutons
-viewReservation(reservation: ReservationData): void {
+  viewReservation(reservation: ReservationData): void {
     this.router.navigate(['/reservation-details', reservation.reservationId]);
   }
 
-editReservation(reservation: ReservationData): void {
-  console.log(reservation.reservationId);
-  // ou la suite logique, par exemple la navigation
-  this.router.navigate(['/reservations/edit', reservation.reservationId]);
-}
+  editReservation(reservation: ReservationData): void {
+    console.log(reservation.reservationId);
+    // ou la suite logique, par exemple la navigation
+    this.router.navigate(['/reservations/edit', reservation.reservationId]);
+  }
 
- viewBoat(boat: Boat): void {
-  this.router.navigate(['/boat-details', boat.bateauxId]);
-  console.log('Voir bateau:', boat);
-}
+  viewBoat(boat: Boat): void {
+    this.router.navigate(['/boat-details', boat.bateauxId]);
+    console.log('Voir bateau:', boat);
+  }
 
 }
