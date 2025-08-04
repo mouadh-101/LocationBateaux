@@ -2,6 +2,7 @@
   Historique des paiements
 </h2>
 
+
 <!-- Boutons Export -->
 <div class="flex justify-center gap-6 mb-8">
   <button
@@ -23,39 +24,74 @@
     <span class="text-lg">📊</span>
     <span>Exporter en Excel</span>
   </button>
-  
+</div>
+<div *ngIf="selectedStatus" class="text-center mb-6">
+  <span
+    class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800 border border-blue-300 shadow-sm animate-fade-in"
+  >
+    Filtre actif :
+    <span class="uppercase font-bold tracking-wide">
+      {{ selectedStatus }}
+    </span>
+    <button
+      (click)="filtrerParStatut(null)"
+      class="ml-2 text-blue-500 hover:text-blue-700 font-bold text-sm"
+      title="Réinitialiser le filtre"
+    >
+      ✕
+    </button>
+  </span>
 </div>
 
 
-
-<!-- Résumé Statistiques -->
-<div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12 text-center">
-  <div class="bg-green-100 text-green-800 p-6 rounded-2xl shadow">
+<!-- Résumé Statistiques + Filtres -->
+<div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-4 gap-6 mb-12 text-center">
+  <div
+    class="bg-green-100 text-green-800 p-6 rounded-2xl shadow cursor-pointer hover:bg-green-200 transition"
+    (click)="filtrerParStatut('ACCEPTER')"
+    [ngClass]="{ 'ring-2 ring-green-600': selectedStatus === 'ACCEPTER' }"
+  >
     <div class="text-2xl font-bold">{{ totalAcceptes }}</div>
     <div class="text-sm font-semibold">Paiements acceptés</div>
   </div>
-  <div class="bg-yellow-100 text-yellow-800 p-6 rounded-2xl shadow">
+
+  <div
+    class="bg-yellow-100 text-yellow-800 p-6 rounded-2xl shadow cursor-pointer hover:bg-yellow-200 transition"
+    (click)="filtrerParStatut('EN_ATTENTE')"
+    [ngClass]="{ 'ring-2 ring-yellow-600': selectedStatus === 'EN_ATTENTE' }"
+  >
     <div class="text-2xl font-bold">{{ totalEnAttente }}</div>
     <div class="text-sm font-semibold">Paiements En attente</div>
   </div>
-   <div class="bg-red-100 text-red-800 p-6 rounded-2xl shadow">
+
+  <div
+    class="bg-red-100 text-red-800 p-6 rounded-2xl shadow cursor-pointer hover:bg-red-200 transition"
+    (click)="filtrerParStatut('REFUSER')"
+    [ngClass]="{ 'ring-2 ring-red-600': selectedStatus === 'REFUSER' }"
+  >
     <div class="text-2xl font-bold">{{ totalRefuser }}</div>
-    <div class="text-sm font-semibold">Paiements Refuser</div>
+    <div class="text-sm font-semibold">Paiements Refusés</div>
   </div>
-  <div class="bg-blue-100 text-blue-800 p-6 rounded-2xl shadow ">
+
+  <div
+    class="bg-blue-100 text-blue-800 p-6 rounded-2xl shadow cursor-pointer hover:bg-blue-200 transition"
+    (click)="filtrerParStatut(null)"
+    [ngClass]="{ 'ring-2 ring-blue-600': selectedStatus === null }"
+  >
     <div class="text-2xl font-bold">{{ montantTotal | number:'1.2-2' }} DT</div>
     <div class="text-sm font-semibold">Montant total payé</div>
   </div>
 </div>
 
-<!-- Liste des paiements -->
-<div *ngIf="paiements.length === 0" class="text-center text-gray-500 italic mt-20 text-lg">
+<!-- Message si aucun paiement -->
+<div *ngIf="paiementsFiltres.length === 0" class="text-center text-gray-500 italic mt-20 text-lg">
   Aucun paiement trouvé.
 </div>
 
+<!-- Liste des paiements -->
 <ul class="max-w-6xl mx-auto space-y-6 px-4 sm:px-0">
   <li
-    *ngFor="let paiement of paiements"
+    *ngFor="let paiement of paiementsFiltres"
     [ngClass]="{
       'border-l-8 border-green-400 bg-green-50/60': paiement.status === 'ACCEPTER',
       'border-l-8 border-yellow-400 bg-yellow-50/60': paiement.status === 'EN_ATTENTE',

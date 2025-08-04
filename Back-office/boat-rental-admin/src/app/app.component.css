@@ -108,3 +108,27 @@ h2::after {
   border-radius: 2px;
 }
 
+.notification-icon-container {
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: white;
+}
+
+.notification-icon-container:hover {
+  color: #fbbf24; /* jaune clair au hover */
+}
+
+.notification-icon-container span {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  background-color: #dc2626;
+  color: white;
+  border-radius: 9999px;
+  padding: 0 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.25rem;
+}

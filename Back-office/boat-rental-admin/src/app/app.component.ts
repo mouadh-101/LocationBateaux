@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:resize')
   checkScreenSize() {
-    this.isMobile = window.innerWidth < 768;
+    this.isMobile = window.innerWidth < 100;
     if (!this.isMobile) {
       this.sidebarMobileOpen = false;
     }
