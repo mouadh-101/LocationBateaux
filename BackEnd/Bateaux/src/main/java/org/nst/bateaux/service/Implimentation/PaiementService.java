@@ -219,4 +219,11 @@ public class PaiementService implements IPaiementService {
             throw new RuntimeException("Error capturing PayPal order: " + e.getMessage(), e);
         }
     }
+
+    @Override
+    public List<PaimentData> getPaiementsForGestionnaire(Long gestionnaireId) {
+        List<Paiement> paiements = paiementRepository.findPaiementsByGestionnaireId(gestionnaireId);
+        return paiements.stream().map(mapToDto::mapToPaiementDto).toList();
+    }
+
 }

@@ -5,10 +5,17 @@ import org.nst.bateaux.entity.Reservation;
 import org.nst.bateaux.entity.StatusRes;
 import org.nst.bateaux.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation,Long> {
+
+
+    @Query("SELECT r FROM Reservation r WHERE r.bateau.proprietaire.id = :gestionnaireId and r.isDeleted=false " +
+            "")
+    List<Reservation> findByGestionnaireId(@Param("gestionnaireId") Long gestionnaireId);
     List<Reservation> findByUtilisateurAndIsDeletedFalse(User utilisateur);
     List<Reservation> findByBateauAndStatusAndIsDeletedFalse(Bateaux bat, StatusRes status);
     List<Reservation> findByBateauAndIsDeletedFalse(Bateaux bat);

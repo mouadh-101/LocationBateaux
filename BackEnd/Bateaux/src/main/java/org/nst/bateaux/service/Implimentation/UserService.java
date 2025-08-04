@@ -173,7 +173,9 @@ public class UserService implements IUserService {
     @Override
     public void supprimerUser(Long id)
     {
-        userRepository.deleteById(id);
+        User exitingUser=userRepository.findById(id).orElseThrow(()-> new BusinessException("user not found"));
+        exitingUser.setDeleted(true);
+        userRepository.save(exitingUser);
     }
 
     @Override

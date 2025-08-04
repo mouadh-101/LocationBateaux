@@ -5,6 +5,7 @@ import * as jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-historique-paiement',
@@ -19,9 +20,18 @@ export class HistoriquePaiementComponent implements OnInit {
   totalRefuser: number = 0;
   montantTotal: number = 0;
 
-  constructor(private paiementService: PaiementService) {}
+  constructor(private paiementService: PaiementService , private authService: AuthService ) {}
 
   ngOnInit(): void {
+  if (this.authService.isGestionnaire()) {
+    this.paiementService.getPaiementsForGestionnaire().subscribe({
+      next: (data) => {
+        this.paiements = data;
+        this.calculerStatistiques();
+      },
+      error: (err) => console.error('Erreur API Paiements:', err)
+    });
+  } else if (this.authService.isAdmin()) {
     this.paiementService.getAllPaiements().subscribe({
       next: (data) => {
         this.paiements = data;
@@ -30,6 +40,7 @@ export class HistoriquePaiementComponent implements OnInit {
       error: (err) => console.error('Erreur API Paiements:', err)
     });
   }
+}
 
   calculerStatistiques(): void {
     this.totalAcceptes = this.paiements.filter(p => p.status === 'ACCEPTER').length;

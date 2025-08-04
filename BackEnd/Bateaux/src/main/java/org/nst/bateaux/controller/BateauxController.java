@@ -4,13 +4,18 @@ import lombok.AllArgsConstructor;
 import org.nst.bateaux.dto.bateau.BateauData;
 import org.nst.bateaux.dto.bateau.BoatSearchRequest;
 import org.nst.bateaux.dto.user.UserData;
+import org.nst.bateaux.entity.Reservation;
 import org.nst.bateaux.entity.User;
 import org.nst.bateaux.service.Implimentation.BateauxService;
+import org.nst.bateaux.service.Implimentation.ReservationService;
+import org.nst.bateaux.service.Implimentation.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -24,6 +29,7 @@ public class BateauxController {
 
     @Autowired
     BateauxService bateauxService;
+
 
     @PostMapping()
     @PreAuthorize("hasRole('ADMIN') or hasRole('GESTIONNAIRE')")
@@ -87,6 +93,7 @@ public class BateauxController {
         UserData loggedInUser = (UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return bateauxService.getBateauxByProprietaireId(loggedInUser.getId());
     }
+
 
 
 }

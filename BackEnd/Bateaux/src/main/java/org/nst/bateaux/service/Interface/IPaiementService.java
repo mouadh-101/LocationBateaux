@@ -27,4 +27,6 @@ public interface IPaiementService {
     String createPaypalOrder(Long id) throws IOException;
 
     String captureOrder(String orderId);
+
+    List<PaimentData> getPaiementsForGestionnaire(Long gestionnaireId);
 }

@@ -16,6 +16,19 @@ public interface PaiementRepository extends JpaRepository<Paiement,Long> {
     and p.isDeleted = false
     """)
     List<Paiement> getPaiementByUser(@Param("userId") Long userId);
+
+
+
+    @Query("""
+SELECT p FROM Paiement p
+JOIN p.reservation r
+JOIN r.bateau b
+WHERE b.proprietaire.id = :gestionnaireId and p.isDeleted=FALSE 
+""")
+    List<Paiement> findPaiementsByGestionnaireId(@Param("gestionnaireId") Long gestionnaireId);
+
+
+
     List<Paiement> findAllByIsDeletedFalse();
     Paiement findByPaiementIdAndIsDeletedFalse(Long id);
 }
