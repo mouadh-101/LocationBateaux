@@ -5,23 +5,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Carecteristique {
+public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long idCarecteristique;
-    int capacite;
-    double longueur;
-    double largeur;
-    int nombreMoteurs;
-    @Enumerated(EnumType.STRING)
-    TypeBateux type;
-    @OneToOne
-    @JoinColumn(name = "bateau_id")
-    private Bateaux bateau;
+    Long idService;
+    String nom;
+    @ManyToMany(cascade = CascadeType.ALL)
+    List<Bateaux> bateaux=new ArrayList<>();
     @Column(nullable = false)
     boolean isDeleted=false;
 }

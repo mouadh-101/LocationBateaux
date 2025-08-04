@@ -5,11 +5,9 @@ import org.nst.bateaux.config.BusinessException;
 import org.nst.bateaux.dto.bateau.BateauData;
 import org.nst.bateaux.dto.bateau.CarecteristiqueBateauxDto;
 import org.nst.bateaux.dto.bateau.ImageDto;
+import org.nst.bateaux.dto.service.ServiceData;
 import org.nst.bateaux.entity.*;
-import org.nst.bateaux.repository.BateauxRepository;
-import org.nst.bateaux.repository.ImageRepository;
-import org.nst.bateaux.repository.PortRepository;
-import org.nst.bateaux.repository.UserRepository;
+import org.nst.bateaux.repository.*;
 import org.nst.bateaux.service.Interface.IBateauxService;
 import org.nst.bateaux.service.mappers.MapToDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +30,8 @@ public class BateauxService implements IBateauxService {
     PortRepository portRepository;
     @Autowired
     ImageRepository imageRepository;
+    @Autowired
+    ServiceRepository serviceRepository;
 
     @Override
     public BateauData ajouterBateaux(BateauData bateaux, Long adminId) {
@@ -90,6 +90,24 @@ public class BateauxService implements IBateauxService {
         } else {
             newBat.setPort(port);
         }
+        if( bateaux.getServices() != null) {
+            for( ServiceData service : bateaux.getServices()) {
+                org.nst.bateaux.entity.Service existingService = serviceRepository.findByNomAndIsDeletedFalse(service.getNom());
+                if(existingService !=null)
+                {
+                    existingService.getBateaux().add(newBat);
+                    serviceRepository.save(existingService);
+                    newBat.getServices().add(existingService);
+                } else {
+                    org.nst.bateaux.entity.Service newService = new org.nst.bateaux.entity.Service();
+                    newService.setNom(service.getNom());
+                    newService.getBateaux().add(newBat);
+                    serviceRepository.save(newService);
+                    newBat.getServices().add(newService);
+                }
+            }
+        }
+
 
         bateauxRepository.save(newBat);
 
@@ -129,6 +147,7 @@ public class BateauxService implements IBateauxService {
             im.setBateau(existingBateau); // Set back-reference
             existingBateau.getImages().add(im);
         }
+
         CarecteristiqueBateauxDto carecteristiqueData = bateauxDto.getCarecteristique();
         Carecteristique caracteristique = new Carecteristique();
         caracteristique.setCapacite(carecteristiqueData.getCapacite());
@@ -143,7 +162,21 @@ public class BateauxService implements IBateauxService {
         existingBateau.getReservationTypeSettings().setFullDayPrice(bateauxDto.getReservationTypeSettings().getFullDayPrice());
         existingBateau.getReservationTypeSettings().setHalfDayPrice(bateauxDto.getReservationTypeSettings().getHalfDayPrice());
         existingBateau.getReservationTypeSettings().setTwoHoursPrice(bateauxDto.getReservationTypeSettings().getTwoHoursPrice());
-
+        for( ServiceData service : bateauxDto.getServices()) {
+            org.nst.bateaux.entity.Service existingService = serviceRepository.findByNomAndIsDeletedFalse(service.getNom());
+            if(existingService !=null)
+            {
+                existingService.getBateaux().add(existingBateau);
+                serviceRepository.save(existingService);
+                existingBateau.getServices().add(existingService);
+            } else {
+                org.nst.bateaux.entity.Service newService = new org.nst.bateaux.entity.Service();
+                newService.setNom(service.getNom());
+                newService.getBateaux().add(existingBateau);
+                serviceRepository.save(newService);
+                existingBateau.getServices().add(newService);
+            }
+        }
         if (role==Role.ADMIN)
         {
             existingBateau.setCommission(bateauxDto.getCommission());

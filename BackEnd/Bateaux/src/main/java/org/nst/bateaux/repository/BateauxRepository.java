@@ -23,7 +23,7 @@ public interface BateauxRepository extends JpaRepository<Bateaux,Long> {
     @Query("""
   SELECT b FROM Bateaux b
   WHERE b.port.nom = :portName
-    AND b.Carecteristique.capacite >= :nbPersonnes
+    AND b.carecteristique.capacite >= :nbPersonnes
     AND b.disponible = true
     and b.isDeleted = false
     AND NOT EXISTS (
