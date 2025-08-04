@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Boat } from '../interfaces/boats';
+import { Boat, Service, serviceBoat } from '../interfaces/boats';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ import { Boat } from '../interfaces/boats';
 export class BoatService {
   private apiUrl = 'http://localhost:8081/api/bateaux';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAllBoats(): Observable<Boat[]> {
     return this.http.get<Boat[]>(`${this.apiUrl}/list`);
@@ -29,7 +29,7 @@ export class BoatService {
     return this.http.post<Boat>(this.apiUrl, boat);
   }
 
-    // Modifier un bateau (PUT)
+  // Modifier un bateau (PUT)
   editBoat(id: number, boat: Boat): Observable<Boat> {
     const url = `${this.apiUrl}/${id}`;
     return this.http.put<Boat>(url, boat);
@@ -42,11 +42,15 @@ export class BoatService {
   }
 
   updateBoat(id: number, boat: Boat): Observable<any> {
-  return this.http.put(`${this.apiUrl}/${id}`, boat);
+    return this.http.put(`${this.apiUrl}/${id}`, boat);
   }
   getBoatsByUser(): Observable<Boat[]> {
-  return this.http.get<Boat[]>(`${this.apiUrl}/listBpU`);
-}
+    return this.http.get<Boat[]>(`${this.apiUrl}/listBpU`);
+
+  }
+  getAllService(): Observable<serviceBoat[]> {
+    return this.http.get<serviceBoat[]>(`http://localhost:8081/api/services`);
+  }
 
 }
 

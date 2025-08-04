@@ -11,10 +11,12 @@ import org.nst.bateaux.dto.port.PortDto;
 import org.nst.bateaux.dto.reservation.ReservationAdd;
 import org.nst.bateaux.dto.reservation.ReservationData;
 import org.nst.bateaux.dto.reservation.ReservationTypeSettingsDto;
+import org.nst.bateaux.dto.service.ServiceData;
 import org.nst.bateaux.dto.user.UserData;
 import org.nst.bateaux.dto.user.UserDataWithName;
 import org.nst.bateaux.entity.*;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 
@@ -43,6 +45,9 @@ public class MapToDto {
         List<ReservationAdd> reservation= bateau.getReservations().stream()
                 .map(res -> mapToAddReservationDto(res))
                 .toList();
+        List<ServiceData> services = bateau.getServices().stream()
+                .map(service -> mapToServiceDto(service))
+                .toList();
 
         return new BateauData(
                 bateau.getBateauxId(),
@@ -55,6 +60,7 @@ public class MapToDto {
                 bateau.getAvis().stream()
                         .map(avis -> mapToAvisDto(avis)).toList(),
                 reservation,
+                services,
                 mapToPortAddDto(bateau.getPort()),
                 maptoDtoCarecteristique(bateau.getCarecteristique()),
                 mapToReservationTypeSettingsDto(bateau.getReservationTypeSettings())
@@ -161,5 +167,12 @@ public class MapToDto {
     // images
     public ImageDto mapToImageDto(Image image){
         return new ImageDto(image.getImageId(),image.getUrl());
+    }
+    //Service
+    public ServiceData mapToServiceDto(org.nst.bateaux.entity.Service service) {
+        return new ServiceData(
+                service.getIdService(),
+                service.getNom()
+        );
     }
 }
