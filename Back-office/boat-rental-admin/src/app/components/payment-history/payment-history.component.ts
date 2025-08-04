@@ -20,27 +20,32 @@ export class HistoriquePaiementComponent implements OnInit {
   totalRefuser: number = 0;
   montantTotal: number = 0;
 
-  constructor(private paiementService: PaiementService , private authService: AuthService ) {}
+  selectedStatus: string | null = null; // filtre actif
+
+  constructor(
+    private paiementService: PaiementService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-  if (this.authService.isGestionnaire()) {
-    this.paiementService.getPaiementsForGestionnaire().subscribe({
-      next: (data) => {
-        this.paiements = data;
-        this.calculerStatistiques();
-      },
-      error: (err) => console.error('Erreur API Paiements:', err)
-    });
-  } else if (this.authService.isAdmin()) {
-    this.paiementService.getAllPaiements().subscribe({
-      next: (data) => {
-        this.paiements = data;
-        this.calculerStatistiques();
-      },
-      error: (err) => console.error('Erreur API Paiements:', err)
-    });
+    if (this.authService.isGestionnaire()) {
+      this.paiementService.getPaiementsForGestionnaire().subscribe({
+        next: (data) => {
+          this.paiements = data;
+          this.calculerStatistiques();
+        },
+        error: (err) => console.error('Erreur API Paiements:', err)
+      });
+    } else if (this.authService.isAdmin()) {
+      this.paiementService.getAllPaiements().subscribe({
+        next: (data) => {
+          this.paiements = data;
+          this.calculerStatistiques();
+        },
+        error: (err) => console.error('Erreur API Paiements:', err)
+      });
+    }
   }
-}
 
   calculerStatistiques(): void {
     this.totalAcceptes = this.paiements.filter(p => p.status === 'ACCEPTER').length;
@@ -51,7 +56,22 @@ export class HistoriquePaiementComponent implements OnInit {
       .reduce((acc, p) => acc + (p.montant || 0), 0);
   }
 
-   exportPDF(): void {
+  // ✅ Retourne la liste filtrée
+  get paiementsFiltres(): PaiementData[] {
+    if (!this.selectedStatus) return this.paiements;
+    return this.paiements.filter(p => p.status === this.selectedStatus);
+  }
+
+  // ✅ Appliquer / retirer le filtre
+  filtrerParStatut(status: string | null): void {
+    if (this.selectedStatus === status) {
+      this.selectedStatus = null;
+    } else {
+      this.selectedStatus = status;
+    }
+  }
+
+  exportPDF(): void {
     const doc = new jsPDF.default();
     doc.setFontSize(18);
     doc.text('Historique des paiements', 14, 20);
@@ -89,4 +109,5 @@ export class HistoriquePaiementComponent implements OnInit {
     const dataBlob = new Blob([excelBuffer], { type: 'application/octet-stream' });
     saveAs(dataBlob, 'historique_paiements.xlsx');
   }
+  
 }
