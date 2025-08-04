@@ -38,12 +38,15 @@ public class Bateaux {
     private List<Maintenance> maintenances=new ArrayList<>();
     @ManyToOne(cascade = CascadeType.ALL)
     Port port;
-    @OneToOne(cascade = CascadeType.ALL)
-    Carecteristique Carecteristique;
+    @ManyToMany(mappedBy = "bateaux",cascade = CascadeType.ALL)
+    List<Service> services=new ArrayList<>();
+    @OneToOne(mappedBy = "bateau", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Carecteristique carecteristique;
     @OneToOne(cascade = CascadeType.ALL)
     ReservationTypeSettings reservationTypeSettings = new ReservationTypeSettings();
     @Column(nullable = false)
     boolean isDeleted=false;
+
 
 
 }

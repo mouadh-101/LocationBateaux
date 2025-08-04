@@ -8,6 +8,7 @@ import org.nst.bateaux.dto.port.PortAddDto;
 import org.nst.bateaux.dto.reservation.ReservationAdd;
 import org.nst.bateaux.dto.reservation.ReservationData;
 import org.nst.bateaux.dto.reservation.ReservationTypeSettingsDto;
+import org.nst.bateaux.dto.service.ServiceData;
 import org.nst.bateaux.entity.Avis;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class BateauData {
     float commission;
     List<AviData> avis;
     List<ReservationAdd> reservations;
+    List<ServiceData> services;
     PortAddDto port;
     CarecteristiqueBateauxDto carecteristique;
     ReservationTypeSettingsDto reservationTypeSettings;

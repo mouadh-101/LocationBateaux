@@ -39,7 +39,8 @@ export class EditBoatComponent implements OnInit {
       halfDayPrice: 0,
       twoHoursPrice: 0,
     },
-    images: []
+    images: [],
+    services: [],
   };
 
   imageUrl: string = '';

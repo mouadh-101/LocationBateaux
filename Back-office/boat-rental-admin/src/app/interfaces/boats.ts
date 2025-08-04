@@ -38,6 +38,7 @@ export interface Boat {
   avis?: any[];          // si tu ne les utilises pas, mets any[] ou un type plus précis plus tard
   reservations?: any[];
   reservationTypeSettings: ReservationTypeSettings;
+  services:serviceBoat[];
 }
 export interface Avis {
   avisId: number;
@@ -67,4 +68,8 @@ export interface Benefit {
   titre: string;
   description: string;
   icone: string;
+}
+export interface serviceBoat{
+  idService?: number;
+  nom: string;
 }
