@@ -14,6 +14,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class HistoriquePaiementComponent implements OnInit {
   paiements: PaiementData[] = [];
+  paiementsFiltres: PaiementData[] = [];
 
   totalAcceptes: number = 0;
   totalEnAttente: number = 0;
@@ -21,6 +22,10 @@ export class HistoriquePaiementComponent implements OnInit {
   montantTotal: number = 0;
 
   selectedStatus: string | null = null; // filtre actif
+
+  filterClient: string = '';
+  filterBateau: string = '';
+  filterDate: string = '';
 
   constructor(
     private paiementService: PaiementService,
@@ -33,6 +38,7 @@ export class HistoriquePaiementComponent implements OnInit {
         next: (data) => {
           this.paiements = data;
           this.calculerStatistiques();
+          this.appliquerFiltres();
         },
         error: (err) => console.error('Erreur API Paiements:', err)
       });
@@ -41,6 +47,7 @@ export class HistoriquePaiementComponent implements OnInit {
         next: (data) => {
           this.paiements = data;
           this.calculerStatistiques();
+          this.appliquerFiltres();
         },
         error: (err) => console.error('Erreur API Paiements:', err)
       });
@@ -56,19 +63,41 @@ export class HistoriquePaiementComponent implements OnInit {
       .reduce((acc, p) => acc + (p.montant || 0), 0);
   }
 
-  // ✅ Retourne la liste filtrée
-  get paiementsFiltres(): PaiementData[] {
-    if (!this.selectedStatus) return this.paiements;
-    return this.paiements.filter(p => p.status === this.selectedStatus);
+  appliquerFiltres(): void {
+    this.paiementsFiltres = this.paiements.filter(p => {
+      // Filtre par statut
+      const matchStatus = this.selectedStatus ? p.status === this.selectedStatus : true;
+
+      // Filtre par client (insensible à la casse)
+      const matchClient = this.filterClient
+        ? (p.reservation?.utilisateur?.name || '').toLowerCase().includes(this.filterClient.toLowerCase())
+        : true;
+
+      // Filtre par bateau (insensible à la casse)
+      const matchBateau = this.filterBateau
+        ? (p.reservation?.bateau?.nom || '').toLowerCase().includes(this.filterBateau.toLowerCase())
+        : true;
+
+      // Filtre par date
+      let matchDate = true;
+      if (this.filterDate) {
+        const paiementDate = new Date(p.datePaiement);
+        const filtreDate = new Date(this.filterDate);
+        // Comparer uniquement la date (sans heure)
+        matchDate = paiementDate.toDateString() === filtreDate.toDateString();
+      }
+
+      return matchStatus && matchClient && matchBateau && matchDate;
+    });
   }
 
-  // ✅ Appliquer / retirer le filtre
   filtrerParStatut(status: string | null): void {
     if (this.selectedStatus === status) {
       this.selectedStatus = null;
     } else {
       this.selectedStatus = status;
     }
+    this.appliquerFiltres();
   }
 
   exportPDF(): void {
@@ -79,7 +108,7 @@ export class HistoriquePaiementComponent implements OnInit {
     autoTable(doc, {
       startY: 30,
       head: [['Client', 'Bateau', 'Date', 'Méthode', 'Montant', 'Statut']],
-      body: this.paiements.map(p => [
+      body: this.paiementsFiltres.map(p => [
         p.reservation?.utilisateur?.name || 'N/A',
         p.reservation?.bateau?.nom || 'N/A',
         new Date(p.datePaiement).toLocaleString(),
@@ -93,7 +122,7 @@ export class HistoriquePaiementComponent implements OnInit {
   }
 
   exportExcel(): void {
-    const worksheet = XLSX.utils.json_to_sheet(this.paiements.map(p => ({
+    const worksheet = XLSX.utils.json_to_sheet(this.paiementsFiltres.map(p => ({
       Client: p.reservation?.utilisateur?.name || 'N/A',
       Bateau: p.reservation?.bateau?.nom || 'N/A',
       Date: new Date(p.datePaiement).toLocaleString(),
@@ -109,5 +138,4 @@ export class HistoriquePaiementComponent implements OnInit {
     const dataBlob = new Blob([excelBuffer], { type: 'application/octet-stream' });
     saveAs(dataBlob, 'historique_paiements.xlsx');
   }
-  
 }

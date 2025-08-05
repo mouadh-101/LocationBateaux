@@ -1,10 +1,9 @@
-import { AuthService } from 'src/app/services/auth.service';
-import { Boat } from './../../../interfaces/boats';
 import { Component, OnInit } from '@angular/core';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { ReservationData } from 'src/app/interfaces/reservation-data';
 import { Router } from '@angular/router';
-
+import { Boat } from 'src/app/interfaces/boats';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-reservations-list',
@@ -17,7 +16,16 @@ export class ReservationsListComponent implements OnInit {
   filtered: ReservationData[] = [];
   currentFilter: string = 'ALL';
 
-  constructor(private reservationService: ReservationService, private router: Router, private authService: AuthService) { }
+  // Filtres
+  clientFilter: string = '';
+  boatFilter: string = '';
+  dateFilter: string = '';
+
+  constructor(
+    private reservationService: ReservationService,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.loadReservations();
@@ -30,24 +38,47 @@ export class ReservationsListComponent implements OnInit {
         this.applyFilter(this.currentFilter);
       });
     }
+
     if (this.authService.isAdmin()) {
       this.reservationService.getAllReservations().subscribe(res => {
         this.reservations = res;
         this.applyFilter(this.currentFilter);
       });
     }
-
-
   }
-
 
   applyFilter(filter: string): void {
     this.currentFilter = filter;
-    if (filter === 'ALL') {
-      this.filtered = this.reservations;
-    } else {
-      this.filtered = this.reservations.filter(r => r.status === filter);
+    let filtered = this.reservations;
+
+    // Statut
+    if (filter !== 'ALL') {
+      filtered = filtered.filter(r => r.status === filter);
     }
+
+    // Nom du client
+    if (this.clientFilter.trim()) {
+      filtered = filtered.filter(r =>
+        r.utilisateur?.name?.toLowerCase().includes(this.clientFilter.trim().toLowerCase())
+      );
+    }
+
+    // Nom du bateau
+    if (this.boatFilter.trim()) {
+      filtered = filtered.filter(r =>
+        r.bateau?.nom?.toLowerCase().includes(this.boatFilter.trim().toLowerCase())
+      );
+    }
+
+    // Date
+    if (this.dateFilter) {
+      const selectedDate = new Date(this.dateFilter).toISOString().split('T')[0]; // 'YYYY-MM-DD'
+      filtered = filtered.filter(r =>
+        new Date(r.date).toISOString().startsWith(selectedDate)
+      );
+    }
+
+    this.filtered = filtered;
   }
 
   get total(): number {
@@ -68,14 +99,10 @@ export class ReservationsListComponent implements OnInit {
   }
 
   editReservation(reservation: ReservationData): void {
-    console.log(reservation.reservationId);
-    // ou la suite logique, par exemple la navigation
     this.router.navigate(['/reservations/edit', reservation.reservationId]);
   }
 
   viewBoat(boat: Boat): void {
     this.router.navigate(['/boat-details', boat.bateauxId]);
-    console.log('Voir bateau:', boat);
   }
-
 }
