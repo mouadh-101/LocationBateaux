@@ -84,7 +84,7 @@ export class UserListComponent implements OnInit {
   banUser(user: User): void {
     this.userService.banUser(user.id).subscribe({
       next: () => {
-        alert(`${user.name} banni avec succès.`);
+        alert(`${user.name} Banni Avec Succès ✅.`);
         this.refreshUsers();
       },
       error: err => {
@@ -97,7 +97,7 @@ export class UserListComponent implements OnInit {
   unbanUser(user: User): void {
     this.userService.unbanUser(user.id).subscribe({
       next: () => {
-        alert(`${user.name} débanni avec succès.`);
+        alert(`${user.name} Débanni Avec Succès ✅.`);
         this.refreshUsers();
       },
       error: err => {
@@ -111,7 +111,7 @@ export class UserListComponent implements OnInit {
     if (confirm(`Es-tu sûr de vouloir supprimer définitivement ${user.name} ? Cette action est irréversible.`)) {
       this.userService.deleteUser(user.id).subscribe({
         next: () => {
-          alert(`${user.name} a été supprimé avec succès.`);
+          alert(`${user.name} a été supprimé Avec Succès ✅.`);
           this.refreshUsers();
         },
         error: (err) => {

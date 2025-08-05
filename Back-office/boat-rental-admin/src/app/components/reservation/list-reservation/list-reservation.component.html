@@ -1,6 +1,7 @@
-<h2 class="text-4xl font-extrabold text-center text-blue-900 mb-12 tracking-tight drop-shadow">
+   <h2 class="text-center text-[28px] sm:text-[36px] font-semibold text-blue-600 mb-6 leading-tight tracking-tight italic">
   Les Réservations
 </h2>
+
 
 <!-- Cartes Statistiques Résumé -->
 <div class="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6 mb-12 text-center">
@@ -39,6 +40,31 @@
     <div class="text-2xl font-bold">{{ countByStatus('REFUSER') }}</div>
     <div class="text-sm font-semibold">Refusées</div>
   </div>
+</div>
+<!-- Filtres -->
+<div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 px-4 sm:px-0 mb-8">
+  <input
+    type="text"
+    placeholder="Filtrer par nom du client"
+    [(ngModel)]="clientFilter"
+    (input)="applyFilter(currentFilter)"
+    class="p-2 border border-gray-300 rounded-lg shadow-sm w-full"
+  />
+
+  <input
+    type="text"
+    placeholder="Filtrer par nom du bateau"
+    [(ngModel)]="boatFilter"
+    (input)="applyFilter(currentFilter)"
+    class="p-2 border border-gray-300 rounded-lg shadow-sm w-full"
+  />
+
+  <input
+    type="date"
+    [(ngModel)]="dateFilter"
+    (change)="applyFilter(currentFilter)"
+    class="p-2 border border-gray-300 rounded-lg shadow-sm w-full"
+  />
 </div>
 
 <!-- Liste des réservations -->

@@ -94,22 +94,23 @@ public class ReservationService implements IReservationService {
     @Override
     public ReservationData updateReservation(Long id,ReservationData reservation)
     {
-        Reservation i=reservationRepository.findById(id).orElse(null);
-        i.setDate(reservation.getDate());
-        i.setTypeReservation(reservation.getTypeReservation());
-        i.setStatus(reservation.getStatus());
-        i.setNbPersonnes(reservation.getNbPersonnes());
-        i=reservationRepository.save(i);
-        if (i.getStatus()==StatusRes.ACCEPTER)
+        Reservation reservationExist=reservationRepository.findById(id).orElse(null);
+        reservationExist.setDate(reservation.getDate());
+        reservationExist.setTypeReservation(reservation.getTypeReservation());
+        reservationExist.setStatus(reservation.getStatus());
+        reservationExist.setNbPersonnes(reservation.getNbPersonnes());
+        reservationExist=reservationRepository.save(reservationExist);
+        if (reservationExist.getStatus()==StatusRes.ACCEPTER)
         {
-            PaimentData p  =paiementService.ajouterPaiement(i);
+            PaimentData p  =paiementService.ajouterPaiement(reservationExist);
             try {
-                mailService.sendReservationConfirmation(i.getUtilisateur().getEmail(),i.getUtilisateur().getName(),p.getPaiementId(),p.getMontant(),i.getBateau(),i.getDate(),i.getNbPersonnes());
+                mailService.sendReservationConfirmation(reservationExist.getUtilisateur().getEmail(),reservationExist.getUtilisateur().getName(),p.getPaiementId(),p.getMontant(),reservationExist.getBateau(),reservationExist.getDate(),reservationExist.getNbPersonnes());
             }catch (Exception e) {
                 throw new BusinessException("Error sending email: " + e.getMessage());
             }
         }
-        return mapToDto.mapToReservationDto(i);
+
+        return mapToDto.mapToReservationDto(reservationExist);
     }
 
     @Override

@@ -5,10 +5,28 @@ import { Router } from '@angular/router';
 import { ImageUploadComponent } from '../../image-upload/image-upload.component';
 import { AuthService } from 'src/app/services/auth.service';
 
+import {
+  trigger,
+  transition,
+  style,
+  animate
+} from '@angular/animations';
+
 @Component({
   selector: 'app-add-boat',
   templateUrl: './add-boats.component.html',
-  styleUrls: ['./add-boats.component.css']
+  styleUrls: ['./add-boats.component.css'],
+  animations: [
+    trigger('stepTransition', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateX(100px)' }),
+        animate('300ms ease-out', style({ opacity: 1, transform: 'translateX(0)' }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-in', style({ opacity: 0, transform: 'translateX(-100px)' }))
+      ])
+    ])
+  ]
 })
 export class AddBoatComponent implements OnInit, OnDestroy {
 
@@ -86,7 +104,7 @@ export class AddBoatComponent implements OnInit, OnDestroy {
     console.log(this.boat);
     this.boatService.addBoat(this.boat).subscribe({
       next: () => {
-        alert('Bateau ajouté avec succès ✅');
+        alert('Bateau Ajouté Avec Succès ✅');
         this.router.navigate(['/list']);
       },
       error: err => {
@@ -130,42 +148,42 @@ export class AddBoatComponent implements OnInit, OnDestroy {
     return this.step === stepNum;
   }
   isFormStepValid(): boolean {
-  switch (this.step) {
-    case 1:
-      return (
-        !!this.boat.nom &&
-        this.boat.nom.length >= 3 &&
-        this.boat.nom.length <= 50 &&
-        !!this.boat.description &&
-        this.boat.description.length >= 10 &&
-        this.boat.description.length <= 300 &&
-        this.boat.prix != null &&
-        this.boat.prix >= 0 &&
-        !!this.boat.port?.nom &&
-        this.boat.port.nom.length >= 2
-      );
-    case 2:
-      const char = this.boat.carecteristique;
-      return (
-        char.capacite >= 1 &&
-        char.longueur >= 0.1 &&
-        char.largeur >= 0.1 &&
-        char.nombreMoteurs >= 0 &&
-        !!char.type
-      );
-    case 3:
-      // If admin, validate; else skip
-      return this.admin ? true : true; // Adjust if you want service selection required
-    case 4:
-      // Validate that at least one pricing is enabled and valid
-      const settings = this.boat.reservationTypeSettings;
-      const hasFull = settings.full_day_enabled && settings.fullDayPrice >= 0;
-      const hasHalf = settings.half_day_enabled && settings.halfDayPrice >= 0;
-      const hasTwo = settings.two_hours_enabled && settings.twoHoursPrice >= 0;
-      return hasFull || hasHalf || hasTwo;
-    default:
-      return true;
+    switch (this.step) {
+      case 1:
+        return (
+          !!this.boat.nom &&
+          this.boat.nom.length >= 3 &&
+          this.boat.nom.length <= 50 &&
+          !!this.boat.description &&
+          this.boat.description.length >= 10 &&
+          this.boat.description.length <= 300 &&
+          this.boat.prix != null &&
+          this.boat.prix >= 0 &&
+          !!this.boat.port?.nom &&
+          this.boat.port.nom.length >= 2
+        );
+      case 2:
+        const char = this.boat.carecteristique;
+        return (
+          char.capacite >= 1 &&
+          char.longueur >= 0.1 &&
+          char.largeur >= 0.1 &&
+          char.nombreMoteurs >= 0 &&
+          !!char.type
+        );
+      case 3:
+        // If admin, validate; else skip
+        return this.admin ? true : true; // Adjust if you want service selection required
+      case 4:
+        // Validate that at least one pricing is enabled and valid
+        const settings = this.boat.reservationTypeSettings;
+        const hasFull = settings.full_day_enabled && settings.fullDayPrice >= 0;
+        const hasHalf = settings.half_day_enabled && settings.halfDayPrice >= 0;
+        const hasTwo = settings.two_hours_enabled && settings.twoHoursPrice >= 0;
+        return hasFull || hasHalf || hasTwo;
+      default:
+        return true;
+    }
   }
-}
 
 }

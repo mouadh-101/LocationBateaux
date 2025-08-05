@@ -1,5 +1,5 @@
-<h2 class="text-4xl font-extrabold text-center text-blue-900 mb-12 tracking-tight drop-shadow">
-  Historique des paiements
+<h2 class="text-center text-[28px] sm:text-[36px] font-semibold text-blue-600 mb-6 leading-tight tracking-tight italic">
+  Historique Des Paiements
 </h2>
 
 
@@ -25,6 +25,7 @@
     <span>Exporter en Excel</span>
   </button>
 </div>
+
 <div *ngIf="selectedStatus" class="text-center mb-6">
   <span
     class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800 border border-blue-300 shadow-sm animate-fade-in"
@@ -42,7 +43,6 @@
     </button>
   </span>
 </div>
-
 
 <!-- Résumé Statistiques + Filtres -->
 <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-4 gap-6 mb-12 text-center">
@@ -83,6 +83,31 @@
   </div>
 </div>
 
+<!-- Filtres supplémentaires -->
+<div class="max-w-6xl mx-auto flex flex-col sm:flex-row gap-4 mb-6 px-4 sm:px-0 justify-center">
+  <input
+    type="text"
+    placeholder="Filtrer par client"
+    [(ngModel)]="filterClient"
+    (input)="appliquerFiltres()"
+    class="border border-gray-300 rounded-lg px-4 py-2 w-full sm:w-1/3"
+  />
+
+  <input
+    type="text"
+    placeholder="Filtrer par bateau"
+    [(ngModel)]="filterBateau"
+    (input)="appliquerFiltres()"
+    class="border border-gray-300 rounded-lg px-4 py-2 w-full sm:w-1/3"
+  />
+
+  <input
+    type="date"
+    [(ngModel)]="filterDate"
+    (change)="appliquerFiltres()"
+    class="border border-gray-300 rounded-lg px-4 py-2 w-full sm:w-1/3"
+  />
+</div>
 <!-- Message si aucun paiement -->
 <div *ngIf="paiementsFiltres.length === 0" class="text-center text-gray-500 italic mt-20 text-lg">
   Aucun paiement trouvé.

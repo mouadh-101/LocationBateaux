@@ -48,7 +48,7 @@ export class EditUserComponent implements OnInit {
   updateUser(): void {
     this.userService.updateUser(this.userId, this.user).subscribe({
       next: () => {
-        alert('Utilisateur mis à jour avec succès');
+        alert('Utilisateur mis à jour Avec Succès ✅');
         this.router.navigate(['/users']); // retour à la liste
       },
       error: (err) => {
