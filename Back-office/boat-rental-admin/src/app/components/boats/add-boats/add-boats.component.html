@@ -93,7 +93,23 @@
         <small *ngIf="port.errors?.['required']">Le port est obligatoire.</small>
         <small *ngIf="port.errors?.['minlength']">Minimum 2 caractères.</small>
         <small *ngIf="port.errors?.['maxlength']">Maximum 50 caractères.</small>
+      <label for="port">Port</label>
+      <select id="port" [(ngModel)]="selectedPort" name="port" #port="ngModel" required (change)="onPortChange()">
+        <option *ngFor="let p of ports" [value]="p.nom">{{ p.nom }}</option>
+        <option value="autre">Autre</option>
+      </select>
+      <div *ngIf="selectedPort === 'autre'">
+        <input type="text" [(ngModel)]="boat.port.nom" name="newPort" #newPort="ngModel" required minlength="2"
+          maxlength="50" />
+
+        <div *ngIf="newPort.invalid && newPort.touched" class="error-msg">
+          <small *ngIf="newPort.errors?.['required']">Le port est obligatoire.</small>
+          <small *ngIf="newPort.errors?.['minlength']">Minimum 2 caractères.</small>
+          <small *ngIf="newPort.errors?.['maxlength']">Maximum 50 caractères.</small>
+        </div>
       </div>
+
+
     </div>
 
     <!-- Step 2 -->

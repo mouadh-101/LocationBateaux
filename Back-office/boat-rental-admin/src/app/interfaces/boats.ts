@@ -28,14 +28,12 @@ export interface Boat {
   nom: string;
   description: string;
   prix: number;
-  port: {
-  nom:string
-  };
   carecteristique: Caracteristique;
   images: Image[];
   disponible?: boolean;
   commission:number
-  avis?: any[];          // si tu ne les utilises pas, mets any[] ou un type plus précis plus tard
+  avis?: any[];
+  port:Port;          // si tu ne les utilises pas, mets any[] ou un type plus précis plus tard
   reservations?: any[];
   reservationTypeSettings: ReservationTypeSettings;
   services:serviceBoat[];
@@ -73,3 +71,6 @@ export interface serviceBoat{
   idService?: number;
   nom: string;
 }
+export interface Port{
+  nom:string
+  }

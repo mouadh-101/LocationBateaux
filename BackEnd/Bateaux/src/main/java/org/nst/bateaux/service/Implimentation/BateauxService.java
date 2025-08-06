@@ -104,6 +104,7 @@ public class BateauxService implements IBateauxService {
                     org.nst.bateaux.entity.Service newService = new org.nst.bateaux.entity.Service();
                     newService.setNom(service.getNom());
                     newService.getBateaux().add(newBat);
+                    newService.setCreatedBy(user);
                     serviceRepository.save(newService);
                     newBat.getServices().add(newService);
                 }

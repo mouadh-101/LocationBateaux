@@ -19,6 +19,8 @@ public class Service {
     String nom;
     @ManyToMany(mappedBy = "services",cascade = CascadeType.ALL)
     List<Bateaux> bateaux=new ArrayList<>();
+    @ManyToOne(cascade = CascadeType.ALL)
+    User createdBy;
     @Column(nullable = false)
     boolean isDeleted=false;
 }

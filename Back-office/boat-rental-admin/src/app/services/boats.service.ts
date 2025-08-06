@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Boat, Service, serviceBoat } from '../interfaces/boats';
+import { Boat, Port, Service, serviceBoat } from '../interfaces/boats';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +50,9 @@ export class BoatService {
   }
   getAllService(): Observable<serviceBoat[]> {
     return this.http.get<serviceBoat[]>(`http://localhost:8081/api/services`);
+  }
+  getAllPorts(): Observable<Port[]> {
+    return this.http.get<Port[]>(`http://localhost:8081/api/ports`);
   }
 
 }

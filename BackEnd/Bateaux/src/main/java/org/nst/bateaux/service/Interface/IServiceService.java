@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IServiceService {
-    List<ServiceData> getAll();
+    List<ServiceData> getAll(Long idUser);
 }
