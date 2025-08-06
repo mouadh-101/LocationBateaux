@@ -69,15 +69,16 @@ export class EditBoatComponent implements OnInit {
         type: 'AUTRE'
       },
       images: [],
-      reservationTypeSettings: {
-        full_day_enabled: true,
-        half_day_enabled: true,
-        two_hours_enabled: true,
-        fullDayPrice: 0,
-        halfDayPrice: 0,
-        twoHoursPrice: 0,
-      },
       services: [],
+      reservationTypeSettings: {
+        full_day_enabled: false,
+        fullDayPrice: 0,
+        half_day_enabled: false,
+        halfDayPrice: 0,
+        two_hours_enabled: false,
+        twoHoursPrice: 0
+      },
+      disponible: true // Ajout disponibilité par défaut
     };
   }
 
@@ -90,7 +91,8 @@ export class EditBoatComponent implements OnInit {
           port: data.port ?? { nom: '' },
           reservationTypeSettings: data.reservationTypeSettings ?? this.createEmptyBoat().reservationTypeSettings,
           services: data.services ?? [],
-          images: data.images ?? []
+          images: data.images ?? [],
+          disponible: data.disponible ?? true, // initialisation disponibilité
         };
         this.selectedServices = [...this.boat.services];
       },
@@ -98,11 +100,44 @@ export class EditBoatComponent implements OnInit {
     });
   }
 
-  loadServices(): void {
+ loadServices(): void {
     this.boatService.getAllService().subscribe({
       next: (services: serviceBoat[]) => this.servicesDisponibles = services,
       error: err => console.error('Erreur services :', err)
     });
+  }
+
+  isStep(n: number): boolean {
+    return this.step === n;
+  }
+
+  nextStep(): void {
+    if (this.step < 5 && this.isFormStepValid()) {
+      this.step++;
+    }
+  }
+
+  prevStep(): void {
+    if (this.step > 1) {
+      this.step--;
+    }
+  }
+
+  isFormStepValid(): boolean {
+    switch (this.step) {
+      case 1:
+        return !!this.boat.nom && this.boat.nom.length >= 3 && !!this.boat.description && this.boat.description.length >= 10 &&
+          this.boat.prix >= 0 && !!this.boat.port?.nom && this.boat.port.nom.length >= 2;
+      case 2:
+        const c = this.boat.carecteristique;
+        return c.capacite > 0 && c.longueur > 0 && c.largeur > 0 && c.nombreMoteurs >= 0 && !!c.type;
+      case 3:
+      case 4:
+      case 5:
+        return true;
+      default:
+        return false;
+    }
   }
 
   toggleService(service: serviceBoat): void {
@@ -114,7 +149,8 @@ export class EditBoatComponent implements OnInit {
     }
   }
 
-  isServiceSelected(service: serviceBoat): boolean {
+
+ isServiceSelected(service: serviceBoat): boolean {
     return this.selectedServices.some(s => s.nom === service.nom);
   }
 
@@ -128,10 +164,14 @@ export class EditBoatComponent implements OnInit {
     }
   }
 
+  // Ajout méthode gestion disponibilité
+  setDisponibilite(valeur: boolean): void {
+    this.boat.disponible = valeur;
+  }
+
   updateBoat(): void {
     this.boat.images = this.imageUploaderComponent.getImages();
     this.boat.services = this.selectedServices;
-    console.log(this.boat)
 
     this.boatService.updateBoat(this.boatId, this.boat).subscribe({
       next: () => {
@@ -149,47 +189,61 @@ export class EditBoatComponent implements OnInit {
     this.router.navigate(['/list']);
   }
 
-  isStep(stepNum: number): boolean {
-    return this.step === stepNum;
+isFormStepValidForStep(stepNum: number): boolean {
+  switch (stepNum) {
+    case 1:
+      return (
+        !!this.boat.nom && this.boat.nom.length >= 3 &&
+        !!this.boat.description && this.boat.description.length >= 10 &&
+        this.boat.prix != null && this.boat.prix >= 0 &&
+        !!this.boat.port?.nom && this.boat.port.nom.length >= 2
+      );
+    case 2:
+      const c = this.boat.carecteristique;
+      return (
+        c.capacite >= 1 &&
+        c.longueur >= 0.1 &&
+        c.largeur >= 0.1 &&
+        c.nombreMoteurs >= 0 &&
+        !!c.type
+      );
+    case 3:
+      return true; // Ou mettre ta propre validation
+    case 4:
+      const s = this.boat.reservationTypeSettings;
+      return (
+        (s.full_day_enabled && s.fullDayPrice >= 0) ||
+        (s.half_day_enabled && s.halfDayPrice >= 0) ||
+        (s.two_hours_enabled && s.twoHoursPrice >= 0)
+      );
+    case 5:
+      return true; // validation images si besoin
+    default:
+      return false;
+  }
+}
+
+
+  goToStep(stepNum: number) {
+  // Si on reste à une étape inférieure ou égale à la courante, c'est toujours autorisé (revenir en arrière)
+  if (stepNum <= this.step) {
+    this.step = stepNum;
+    return;
   }
 
-  nextStep() {
-    if (this.step < 5) this.step++;
-  }
-
-  prevStep() {
-    if (this.step > 1) this.step--;
-  }
-
-  isFormStepValid(): boolean {
-    switch (this.step) {
-      case 1:
-        return (
-          !!this.boat.nom && this.boat.nom.length >= 3 &&
-          !!this.boat.description && this.boat.description.length >= 10 &&
-          this.boat.prix != null && this.boat.prix >= 0 &&
-          !!this.boat.port?.nom && this.boat.port.nom.length >= 2
-        );
-      case 2:
-        const c = this.boat.carecteristique;
-        return (
-          c.capacite >= 1 &&
-          c.longueur >= 0.1 &&
-          c.largeur >= 0.1 &&
-          c.nombreMoteurs >= 0 &&
-          !!c.type
-        );
-      case 3:
-        return true;
-      case 4:
-        const s = this.boat.reservationTypeSettings;
-        return (
-          (s.full_day_enabled && s.fullDayPrice >= 0) ||
-          (s.half_day_enabled && s.halfDayPrice >= 0) ||
-          (s.two_hours_enabled && s.twoHoursPrice >= 0)
-        );
-      default:
-        return true;
+  // Sinon, on vérifie que toutes les étapes avant stepNum sont valides
+  for (let i = 1; i < stepNum; i++) {
+    if (!this.isFormStepValidForStep(i)) {
+      // Si une étape précédente n'est pas valide, on bloque la navigation
+      return;
     }
   }
+
+  // Toutes les étapes précédentes sont valides, on peut accéder à stepNum
+  this.step = stepNum;
+}
+
+
+
+
 }
