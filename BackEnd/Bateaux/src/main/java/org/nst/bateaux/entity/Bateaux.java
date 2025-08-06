@@ -39,7 +39,7 @@ public class Bateaux {
     private List<Maintenance> maintenances=new ArrayList<>();
     @ManyToOne(cascade = CascadeType.ALL)
     Port port;
-    @ManyToMany(mappedBy = "bateaux",cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     List<Service> services=new ArrayList<>();
     @OneToOne(mappedBy = "bateau", cascade = CascadeType.ALL, orphanRemoval = true)
     private Carecteristique carecteristique;

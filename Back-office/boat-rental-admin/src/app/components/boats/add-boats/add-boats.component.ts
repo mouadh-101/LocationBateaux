@@ -5,10 +5,28 @@ import { Router } from '@angular/router';
 import { ImageUploadComponent } from '../../image-upload/image-upload.component';
 import { AuthService } from 'src/app/services/auth.service';
 
+import {
+  trigger,
+  transition,
+  style,
+  animate
+} from '@angular/animations';
+
 @Component({
   selector: 'app-add-boat',
   templateUrl: './add-boats.component.html',
-  styleUrls: ['./add-boats.component.css']
+  styleUrls: ['./add-boats.component.css'],
+  animations: [
+    trigger('stepTransition', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateX(100px)' }),
+        animate('300ms ease-out', style({ opacity: 1, transform: 'translateX(0)' }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-in', style({ opacity: 0, transform: 'translateX(-100px)' }))
+      ])
+    ])
+  ]
 })
 export class AddBoatComponent implements OnInit, OnDestroy {
 
@@ -93,7 +111,7 @@ export class AddBoatComponent implements OnInit, OnDestroy {
     console.log(this.boat);
     this.boatService.addBoat(this.boat).subscribe({
       next: () => {
-        alert('Bateau ajouté avec succès ✅');
+        alert('Bateau Ajouté Avec Succès ✅');
         this.router.navigate(['/list']);
       },
       error: err => {
@@ -172,15 +190,6 @@ export class AddBoatComponent implements OnInit, OnDestroy {
         return hasFull || hasHalf || hasTwo;
       default:
         return true;
-    }
-  }
-  selectedPort: string | null = null;
-
-  onPortChange() {
-    if (this.selectedPort !== 'autre' && this.selectedPort!== null) {
-      this.boat.port = { nom: this.selectedPort };
-    } else {
-      this.boat.port = { nom: '' };
     }
   }
 

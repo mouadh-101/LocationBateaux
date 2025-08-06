@@ -26,6 +26,7 @@ import { ImageUploadComponent } from './components/image-upload/image-upload.com
 import { ReservationsListComponent } from './components/reservation/list-reservation/list-reservation.component';
 import { ReservationDetailsComponent } from './components/reservation/reservation-details/reservation-details.component';
 import { HistoriquePaiementComponent } from './components/payment-history/payment-history.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -65,6 +66,8 @@ import { HistoriquePaiementComponent } from './components/payment-history/paymen
     FormsModule,
     ReactiveFormsModule,
      CommonModule,
+     BrowserAnimationsModule,
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

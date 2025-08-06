@@ -17,7 +17,7 @@ public class Service {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long idService;
     String nom;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "services",cascade = CascadeType.ALL)
     List<Bateaux> bateaux=new ArrayList<>();
     @ManyToOne(cascade = CascadeType.ALL)
     User createdBy;

@@ -25,7 +25,7 @@ h2::after {
 }
 
 h2:hover::after {
-  width: 200px;
+  width: 600px;
 }
 
 /* === CONTENEUR FILTRES === */

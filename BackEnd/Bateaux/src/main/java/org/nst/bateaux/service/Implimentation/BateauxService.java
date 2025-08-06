@@ -152,33 +152,46 @@ public class BateauxService implements IBateauxService {
         }
 
         CarecteristiqueBateauxDto carecteristiqueData = bateauxDto.getCarecteristique();
-        Carecteristique caracteristique = new Carecteristique();
-        caracteristique.setCapacite(carecteristiqueData.getCapacite());
-        caracteristique.setLongueur(carecteristiqueData.getLongueur());
-        caracteristique.setLargeur(carecteristiqueData.getLargeur());
-        caracteristique.setNombreMoteurs(carecteristiqueData.getNombreMoteurs());
-        caracteristique.setType(carecteristiqueData.getType());
-        existingBateau.setCarecteristique(caracteristique);
+        existingBateau.getCarecteristique().setCapacite(carecteristiqueData.getCapacite());
+        existingBateau.getCarecteristique().setLongueur(carecteristiqueData.getLongueur());
+        existingBateau.getCarecteristique().setLargeur(carecteristiqueData.getLargeur());
+        existingBateau.getCarecteristique().setNombreMoteurs(carecteristiqueData.getNombreMoteurs());
+        existingBateau.getCarecteristique().setType(carecteristiqueData.getType());
+
         existingBateau.getReservationTypeSettings().setFull_day_enabled(bateauxDto.getReservationTypeSettings().isFull_day_enabled());
         existingBateau.getReservationTypeSettings().setHalf_day_enabled(bateauxDto.getReservationTypeSettings().isHalf_day_enabled());
         existingBateau.getReservationTypeSettings().setTwo_hours_enabled(bateauxDto.getReservationTypeSettings().isTwo_hours_enabled());
         existingBateau.getReservationTypeSettings().setFullDayPrice(bateauxDto.getReservationTypeSettings().getFullDayPrice());
         existingBateau.getReservationTypeSettings().setHalfDayPrice(bateauxDto.getReservationTypeSettings().getHalfDayPrice());
         existingBateau.getReservationTypeSettings().setTwoHoursPrice(bateauxDto.getReservationTypeSettings().getTwoHoursPrice());
-        for( ServiceData service : bateauxDto.getServices()) {
-            org.nst.bateaux.entity.Service existingService = serviceRepository.findByNomAndIsDeletedFalse(service.getNom());
-            if(existingService !=null)
-            {
-                existingService.getBateaux().add(existingBateau);
-                serviceRepository.save(existingService);
-                existingBateau.getServices().add(existingService);
+        existingBateau.getServices().clear();
+        bateauxRepository.save(existingBateau);
+        List<org.nst.bateaux.entity.Service> updatedServices = new ArrayList<>();
+
+        for (ServiceData serviceDto : bateauxDto.getServices()) {
+            org.nst.bateaux.entity.Service service = serviceRepository.findByNomAndIsDeletedFalse(serviceDto.getNom());
+            if (service != null) {
+                service.getBateaux().add(existingBateau);
+                updatedServices.add(service);
             } else {
                 org.nst.bateaux.entity.Service newService = new org.nst.bateaux.entity.Service();
-                newService.setNom(service.getNom());
+                newService.setNom(serviceDto.getNom());
                 newService.getBateaux().add(existingBateau);
                 serviceRepository.save(newService);
-                existingBateau.getServices().add(newService);
+                updatedServices.add(newService);
             }
+        }
+
+        existingBateau.setServices(updatedServices);
+        Port port = portRepository.findByNomAndIsDeletedFalse(bateauxDto.getPort().getNom());
+        if (port == null) {
+            Port newPort = new Port();
+            newPort.setNom(bateauxDto.getPort().getNom());
+            newPort.getBateaux().add(existingBateau);
+            existingBateau.setPort(newPort);
+            portRepository.save(newPort);
+        } else {
+            existingBateau.setPort(port);
         }
         if (role==Role.ADMIN)
         {

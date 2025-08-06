@@ -129,7 +129,7 @@ export class ListBoatsComponent implements OnInit {
     event.stopPropagation(); // Empêche la propagation du clic à la card
     if (confirm('Êtes-vous sûr de vouloir supprimer ce bateau ?')) {
       this.boatService.deleteBoat(id).subscribe(() => {
-        alert('Bateau supprimé');
+        alert('Bateau Supprimé Avec Succès ✅');
         this.getBoats();
       });
     }

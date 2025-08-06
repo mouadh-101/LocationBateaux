@@ -180,15 +180,7 @@
 }
 
 /* Ligne décorative sous le titre h2 */
-h2.form-title::after {
-  content: '';
-  display: block;
-  width: 100px;
-  height: 4px;
-  background: linear-gradient(to right, #007bff, #00c6ff);
-  margin: 10px auto 0;
-  border-radius: 2px;
-}
+
 
 .btn-primary {
   background-color: #2563eb;
@@ -292,4 +284,73 @@ select.ng-invalid.ng-touched {
 /* Hover */
 .reservation-types-section label:hover span::before {
   border-color: #0056b3;
+}
+
+
+.input {
+  @apply w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+.btn-primary {
+  @apply bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow;
+}
+
+.btn-secondary {
+  @apply bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-2 rounded-lg;
+}
+
+.btn-success {
+  @apply bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg;
+}
+
+
+.text-custom-blue {
+  color: #2563eb !important;
+}
+
+.bg-custom-blue {
+  background-color: #2563eb !important;
+}
+
+.border-custom-blue {
+  border-color: #2563eb !important;
+}
+
+.focus-ring-custom-blue:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #2563eb;
+}
+
+.hover-bg-custom-blue:hover {
+  background-color: #1e4db7; /* bleu plus foncé au hover */
+}
+
+
+h2 {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #2563eb;
+  /* Bleu vif */
+  letter-spacing: 3px;
+  text-align: center;
+  position: relative;
+  padding-bottom: 14px;
+  margin-bottom: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2::after {
+  content: '';
+  width: 140px;
+  height: 5px;
+  background: linear-gradient(90deg, #2563eb, #60a5fa);
+  display: block;
+  margin: 0 auto;
+  border-radius: 4px;
+  box-shadow: 0 0 12px #60a5fa;
+  transition: width 0.4s ease;
+}
+
+h2:hover::after {
+  width: 500px;
 }

@@ -14,6 +14,7 @@ import org.nst.bateaux.repository.UserRepository;
 import org.nst.bateaux.service.Interface.*;
 import org.nst.bateaux.service.mappers.MapToDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -39,6 +40,10 @@ public class ReservationService implements IReservationService {
     @Autowired
     IMailService mailService;
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
+
 
     @Override
     public ReservationData ajouterReservation(ReservationAdd reservation, Long bateauId, Long userId) {
@@ -49,12 +54,11 @@ public class ReservationService implements IReservationService {
             throw new BusinessException("Bateau not disponible");
         }
 
-        // Get all reservations of this boat
         List<Reservation> existingReservations = reservationRepository.findByBateauAndStatusAndIsDeletedFalse(bat, StatusRes.ACCEPTER);
         for (Reservation existing : existingReservations) {
-            boolean overlap = reservation.getDate()==existing.getDate();
+            boolean overlap = reservation.getDate().isEqual(existing.getDate());
             if (overlap) {
-                throw new BusinessException("La date sélectionnées est déjà réservées.");
+                throw new BusinessException("La date sélectionnée est déjà réservée.");
             }
         }
 
@@ -67,8 +71,15 @@ public class ReservationService implements IReservationService {
         res.setUtilisateur(userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessException("User not found")));
 
-        return mapToDto.mapToReservationDto(reservationRepository.save(res));
+        Reservation saved = reservationRepository.save(res);
+
+        // Envoi notification WebSocket STOMP
+        String notification = "Nouvelle réservation #" + saved.getReservationId() + " pour le bateau " + bat.getNom();
+        messagingTemplate.convertAndSend("/topic/reservations", notification);
+
+        return mapToDto.mapToReservationDto(saved);
     }
+
 
 
     @Override
@@ -83,22 +94,23 @@ public class ReservationService implements IReservationService {
     @Override
     public ReservationData updateReservation(Long id,ReservationData reservation)
     {
-        Reservation i=reservationRepository.findById(id).orElse(null);
-        i.setDate(reservation.getDate());
-        i.setTypeReservation(reservation.getTypeReservation());
-        i.setStatus(reservation.getStatus());
-        i.setNbPersonnes(reservation.getNbPersonnes());
-        i=reservationRepository.save(i);
-        if (i.getStatus()==StatusRes.ACCEPTER)
+        Reservation reservationExist=reservationRepository.findById(id).orElse(null);
+        reservationExist.setDate(reservation.getDate());
+        reservationExist.setTypeReservation(reservation.getTypeReservation());
+        reservationExist.setStatus(reservation.getStatus());
+        reservationExist.setNbPersonnes(reservation.getNbPersonnes());
+        reservationExist=reservationRepository.save(reservationExist);
+        if (reservationExist.getStatus()==StatusRes.ACCEPTER)
         {
-            PaimentData p  =paiementService.ajouterPaiement(i);
+            PaimentData p  =paiementService.ajouterPaiement(reservationExist);
             try {
-                mailService.sendReservationConfirmation(i.getUtilisateur().getEmail(),i.getUtilisateur().getName(),p.getPaiementId(),p.getMontant(),i.getBateau(),i.getDate(),i.getNbPersonnes());
+                mailService.sendReservationConfirmation(reservationExist.getUtilisateur().getEmail(),reservationExist.getUtilisateur().getName(),p.getPaiementId(),p.getMontant(),reservationExist.getBateau(),reservationExist.getDate(),reservationExist.getNbPersonnes());
             }catch (Exception e) {
                 throw new BusinessException("Error sending email: " + e.getMessage());
             }
         }
-        return mapToDto.mapToReservationDto(i);
+
+        return mapToDto.mapToReservationDto(reservationExist);
     }
 
     @Override
