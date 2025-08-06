@@ -1,8 +1,12 @@
 # 📄 paiement.service.ts — Documentation générée
 *Chemin : `G:\project\Stage4to5\application\FrontEnd\src\app\services\paiement.service.ts`*
 
-> 🕒 Généré le 2025-07-08 13:56:57
+> 🕒 Généré le 2025-08-05 11:13:35
 
 ## 🛠️ Service Angular
 - Méthode API : `addPaiment()`
 - Méthode API : `getPaimentsById()`
+- Méthode API : `getAllPaimentsByUserId()`
+- Méthode API : `createStripeSession()`
+- Méthode API : `updatePaiment()`
+- Méthode API : `createPaypalOrder()`

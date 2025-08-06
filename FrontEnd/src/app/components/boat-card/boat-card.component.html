@@ -45,7 +45,7 @@
     </h3>
 
     <p class="text-gray-600 mb-6 leading-relaxed">
-      {{ boat.description }}
+      {{ boat.description | slice:0:100 }}{{ boat.description.length > 100 ? '...' : '' }}
     </p>
     <!-- Rating -->
     <div class="flex items-center mb-3">

@@ -70,33 +70,7 @@ export class HeroComponent {
   
 
 
-  setQuickFilter(filterType: string) {
-    const today = new Date();
-    let date: Date;
-
-    switch (filterType) {
-      case 'weekend':
-        // Next weekend (Saturday to Sunday)
-        const daysUntilSaturday = (6 - today.getDay()) % 7;
-        date = new Date(today);
-        date.setDate(today.getDate() + daysUntilSaturday);
-        break;
-
-      case 'week':
-        // Next week (7 days)
-        date = new Date(today);
-        date.setDate(today.getDate() + 1);
-        break;
-
-
-      default:
-        return;
-    }
-
-    this.searchForm.patchValue({
-      date: this.formatDateForInput(date),
-    });
-  }
+  
 
   resetForm() {
     this.searchForm.reset({
@@ -106,20 +80,7 @@ export class HeroComponent {
     });
   }
 
-  private formatDateForInput(date: Date): string {
-    return date.toISOString().split('T')[0];
-  }
 
-  private markFormGroupTouched() {
-    Object.keys(this.searchForm.controls).forEach(key => {
-      const control = this.searchForm.get(key);
-      if (control) {
-        control.markAsTouched();
-      }
-    });
-  }
-
-  // Getter for easy access to form controls in template
   get f() {
     return this.searchForm.controls;
   }

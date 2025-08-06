@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BoatService } from '../../../services/boats.service';
-import { Boat, serviceBoat } from '../../../interfaces/boats';
+import { Boat, Port, serviceBoat } from '../../../interfaces/boats';
 import { ImageUploadComponent } from '../../image-upload/image-upload.component';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -38,13 +38,14 @@ export class EditBoatComponent implements OnInit {
   newServiceName: string = '';
   step: number = 1;
   admin = false;
+  ports: Port[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private boatService: BoatService,
     private router: Router,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.admin = this.authService.isAdmin();
@@ -52,6 +53,7 @@ export class EditBoatComponent implements OnInit {
 
     this.loadBoat();
     this.loadServices();
+    this.loadPorts();
   }
 
   createEmptyBoat(): Boat {
@@ -104,6 +106,12 @@ export class EditBoatComponent implements OnInit {
     this.boatService.getAllService().subscribe({
       next: (services: serviceBoat[]) => this.servicesDisponibles = services,
       error: err => console.error('Erreur services :', err)
+    });
+  }
+  loadPorts(): void {
+    this.boatService.getAllPorts().subscribe({
+      next: (ports: Port[]) => this.ports = ports,
+      error: err => console.error('Erreur ports :', err)
     });
   }
 
@@ -220,6 +228,16 @@ isFormStepValidForStep(stepNum: number): boolean {
       return true; // validation images si besoin
     default:
       return false;
+  }
+  selectedPort: string = '';
+
+  onPortChange(event: any) {
+    const value = event.target.value;
+    if (value !== 'autre') {
+      this.boat.port.nom = value;
+    } else {
+      this.boat.port.nom = ''; // let user type
+    }
   }
 }
 

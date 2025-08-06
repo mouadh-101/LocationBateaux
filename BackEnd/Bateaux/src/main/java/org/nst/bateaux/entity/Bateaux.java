@@ -22,6 +22,7 @@ public class Bateaux {
 
     Long bateauxId;
     String nom ;
+    @Column(columnDefinition = "TEXT")
     String description ;
     double prix ;
     boolean disponible ;

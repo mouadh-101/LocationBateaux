@@ -20,8 +20,8 @@ public class ServiceService implements IServiceService {
     MapToDto mapToport;
 
     @Override
-    public List<ServiceData> getAll() {
-        List<ServiceData> serviceList = serviceRepository.findAllByIsDeletedFalse()
+    public List<ServiceData> getAll(Long idUser) {
+        List<ServiceData> serviceList = serviceRepository.findVisibleServicesForGestionnaire(idUser)
                 .stream()
                 .map(mapToport::mapToServiceDto)
                 .toList();

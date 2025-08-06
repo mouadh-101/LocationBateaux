@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { BoatService } from '../../../services/boats.service';
-import { Boat, Image, serviceBoat } from '../../../interfaces/boats';
+import { Boat, Image, Port, serviceBoat } from '../../../interfaces/boats';
 import { Router } from '@angular/router';
 import { ImageUploadComponent } from '../../image-upload/image-upload.component';
 import { AuthService } from 'src/app/services/auth.service';
@@ -36,6 +36,7 @@ export class AddBoatComponent implements OnInit, OnDestroy {
   selectedServices: serviceBoat[] = [];
   newServiceName: string = '';
   step: number = 1;
+  ports: Port[] = [];
 
   boat: Boat = {
     nom: '',
@@ -80,6 +81,12 @@ export class AddBoatComponent implements OnInit, OnDestroy {
         this.servicesDisponibles = services;
       },
       error: err => console.error("Erreur services :", err)
+    });
+    this.boatService.getAllPorts().subscribe({
+      next: (ports: Port[]) => {
+        this.ports = ports;
+      },
+      error: err => console.error("Erreur ports :", err)
     });
   }
 
@@ -156,7 +163,7 @@ export class AddBoatComponent implements OnInit, OnDestroy {
           this.boat.nom.length <= 50 &&
           !!this.boat.description &&
           this.boat.description.length >= 10 &&
-          this.boat.description.length <= 300 &&
+          this.boat.description.length <= 500 &&
           this.boat.prix != null &&
           this.boat.prix >= 0 &&
           !!this.boat.port?.nom &&
@@ -183,6 +190,16 @@ export class AddBoatComponent implements OnInit, OnDestroy {
         return hasFull || hasHalf || hasTwo;
       default:
         return true;
+    }
+  }
+  selectedPort: string = '';
+
+  onPortChange(event: any) {
+    const value = event.target.value;
+    if (value !== 'autre') {
+      this.boat.port.nom = value;
+    } else {
+      this.boat.port.nom = ''; // let user type
     }
   }
 

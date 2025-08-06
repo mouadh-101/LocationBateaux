@@ -15,6 +15,7 @@ export interface Boat {
   port:Port;
   carecteristique: Caracteristique;
   reservationTypeSettings:ReservationTypeSettings
+  services: ServiceBoat[];
   
 
 }
@@ -34,6 +35,10 @@ export interface Service {
   titre: string;
   description: string;
   icone: string;
+}
+export interface ServiceBoat {
+  idService: number;
+  nom: string;
 }
 
 
