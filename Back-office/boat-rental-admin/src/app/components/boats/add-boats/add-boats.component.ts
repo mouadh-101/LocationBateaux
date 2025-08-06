@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { BoatService } from '../../../services/boats.service';
-import { Boat, Image, serviceBoat } from '../../../interfaces/boats';
+import { Boat, Image, Port, serviceBoat } from '../../../interfaces/boats';
 import { Router } from '@angular/router';
 import { ImageUploadComponent } from '../../image-upload/image-upload.component';
 import { AuthService } from 'src/app/services/auth.service';
@@ -18,6 +18,7 @@ export class AddBoatComponent implements OnInit, OnDestroy {
   selectedServices: serviceBoat[] = [];
   newServiceName: string = '';
   step: number = 1;
+  ports: Port[] = [];
 
   boat: Boat = {
     nom: '',
@@ -62,6 +63,12 @@ export class AddBoatComponent implements OnInit, OnDestroy {
         this.servicesDisponibles = services;
       },
       error: err => console.error("Erreur services :", err)
+    });
+    this.boatService.getAllPorts().subscribe({
+      next: (ports: Port[]) => {
+        this.ports = ports;
+      },
+      error: err => console.error("Erreur ports :", err)
     });
   }
 
@@ -130,42 +137,51 @@ export class AddBoatComponent implements OnInit, OnDestroy {
     return this.step === stepNum;
   }
   isFormStepValid(): boolean {
-  switch (this.step) {
-    case 1:
-      return (
-        !!this.boat.nom &&
-        this.boat.nom.length >= 3 &&
-        this.boat.nom.length <= 50 &&
-        !!this.boat.description &&
-        this.boat.description.length >= 10 &&
-        this.boat.description.length <= 300 &&
-        this.boat.prix != null &&
-        this.boat.prix >= 0 &&
-        !!this.boat.port?.nom &&
-        this.boat.port.nom.length >= 2
-      );
-    case 2:
-      const char = this.boat.carecteristique;
-      return (
-        char.capacite >= 1 &&
-        char.longueur >= 0.1 &&
-        char.largeur >= 0.1 &&
-        char.nombreMoteurs >= 0 &&
-        !!char.type
-      );
-    case 3:
-      // If admin, validate; else skip
-      return this.admin ? true : true; // Adjust if you want service selection required
-    case 4:
-      // Validate that at least one pricing is enabled and valid
-      const settings = this.boat.reservationTypeSettings;
-      const hasFull = settings.full_day_enabled && settings.fullDayPrice >= 0;
-      const hasHalf = settings.half_day_enabled && settings.halfDayPrice >= 0;
-      const hasTwo = settings.two_hours_enabled && settings.twoHoursPrice >= 0;
-      return hasFull || hasHalf || hasTwo;
-    default:
-      return true;
+    switch (this.step) {
+      case 1:
+        return (
+          !!this.boat.nom &&
+          this.boat.nom.length >= 3 &&
+          this.boat.nom.length <= 50 &&
+          !!this.boat.description &&
+          this.boat.description.length >= 10 &&
+          this.boat.description.length <= 300 &&
+          this.boat.prix != null &&
+          this.boat.prix >= 0 &&
+          !!this.boat.port?.nom &&
+          this.boat.port.nom.length >= 2
+        );
+      case 2:
+        const char = this.boat.carecteristique;
+        return (
+          char.capacite >= 1 &&
+          char.longueur >= 0.1 &&
+          char.largeur >= 0.1 &&
+          char.nombreMoteurs >= 0 &&
+          !!char.type
+        );
+      case 3:
+        // If admin, validate; else skip
+        return this.admin ? true : true; // Adjust if you want service selection required
+      case 4:
+        // Validate that at least one pricing is enabled and valid
+        const settings = this.boat.reservationTypeSettings;
+        const hasFull = settings.full_day_enabled && settings.fullDayPrice >= 0;
+        const hasHalf = settings.half_day_enabled && settings.halfDayPrice >= 0;
+        const hasTwo = settings.two_hours_enabled && settings.twoHoursPrice >= 0;
+        return hasFull || hasHalf || hasTwo;
+      default:
+        return true;
+    }
   }
-}
+  selectedPort: string | null = null;
+
+  onPortChange() {
+    if (this.selectedPort !== 'autre' && this.selectedPort!== null) {
+      this.boat.port = { nom: this.selectedPort };
+    } else {
+      this.boat.port = { nom: '' };
+    }
+  }
 
 }

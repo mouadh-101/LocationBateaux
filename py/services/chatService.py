@@ -8,8 +8,9 @@ from langchain_community.agent_toolkits import create_sql_agent
 load_dotenv()
 os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
 db_uri = os.getenv("DATABASE_URL")
-# Create DB and Gemini agent only once
-db = SQLDatabase.from_uri(db_uri)
+
+allowed_tables = ["avis", "bateaux", "carecteristique","reservation","reservation_type_settings","service","service_bateaux"]  
+db = SQLDatabase.from_uri(db_uri, include_tables=allowed_tables)
 llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0.3)
 
 agent_executor = create_sql_agent(
