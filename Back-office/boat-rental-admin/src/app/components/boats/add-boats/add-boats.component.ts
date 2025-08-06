@@ -163,7 +163,7 @@ export class AddBoatComponent implements OnInit, OnDestroy {
           this.boat.nom.length <= 50 &&
           !!this.boat.description &&
           this.boat.description.length >= 10 &&
-          this.boat.description.length <= 300 &&
+          this.boat.description.length <= 500 &&
           this.boat.prix != null &&
           this.boat.prix >= 0 &&
           !!this.boat.port?.nom &&
@@ -190,6 +190,16 @@ export class AddBoatComponent implements OnInit, OnDestroy {
         return hasFull || hasHalf || hasTwo;
       default:
         return true;
+    }
+  }
+  selectedPort: string = '';
+
+  onPortChange(event: any) {
+    const value = event.target.value;
+    if (value !== 'autre') {
+      this.boat.port.nom = value;
+    } else {
+      this.boat.port.nom = ''; // let user type
     }
   }
 
