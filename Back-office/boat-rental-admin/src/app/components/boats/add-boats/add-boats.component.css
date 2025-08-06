@@ -352,5 +352,5 @@ h2::after {
 }
 
 h2:hover::after {
-  width: 500px;
+  width: 600px;
 }
