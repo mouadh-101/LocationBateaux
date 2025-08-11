@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BoatService } from '../../../services/boats.service';
 import { Boat } from '../../../interfaces/boats';
 
@@ -18,7 +18,8 @@ export class BoatDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private boatService: BoatService
+    private boatService: BoatService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -69,5 +70,10 @@ export class BoatDetailsComponent implements OnInit, OnDestroy {
     if (!boat.avis || boat.avis.length === 0) return 0;
     const total = boat.avis.reduce((sum, a) => sum + a.note, 0);
     return total / boat.avis.length;
+  }
+
+
+  goBack(): void {
+    this.router.navigate(['/list']);
   }
 }

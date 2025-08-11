@@ -102,7 +102,7 @@ export class EditBoatComponent implements OnInit {
     });
   }
 
- loadServices(): void {
+  loadServices(): void {
     this.boatService.getAllService().subscribe({
       next: (services: serviceBoat[]) => this.servicesDisponibles = services,
       error: err => console.error('Erreur services :', err)
@@ -130,23 +130,25 @@ export class EditBoatComponent implements OnInit {
       this.step--;
     }
   }
-
-  isFormStepValid(): boolean {
-    switch (this.step) {
-      case 1:
-        return !!this.boat.nom && this.boat.nom.length >= 3 && !!this.boat.description && this.boat.description.length >= 10 &&
-          this.boat.prix >= 0 && !!this.boat.port?.nom && this.boat.port.nom.length >= 2;
-      case 2:
-        const c = this.boat.carecteristique;
-        return c.capacite > 0 && c.longueur > 0 && c.largeur > 0 && c.nombreMoteurs >= 0 && !!c.type;
-      case 3:
-      case 4:
-      case 5:
-        return true;
-      default:
-        return false;
-    }
+isFormStepValid(): boolean {
+  switch (this.step) {
+    case 1:
+      return !!this.boat.nom && this.boat.nom.length >= 3 &&
+             !!this.boat.description && this.boat.description.length >= 10 &&
+             this.boat.prix >= 0 &&
+             this.boat.commission >= 0 && this.boat.commission <= 100 &&
+             !!this.boat.port?.nom && this.boat.port.nom.length >= 2;
+    case 2:
+      const c = this.boat.carecteristique;
+      return c.capacite > 0 && c.longueur > 0 && c.largeur > 0 && c.nombreMoteurs >= 0 && !!c.type;
+    case 3:
+    case 4:
+    case 5:
+      return true;
+    default:
+      return false;
   }
+}
 
   toggleService(service: serviceBoat): void {
     const index = this.selectedServices.findIndex(s => s.nom === service.nom);
@@ -158,7 +160,7 @@ export class EditBoatComponent implements OnInit {
   }
 
 
- isServiceSelected(service: serviceBoat): boolean {
+  isServiceSelected(service: serviceBoat): boolean {
     return this.selectedServices.some(s => s.nom === service.nom);
   }
 
@@ -197,13 +199,14 @@ export class EditBoatComponent implements OnInit {
     this.router.navigate(['/list']);
   }
 
-isFormStepValidForStep(stepNum: number): boolean {
+ isFormStepValidForStep(stepNum: number): boolean {
   switch (stepNum) {
     case 1:
       return (
         !!this.boat.nom && this.boat.nom.length >= 3 &&
         !!this.boat.description && this.boat.description.length >= 10 &&
         this.boat.prix != null && this.boat.prix >= 0 &&
+        this.boat.commission != null && this.boat.commission >= 0 && this.boat.commission <= 100 &&
         !!this.boat.port?.nom && this.boat.port.nom.length >= 2
       );
     case 2:
@@ -216,7 +219,7 @@ isFormStepValidForStep(stepNum: number): boolean {
         !!c.type
       );
     case 3:
-      return true; // Ou mettre ta propre validation
+      return true;
     case 4:
       const s = this.boat.reservationTypeSettings;
       return (
@@ -225,10 +228,11 @@ isFormStepValidForStep(stepNum: number): boolean {
         (s.two_hours_enabled && s.twoHoursPrice >= 0)
       );
     case 5:
-      return true; // validation images si besoin
+      return true;
     default:
       return false;
   }
+}
   selectedPort: string = '';
 
   onPortChange(event: any) {
@@ -239,27 +243,26 @@ isFormStepValidForStep(stepNum: number): boolean {
       this.boat.port.nom = ''; // let user type
     }
   }
-}
 
 
   goToStep(stepNum: number) {
-  // Si on reste à une étape inférieure ou égale à la courante, c'est toujours autorisé (revenir en arrière)
-  if (stepNum <= this.step) {
-    this.step = stepNum;
-    return;
-  }
-
-  // Sinon, on vérifie que toutes les étapes avant stepNum sont valides
-  for (let i = 1; i < stepNum; i++) {
-    if (!this.isFormStepValidForStep(i)) {
-      // Si une étape précédente n'est pas valide, on bloque la navigation
+    // Si on reste à une étape inférieure ou égale à la courante, c'est toujours autorisé (revenir en arrière)
+    if (stepNum <= this.step) {
+      this.step = stepNum;
       return;
     }
-  }
 
-  // Toutes les étapes précédentes sont valides, on peut accéder à stepNum
-  this.step = stepNum;
-}
+    // Sinon, on vérifie que toutes les étapes avant stepNum sont valides
+    for (let i = 1; i < stepNum; i++) {
+      if (!this.isFormStepValidForStep(i)) {
+        // Si une étape précédente n'est pas valide, on bloque la navigation
+        return;
+      }
+    }
+
+    // Toutes les étapes précédentes sont valides, on peut accéder à stepNum
+    this.step = stepNum;
+  }
 
 
 
