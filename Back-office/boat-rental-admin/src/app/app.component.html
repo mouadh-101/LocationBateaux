@@ -100,6 +100,7 @@
   <a [routerLink]="['/profile']" class="flex items-center space-x-2 px-4 py-3 border-t border-gray-200 hover:bg-gray-100 transition rounded-md">
     <div class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center text-lg font-bold uppercase">
       {{ user?.name?.charAt(0) }}
+
     </div>
     <div *ngIf="!sidebarCollapsed || isMobile" class="flex-1 min-w-0">
       <p class="text-sm font-medium text-gray-900 truncate">{{ user?.name }}</p>
