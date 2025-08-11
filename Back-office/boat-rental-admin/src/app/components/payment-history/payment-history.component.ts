@@ -6,6 +6,7 @@ import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { AuthService } from 'src/app/services/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-historique-paiement',
@@ -27,12 +28,24 @@ export class HistoriquePaiementComponent implements OnInit {
   filterBateau: string = '';
   filterDate: string = '';
 
+  logoBase64: string | null = null;  // <-- ici on stocke le logo
+
   constructor(
     private paiementService: PaiementService,
-    private authService: AuthService
+    private authService: AuthService,
+    private http: HttpClient  // <-- injection HttpClient pour charger l’image
   ) {}
 
   ngOnInit(): void {
+    // Charger logo depuis assets (modifie le chemin si besoin)
+    this.http.get('assets/logo.webp', { responseType: 'blob' }).subscribe(blob => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.logoBase64 = reader.result as string;
+      };
+      reader.readAsDataURL(blob);
+    });
+
     if (this.authService.isGestionnaire()) {
       this.paiementService.getPaiementsForGestionnaire().subscribe({
         next: (data) => {
@@ -65,28 +78,19 @@ export class HistoriquePaiementComponent implements OnInit {
 
   appliquerFiltres(): void {
     this.paiementsFiltres = this.paiements.filter(p => {
-      // Filtre par statut
       const matchStatus = this.selectedStatus ? p.status === this.selectedStatus : true;
-
-      // Filtre par client (insensible à la casse)
       const matchClient = this.filterClient
         ? (p.reservation?.utilisateur?.name || '').toLowerCase().includes(this.filterClient.toLowerCase())
         : true;
-
-      // Filtre par bateau (insensible à la casse)
       const matchBateau = this.filterBateau
         ? (p.reservation?.bateau?.nom || '').toLowerCase().includes(this.filterBateau.toLowerCase())
         : true;
-
-      // Filtre par date
       let matchDate = true;
       if (this.filterDate) {
         const paiementDate = new Date(p.datePaiement);
         const filtreDate = new Date(this.filterDate);
-        // Comparer uniquement la date (sans heure)
         matchDate = paiementDate.toDateString() === filtreDate.toDateString();
       }
-
       return matchStatus && matchClient && matchBateau && matchDate;
     });
   }
@@ -100,26 +104,86 @@ export class HistoriquePaiementComponent implements OnInit {
     this.appliquerFiltres();
   }
 
-  exportPDF(): void {
-    const doc = new jsPDF.default();
-    doc.setFontSize(18);
-    doc.text('Historique des paiements', 14, 20);
+ exportPDF(): void {
+  const doc = new jsPDF.default('p', 'mm', 'a4');
+  const pageWidth = doc.internal.pageSize.getWidth();
 
-    autoTable(doc, {
-      startY: 30,
-      head: [['Client', 'Bateau', 'Date', 'Méthode', 'Montant', 'Statut']],
-      body: this.paiementsFiltres.map(p => [
+  // Charger et ajouter le logo en haut à gauche
+  this.http.get('assets/logo.webp', { responseType: 'blob' }).subscribe(blob => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const imgData = reader.result as string;
+      const imgProps = doc.getImageProperties(imgData);
+
+      // Position logo : x=10 mm, y=10 mm
+      // Largeur réduite à 30 mm, hauteur ajustée proportionnellement
+      const imgWidth = 30;
+      const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+
+      doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+
+      // Titre centré (en tenant compte du logo en haut à gauche)
+      doc.setFontSize(18);
+      doc.setTextColor('#2563eb');
+      const title = 'Historique des paiements';
+      const dateExport = new Date().toLocaleString();
+      // Décaler verticalement un peu plus bas (ex: y=20)
+      doc.text(title, pageWidth / 2, 20, { align: 'center' });
+
+      doc.setFontSize(10);
+      doc.setTextColor('#444');
+      doc.text(`Exporté le : ${dateExport}`, pageWidth - 14, 27, { align: 'right' });
+
+      // Préparer body
+      const body = this.paiementsFiltres.map(p => [
         p.reservation?.utilisateur?.name || 'N/A',
         p.reservation?.bateau?.nom || 'N/A',
         new Date(p.datePaiement).toLocaleString(),
         p.methode,
         `${p.montant.toFixed(2)} DT`,
         p.status
-      ])
-    });
+      ]);
 
-    doc.save('historique_paiements.pdf');
-  }
+      autoTable(doc, {
+        startY: 40, // commencer sous le logo et titre
+        head: [['Client', 'Bateau', 'Date', 'Méthode', 'Montant', 'Statut']],
+        body: body,
+        styles: { fontSize: 9, cellPadding: 3 },
+        headStyles: { fillColor: '#2563eb', textColor: '#fff', fontStyle: 'bold' },
+        columnStyles: {
+          4: { halign: 'right' },
+          5: { halign: 'center' }
+        },
+        didParseCell: (data) => {
+          if (data.section === 'body' && data.column.index === 5) {
+            const statut = data.cell.text[0];
+            if (statut === 'ACCEPTER') {
+              data.cell.styles.fillColor = '#d1fae5';
+              data.cell.styles.textColor = '#065f46';
+            } else if (statut === 'EN_ATTENTE') {
+              data.cell.styles.fillColor = '#fef3c7';
+              data.cell.styles.textColor = '#92400e';
+            } else if (statut === 'REFUSER') {
+              data.cell.styles.fillColor = '#fee2e2';
+              data.cell.styles.textColor = '#991b1b';
+            }
+          }
+        },
+        margin: { top: 40 },
+        didDrawPage: (data) => {
+          const pageNumber = data.pageNumber;
+          doc.setFontSize(8);
+          doc.setTextColor('#999');
+          doc.text(`Page ${pageNumber}`, data.settings.margin.left, doc.internal.pageSize.getHeight() - 10);
+        }
+      });
+
+      doc.save('historique_paiements.pdf');
+    };
+    reader.readAsDataURL(blob);
+  });
+}
+
 
   exportExcel(): void {
     const worksheet = XLSX.utils.json_to_sheet(this.paiementsFiltres.map(p => ({
