@@ -56,8 +56,6 @@ Key updated tables:
 - `Payments (id, amount, method, status, payment_date, reservation_id)`  
 - `Images (id, url, type, boat_id / partner_id)`  
 - `Reviews (id, rating, comment, creation_date, user_id, boat_id)`  
-- `Maintenance (id, description, start_date, end_date, boat_id)`  
-- `Notifications (id, message, sent_date, user_id, read)`  
 - `Partners (id, name, logo_url)`  
 
 ---
@@ -104,4 +102,5 @@ Key updated tables:
 ---
 
 > This README will be regularly updated as the project progresses.
+
 
