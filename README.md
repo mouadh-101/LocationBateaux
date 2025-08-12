@@ -64,7 +64,7 @@ Key updated tables:
 
 | Layer                           | Technology                                                           |
 |---------------                  |----------------------------------------------------------------------|
-| Backend                         | Spring Boot, Spring Security, JPA/Hibernate, Spring Mail, Socket.IO  |
+| Backend                         | Spring Boot, Spring Security, JPA/Hibernate, Spring Mail, Socket.IO, webSocket  |
 | Frontend                        | Angular 16, TypeScript, HTML5, CSS3, Tailwind CSS / Bootstrap        |
 | Back-office/AfricaBoat-Admin    | Angular 16, TypeScript, HTML5, CSS3, Tailwind CSS / Bootstrap        |
 | Database                        | PostgreSQL                                                           |
@@ -102,5 +102,6 @@ Key updated tables:
 ---
 
 > This README will be regularly updated as the project progresses.
+
 
 
