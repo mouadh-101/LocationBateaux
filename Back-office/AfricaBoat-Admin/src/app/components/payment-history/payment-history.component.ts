@@ -105,84 +105,101 @@ export class HistoriquePaiementComponent implements OnInit {
   }
 
  exportPDF(): void {
+  if (!this.logoBase64) {
+    alert('Le logo est encore en chargement, veuillez réessayer.');
+    return;
+  }
+
   const doc = new jsPDF.default('p', 'mm', 'a4');
   const pageWidth = doc.internal.pageSize.getWidth();
+  const dateExport = new Date().toLocaleString();
 
-  // Charger et ajouter le logo en haut à gauche
-  this.http.get('assets/logo.webp', { responseType: 'blob' }).subscribe(blob => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const imgData = reader.result as string;
-      const imgProps = doc.getImageProperties(imgData);
+  // Taille et position du logo
+  const imgWidth = 30;
+  const imgProps = doc.getImageProperties(this.logoBase64);
+  const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+  doc.addImage(this.logoBase64, 'PNG', 10, 10, imgWidth, imgHeight);
 
-      // Position logo : x=10 mm, y=10 mm
-      // Largeur réduite à 30 mm, hauteur ajustée proportionnellement
-      const imgWidth = 30;
-      const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+  // Titre centré
+  doc.setFontSize(30);
+  doc.setTextColor('#2563eb');
+  const title = 'Historique des paiements';
+  doc.text(title, pageWidth / 2, 20, { align: 'center' });
 
-      doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+  // Préparer body
+  const body = this.paiementsFiltres.map(p => [
+    p.reservation?.utilisateur?.name || 'N/A',
+    p.reservation?.bateau?.nom || 'N/A',
+    new Date(p.datePaiement).toLocaleString(),
+    p.methode,
+    `${p.montant.toFixed(2)} DT`,
+    p.status
+  ]);
 
-      // Titre centré (en tenant compte du logo en haut à gauche)
-      doc.setFontSize(18);
-      doc.setTextColor('#2563eb');
-      const title = 'Historique des paiements';
-      const dateExport = new Date().toLocaleString();
-      // Décaler verticalement un peu plus bas (ex: y=20)
-      doc.text(title, pageWidth / 2, 20, { align: 'center' });
-
-      doc.setFontSize(10);
-      doc.setTextColor('#444');
-      doc.text(`Exporté le : ${dateExport}`, pageWidth - 14, 27, { align: 'right' });
-
-      // Préparer body
-      const body = this.paiementsFiltres.map(p => [
-        p.reservation?.utilisateur?.name || 'N/A',
-        p.reservation?.bateau?.nom || 'N/A',
-        new Date(p.datePaiement).toLocaleString(),
-        p.methode,
-        `${p.montant.toFixed(2)} DT`,
-        p.status
-      ]);
-
-      autoTable(doc, {
-        startY: 40, // commencer sous le logo et titre
-        head: [['Client', 'Bateau', 'Date', 'Méthode', 'Montant', 'Statut']],
-        body: body,
-        styles: { fontSize: 9, cellPadding: 3 },
-        headStyles: { fillColor: '#2563eb', textColor: '#fff', fontStyle: 'bold' },
-        columnStyles: {
-          4: { halign: 'right' },
-          5: { halign: 'center' }
-        },
-        didParseCell: (data) => {
-          if (data.section === 'body' && data.column.index === 5) {
-            const statut = data.cell.text[0];
-            if (statut === 'ACCEPTER') {
-              data.cell.styles.fillColor = '#d1fae5';
-              data.cell.styles.textColor = '#065f46';
-            } else if (statut === 'EN_ATTENTE') {
-              data.cell.styles.fillColor = '#fef3c7';
-              data.cell.styles.textColor = '#92400e';
-            } else if (statut === 'REFUSER') {
-              data.cell.styles.fillColor = '#fee2e2';
-              data.cell.styles.textColor = '#991b1b';
-            }
-          }
-        },
-        margin: { top: 40 },
-        didDrawPage: (data) => {
-          const pageNumber = data.pageNumber;
-          doc.setFontSize(8);
-          doc.setTextColor('#999');
-          doc.text(`Page ${pageNumber}`, data.settings.margin.left, doc.internal.pageSize.getHeight() - 10);
+  autoTable(doc, {
+    startY: 40,
+    head: [['Client', 'Bateau', 'Date', 'Méthode', 'Montant', 'Statut']],
+    body: body,
+    styles: { fontSize: 9, cellPadding: 3 },
+    headStyles: { fillColor: '#2563eb', textColor: '#fff', fontStyle: 'bold' },
+    columnStyles: {
+      4: { halign: 'right' },
+      5: { halign: 'center' }
+    },
+    didParseCell: (data) => {
+      if (data.section === 'body') {
+        // Fond alterné gris clair
+        if (data.row.index % 2 === 0) {
+          data.cell.styles.fillColor = '#f9fafb';
         }
-      });
+        // Couleurs statut
+        if (data.column.index === 5) {
+          const statut = data.cell.text[0];
+          if (statut === 'ACCEPTER') {
+            data.cell.styles.fillColor = '#d1fae5';
+            data.cell.styles.textColor = '#065f46';
+          } else if (statut === 'EN_ATTENTE') {
+            data.cell.styles.fillColor = '#fef3c7';
+            data.cell.styles.textColor = '#92400e';
+          } else if (statut === 'REFUSER') {
+            data.cell.styles.fillColor = '#fee2e2';
+            data.cell.styles.textColor = '#991b1b';
+          }
+        }
+      }
+    },
+    margin: { top: 42, left: 10, right: 10, bottom: 20 },
+    didDrawPage: (data) => {
+      const pageNumber = data.pageNumber;
+       const pageHeight = doc.internal.pageSize.getHeight();  // <-- ici !
+      doc.setFontSize(8);
+      doc.setTextColor('#999');
 
-      doc.save('historique_paiements.pdf');
-    };
-    reader.readAsDataURL(blob);
+      // Numéro de page en bas à gauche
+      doc.text(`Page ${pageNumber}`, data.settings.margin.left, doc.internal.pageSize.getHeight() - 10);
+
+      // Texte copyright en bas à droite
+      doc.text('© NST-GROUPE 2025-2026', pageWidth - 10, doc.internal.pageSize.getHeight() - 10, { align: 'right' });
+
+      // Date export en haut à droite
+  doc.setFontSize(9);
+  doc.setTextColor('#444');
+  doc.text(`Exporté le : ${dateExport}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
+
+      // Ligne de séparation en bas
+      doc.setDrawColor('#2563eb');
+      doc.setLineWidth(0.5);
+      doc.line(10, doc.internal.pageSize.getHeight() - 20, pageWidth - 10, doc.internal.pageSize.getHeight() - 20);
+
+
+
+    }
+
   });
+
+  doc.save('historique_paiements.pdf');
 }
+
 
 
   exportExcel(): void {
