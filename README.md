@@ -1,102 +1,107 @@
 # 🌊 Boat Rental Web Platform
 
-> Internship Project - 2 Students - Duration: 2 Months  
-> Technologies: Spring Boot (Java) | Angular (TypeScript) | PostgreSQL | Git
+> Web-based Boat Rental Project  
+> Internship - 2 Students - Duration: 2 Months  
+> Technologies: Spring Boot (Java) | Angular (TypeScript) | PostgreSQL | Git | Docker (optional)
 
 ---
 
 ## 🚀 Project Overview
 
-This project aims to develop a **web platform for boat rental**, allowing users to:
+This web platform enables **web platform for boat rental** with comprehensive management of users, boats, reservations, payments  and partners.
 
-- Search for boats based on filters (type, price, availability)
-- View detailed boat profiles (photos, descriptions, price, maintenance status
-- Book a boat with start and end dates
-- View booking history from their user dashboard
-- Simulate payments (future integrations: Clicktopay Tunisia, PayPal Dubai)
-- Track reservation history and statuses
+**Main features:**
 
-The application also includes a **multi-role access system**:  
-`Client`, `Manager`, `Administrator`.
+- Advanced boat search with filters (type, price, availability, features)
+- Detailed boat profiles with photos, descriptions, reviews, and maintenance info
+- Reservation with choice of reservation type (full day, half day, 2 hours)
+- Complete reservation management (validation, cancellation, history)
+- Online payment fully operational** with integration of Clicktopay (Tunisia) and PayPal (Dubai)
+- Multi-role system: `Client`, `Manager`, `Administrator`
+- Partner management and image uploads (logos, boat photos)
 
 ---
 
 ## 🧩 Features
 
-### 👤 User Features (Frontend - Angular)
+### 👤 User Side (Frontend - Angular)
 
-- **Authentication**: Register / Login (email-password)
-- **Boat Search**: Filters by type, availability, and price
-- **Boat Details**: View photos, description, maintenance status, and reviews
-- **Reservation**: Choose date range and book a boat
-- **Simulated Payment**: Choose method and process payment (status managed)
-- **User Dashboard**: View reservation history and status
-- **Reviews**: Submit and read comments on boats
-- **Notifications**: Receive updates about reservation status
+- Authentication (Register / Login) with role management
+- Multi-criteria boat search and filtering (type, features, price, availability)
+- Viewing detailed boat information (photos, description, technical specs, user reviews)
+- Reservation with selection of reservation type (full day, half day, etc.)
+- User dashboard showing reservation history and status
+- Posting and reading reviews/comments on boats
+- Image management (upload, delete, update) through a dedicated component
+- Responsive UI with dynamic sidebar (desktop/mobile toggle)
 
-### 👨‍💼 Admin Features (Backend - Spring Boot)
+### 👨‍💼 Administration Side (Backend - Spring Boot)
 
-
-- **Boat Management**: CRUD operations on boats
-- **User Management**: View, block, or update user roles
-- **Reservation Validation**: Accept or reject pending reservations
-- **Maintenance Tracking**: Add or update boat maintenance records
-- **Notification System**: Send reservation or system notifications
+- Full CRUD on boats, partners, users, reservations, payments, reviews, and maintenance
+- Role and permission management (conditional field visibility based on roles)
+- Reservation validation or rejection with date conflict checks
+- Commission management for boats (visible only to administrators)
+- Secure image upload and management (boats, partner logos)
+- Payment history with multiple payment methods simulated
 
 ---
 
-## 🗃️ Database (PostgreSQL)
+## 🗃️ Data Model (PostgreSQL)
 
-### Main Tables:
-- `Users (id, name, email, password, role)`
-- `Boats (id, name, description, price, availability, images)`
-- `Reservations (id, user_id, boat_id, date, status)`
-- `Paiement (id, montant, méthode, status)`
-- `Image (id, url)`
-- `Avis(id, note, commentaire, dateCreation)`
-- `Maintenance(id, description, dateDebut, dateFin)`
-- `Notification(id, message, dateEnvoi)`
+Key updated tables:
+
+- `Users (id, name, email, password, role, status, commission)`  
+- `Boats (id, name, description, price, availability, features (capacity, length, width), reservation_types, images)`  
+- `Reservations (id, user_id, boat_id, start_date, end_date, reservation_type, status)`  
+- `Payments (id, amount, method, status, payment_date, reservation_id)`  
+- `Images (id, url, type, boat_id / partner_id)`  
+- `Reviews (id, rating, comment, creation_date, user_id, boat_id)`  
+- `Maintenance (id, description, start_date, end_date, boat_id)`  
+- `Notifications (id, message, sent_date, user_id, read)`  
+- `Partners (id, name, logo_url)`  
 
 ---
 
 ## 🛠️ Technologies Used
 
-| Layer        | Technology                                                             |
-|--------------|------------------------------------------------------------------------|
-| Backend      | Spring Boot, Spring Security, JPA/Hibernate, Spring Mail              |
-| Frontend     | Angular, Bootstrap, HTML/CSS                                           |
-| Database     | PostgreSQL                                                             |
-| Versioning   | Git (GitHub/GitLab)                                                    |
-| Deployment   | Docker *(optional)*                                                    |
+| Layer                           | Technology                                                           |
+|---------------                  |----------------------------------------------------------------------|
+| Backend                         | Spring Boot, Spring Security, JPA/Hibernate, Spring Mail, Socket.IO  |
+| Frontend                        | Angular 16, TypeScript, HTML5, CSS3, Tailwind CSS / Bootstrap        |
+| Back-office/AfricaBoat-Admin    | Angular 16, TypeScript, HTML5, CSS3, Tailwind CSS / Bootstrap        |
+| Database                        | PostgreSQL                                                           |
+| Version Control                 | Git (GitHub/GitLab)                                                  |
+| Containerization                | Docker (optional)                                                    |
 
 ---
 
 ## 📁 Project Structure
-
-/BoatRentalPlatform
-├── /BackEnd --> Spring Boot (API, Entities, Repositories, Services, Controllers)
-└── /FrontEnd --> Angular (Components, Services, Routing, UI)
+/LocationBateaux
+├── /BackEnd --> Spring Boot (REST API, Entities, Repositories, Services, Controllers)
+└── /FrontEnd --> Angular (Components, Services, Routing, Styles, Tests)
+└──/Back-office/AfricaBoat-Admin --> Angular (Components, Services, Routing, Styles, Tests)
 
 
 ---
 
 ## 📌 Current Status
 
-- ✅ Spring Boot project initialized in `/BackEnd`
-- ✅ Dependencies configured: JPA, Lombok, PostgreSQL, Web
-- ✅ Entity modeling started
-- ⏳ Database schema design in progress
-- ⏳ API development (authentication, boat & reservation management)
-- ⏳ Angular frontend to be initialized in `/FrontEnd`
+- ✅ Complete Spring Boot backend with entities, REST API, and basic security
+- ✅ Angular frontend with multi-step forms, image management, boat listings & details
+- ✅ Role-based UI with conditional display (e.g., commission field visible only to admins)
+- ✅ Advanced reservation handling (types, validation, conflict resolution)
+- ✅ Image upload and management (boats, partners) with dedicated Angular component
+- ✅ Online payment fully functional with integrated Clicktopay and PayPal
+- ✅ User and admin dashboards with pagination, filters, and CRUD actions
 
 ---
 
-## 👨‍💻 Contributors
+## 👨‍💻 Development Team
 
 - Mouadh Gammoudi  
-- Hedi Latrache
+- Hedi Latrache  
 
 ---
 
-> This README will be updated as development progresses.
+> This README will be regularly updated as the project progresses.
 
