@@ -1,8 +1,7 @@
 package org.nst.bateaux.service.Interface;
 
-import org.nst.bateaux.dto.auth.AuthenticationRequest;
-import org.nst.bateaux.dto.auth.AuthenticationResponse;
-import org.nst.bateaux.dto.auth.RegisterRequest;
+import jakarta.mail.MessagingException;
+import org.nst.bateaux.dto.auth.*;
 import org.nst.bateaux.dto.bateau.BateauData;
 import org.nst.bateaux.dto.stats.StatsUserProfile;
 import org.nst.bateaux.dto.user.ChangePasswordRequest;
@@ -11,6 +10,7 @@ import org.nst.bateaux.dto.user.UserDataWithName;
 import org.nst.bateaux.entity.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Map;
@@ -32,8 +32,13 @@ public interface IUserService {
 
     StatsUserProfile getUserStats(Long userId);
     AuthenticationResponse loginAdmin(AuthenticationRequest user);
-    ResponseEntity<AuthenticationResponse> authenticateWithGoogle(Map<String, String> body);
-    ResponseEntity<AuthenticationResponse> authenticateWithFacebook(Map<String, String> body);
+
+    AuthenticationResponse googleLogin(GoogleLoginRequest request) throws Exception;
 
 
+    AuthenticationResponse facebookLogin(FacebookLoginRequest request) throws Exception;
+
+    Map<String, String> forgotPassword(Map<String, String> request) throws MessagingException;
+
+    Map<String, String> resetPassword(Map<String, String> request);
 }

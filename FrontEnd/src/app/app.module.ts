@@ -36,6 +36,8 @@ import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, So
 import { PaypalComponent } from './components/paypal/paypal.component';
 import { PaimentListComponent } from './components/paiment-list/paiment-list.component';
 import { PaimentDetailsComponent } from './components/paiment-details/paiment-details.component';
+import { ContactUsComponent } from './components/contact-us/contact-us.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +67,8 @@ import { PaimentDetailsComponent } from './components/paiment-details/paiment-de
     PaypalComponent,
     PaimentListComponent,
     PaimentDetailsComponent,
+    ContactUsComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     BoatCalendarComponent,
@@ -95,7 +99,7 @@ import { PaimentDetailsComponent } from './components/paiment-details/paiment-de
           },
           {
             id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider('FACEBOOK_APP_ID')
+            provider: new FacebookLoginProvider('682257074836301')
           }
         ],
         onError: (err) => console.error(err)

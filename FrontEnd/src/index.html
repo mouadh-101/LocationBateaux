@@ -12,7 +12,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://accounts.google.com/gsi/client" async></script>
-  <script src="https://www.paypal.com/sdk/js?client-id=AXDT63waHZ4YPCIQvuejlnLPAQKmPoH2eMeNLXL-DOyfNveD2AiDGI_WCGIpeOaCmILoNRrgSGc_jnPU&currency=USD"></script>
+  <script
+    src="https://www.paypal.com/sdk/js?client-id=AXDT63waHZ4YPCIQvuejlnLPAQKmPoH2eMeNLXL-DOyfNveD2AiDGI_WCGIpeOaCmILoNRrgSGc_jnPU&currency=USD"></script>
   <script src="https://js.stripe.com/v3/"></script>
 
 </head>
@@ -20,22 +21,23 @@
 <body class="mat-typography">
   <script src="https://accounts.google.com/gsi/client " async defer></script>
   <script>
-    window.fbAsyncInit = function() {
+    // Load Facebook SDK
+    window.fbAsyncInit = function () {
       FB.init({
-        appId      : 'YOUR_FACEBOOK_APP_ID',
-        cookie     : true,
-        xfbml      : true,
-        version    : 'v17.0'
+        appId: '682257074836301', // Replace with your Facebook App ID
+        cookie: true,
+        xfbml: true,
+        version: 'v21.0' // Use the latest version
       });
     };
 
-    (function(d, s, id){
-       var js, fjs = d.getElementsByTagName(s)[0];
-       if (d.getElementById(id)) {return;}
-       js = d.createElement(s); js.id = id;
-       js.src = "https://connect.facebook.net/en_US/sdk.js";
-       fjs.parentNode.insertBefore(js, fjs);
-     }(document, 'script', 'facebook-jssdk'));
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/en_US/sdk.js';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
   </script>
 
   <app-root></app-root>

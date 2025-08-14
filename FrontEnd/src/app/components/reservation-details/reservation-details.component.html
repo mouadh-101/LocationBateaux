@@ -176,12 +176,21 @@
               </span>
             </button>
           </div>
+          <button (click)="onPay()" *ngIf="reservation.status === 'ACCEPTER'"
+            class="w-full bg-accent hover:bg-secondary text-white font-semibold py-4 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 ">
+            <span class="flex items-center justify-center">
+              Payez maintenant
+              <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </span>
+          </button>
 
           <!-- Contact Support -->
           <div class="mt-8 p-4 bg-pale rounded-lg">
             <h4 class="font-semibold text-primary mb-2">Besoin d'aide ?</h4>
             <p class="text-sm text-gray-600 mb-3">Notre équipe est là pour vous accompagner</p>
-            <button (click)="contactSupport()"
+            <button (click)="openContactUs()"
               class="w-full bg-mint text-primary font-medium py-2 px-4 rounded-lg hover:bg-accent hover:text-white transition-colors duration-200">
               Contacter le Support
             </button>

@@ -1,5 +1,5 @@
 <!-- Modal Overlay -->
-<div *ngIf="isOpen" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center backdrop-blur-sm" >
+<div *ngIf="isOpen" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center backdrop-blur-sm">
   <!-- Modal Content -->
   <div
     class="relative flex flex-col lg:flex-row bg-white backdrop-blur-lg shadow-2xl rounded-3xl overflow-hidden w-full max-w-6xl transition-all duration-300">
@@ -26,10 +26,10 @@
 
       <!-- Social Login -->
       <div class="flex justify-center gap-6 mb-6">
-        <asl-google-signin-button type="standard" size="large" shape="rectangular" text="signin_with"></asl-google-signin-button>
-        <button (click)="loginWithGoogle()">helo</button>
-        <button (click)="loginWithFacebook()"
-          class="flex items-center gap-2 border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100 transition text-sm saturate-0 hover:saturate-100">
+        <asl-google-signin-button type="standard" size="large" shape="rectangular"
+          text="signin_with"></asl-google-signin-button>
+        <button (click)="signInWithFacebook()"
+          class="flex items-center gap-2 border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100 transition text-sm ">
           <img src="/assets/icons/facebook.png" alt="Facebook" class="w-5 h-5" />
           Facebook
         </button>
@@ -56,6 +56,11 @@
           class="w-full bg-primary text-white py-3 rounded-xl font-semibold hover:bg-accent transition-all duration-300">
           Se connecter
         </button>
+        <div class="text-center">
+          <button type="button" (click)="openResetPassword()" class="text-sm text-primary hover:underline">
+            Mot de passe oublié ?
+          </button>
+        </div>
       </form>
 
       <!-- Register Form -->
@@ -132,6 +137,36 @@
           Créer un compte
         </button>
       </form>
+      <!-- Reset Password Modal -->
+      <div *ngIf="showResetPassword" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="relative bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md space-y-4">
+
+          <!-- Close Button -->
+          <button (click)="closeResetPassword()"
+            class="absolute top-4 right-4 text-gray-600 hover:text-red-500 text-2xl">&times;
+          </button>
+
+          <h2 class="text-2xl font-semibold text-gray-800">Réinitialiser le mot de passe</h2>
+          <p class="text-gray-500 text-sm">Entrez votre adresse email pour recevoir un lien de réinitialisation.</p>
+
+          <form [formGroup]="resetForm" (ngSubmit)="onResetPassword()" class="space-y-4">
+            <input formControlName="email" type="email" placeholder="Adresse Email" class="auth-input" />
+            <div *ngIf="isTouchedAndDirtyWithError(resetForm, 'email', 'required')"
+              class="text-red-600 font-extralight">
+              L'email est requis.
+            </div>
+            <div *ngIf="isTouchedAndDirtyWithError(resetForm, 'email', 'email')" class="text-red-600 font-extralight">
+              L'email n'est pas valide.
+            </div>
+
+            <button type="submit"
+              class="w-full bg-primary text-white py-3 rounded-xl font-semibold hover:bg-accent transition-all duration-300">
+              Envoyer le lien
+            </button>
+          </form>
+        </div>
+      </div>
+
 
       <!-- Toggle Form -->
       <div class="text-center mt-6">
