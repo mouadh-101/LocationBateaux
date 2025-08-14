@@ -18,6 +18,9 @@ import java.util.Map;
 @Service
 public interface IUserService {
     User creatUser(RegisterRequest user);
+
+    User createUserWithRandomPassword(RegisterRequest user);
+
     User findUserByEmail(String email);
     AuthenticationResponse login(AuthenticationRequest user);
     AuthenticationResponse register(RegisterRequest user);

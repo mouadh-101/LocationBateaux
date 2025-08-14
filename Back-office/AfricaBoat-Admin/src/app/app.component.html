@@ -81,7 +81,7 @@
   </a>
 
 </li>
-<li>
+<li *ngIf="authService.isAdmin()">
   <a routerLink="/paiements" (click)="closeSidebarMobile()">
     <i class="fas fa-history"></i>
     <span

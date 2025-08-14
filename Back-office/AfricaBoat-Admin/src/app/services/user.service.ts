@@ -4,6 +4,8 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { User } from '../interfaces/user';
+import { UserRegister } from '../interfaces/user';
+
 
 @Injectable({
   providedIn: 'root'
@@ -70,5 +72,9 @@ export class UserService {
 
     deleteUser(userId: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${userId}`);
+  }
+
+   addUserWithRandomPassword(user: Omit<UserRegister, 'password'>): Observable<any> {
+    return this.http.post(`${this.baseUrl}/random-password`, user);
   }
 }

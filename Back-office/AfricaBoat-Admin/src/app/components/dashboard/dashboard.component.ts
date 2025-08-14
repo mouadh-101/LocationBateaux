@@ -3,6 +3,7 @@ import { BoatService } from '../../services/boats.service';
 import { UserService } from '../../services/user.service';
 import { PartnerService } from '../../services/partner.service';
 import { ReservationService } from '../../services/reservation.service';
+import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -29,7 +30,8 @@ export class DashboardComponent implements OnInit {
     private boatService: BoatService,
     private userService: UserService,
     private partnerService: PartnerService,
-    private reservationService: ReservationService
+    private reservationService: ReservationService,
+    public authService: AuthService
   ) { }
 
   ngOnInit(): void {

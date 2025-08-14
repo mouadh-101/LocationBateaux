@@ -3,6 +3,8 @@
   Liste Des Utilisateurs
 </h2>
 
+
+
   <!-- FILTRES -->
   <div class="filters-container">
     <input
@@ -48,6 +50,15 @@
 
     <button (click)="resetFilters()">Réinitialiser</button>
   </div>
+
+<div class="flex justify-start mb-4">
+  <button routerLink="/users/add"
+    class="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:from-blue-600 hover:via-blue-700 hover:to-blue-800 text-white font-semibold px-5 py-2 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center gap-2">
+    <i class="fas fa-plus"></i> Ajouter un utilisateur
+  </button>
+</div>
+
+
 
   <!-- CARTE UTILISATEURS -->
   <div class="bg-white rounded-xl p-6 shadow-lg">
