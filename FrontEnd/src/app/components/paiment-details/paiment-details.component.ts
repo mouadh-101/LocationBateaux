@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { loadStripe } from '@stripe/stripe-js';
 import { Paiment } from 'src/app/interfaces/paiment';
 import { AlertService } from 'src/app/services/alert.service';
+import { ContactUsService } from 'src/app/services/contact-us.service';
 import { PaiementService } from 'src/app/services/paiement.service';
 
 @Component({
@@ -22,7 +23,8 @@ export class PaimentDetailsComponent {
     private route: ActivatedRoute,
     public router: Router,
     private paimentService: PaiementService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private contactUsService: ContactUsService
   ) { }
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -68,10 +70,7 @@ export class PaimentDetailsComponent {
       this.router.navigate(['/boat-details', this.paiment.reservation.bateau.bateauxId]);
     }
   }
-  contactSupport() {
-    console.log('Contact du support...');
-    alert('Redirection vers le support (à implémenter)');
-  }
+  
   selectPaymentMethod(method: 'PAYPAL' | 'CLICKTOPAY') {
     this.showPaymentModal = false;
     if (!this.paiment) return;
@@ -136,6 +135,9 @@ export class PaimentDetailsComponent {
         }
       });
     }
+  }
+  openContactUs() {
+    this.contactUsService.open();
   }
 
 

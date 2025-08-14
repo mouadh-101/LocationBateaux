@@ -88,6 +88,11 @@ public class MapToDto {
         reservationData.setStatus(reservation.getStatus());
         reservationData.setUtilisateur(mapToDtoWithName(reservation.getUtilisateur()));
         reservationData.setBateau(mapToBatauxDto(reservation.getBateau()));
+        if (reservation.getPaiement() != null) {
+            reservationData.setPaiementId(reservation.getPaiement().getPaiementId());
+        } else {
+            reservationData.setPaiementId(null);
+        }
         return reservationData;
     }
 

@@ -23,4 +23,5 @@ public class ReservationData {
     StatusRes status ;
     UserDataWithName utilisateur;
     BateauData bateau;
+    Long paiementId;
 }
