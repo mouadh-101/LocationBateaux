@@ -1,6 +1,11 @@
 package org.nst.bateaux.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.nst.bateaux.dto.auth.AuthenticationResponse;
+import org.nst.bateaux.entity.User;
+import org.nst.bateaux.repository.UserRepository;
+import org.nst.bateaux.service.Interface.IJwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,10 +15,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+
+
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
@@ -29,11 +36,11 @@ import java.util.List;
 public class SecurityConfig {
     @Autowired
     JwtAuthenticationFilter jwtAuthenticationFilter;
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -65,7 +72,8 @@ public class SecurityConfig {
                                 "/error",
                                 "/api/ports",
                                 "/uploads/**",
-                                "/api/partner/**"
+                                "/api/partner/**",
+                                "/login/oauth2/code/google"
                         ).permitAll()
                         .anyRequest().authenticated()
                 );
@@ -87,4 +95,6 @@ public class SecurityConfig {
                 )
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
     }
+
+
 }

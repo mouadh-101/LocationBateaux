@@ -23,3 +23,8 @@ export interface UserStats {
     nbReviews: number;
     nbFavorites: number;
 }
+export interface AuthenticationResponse {
+    status: string;
+    message: string;
+    token?: string;
+}

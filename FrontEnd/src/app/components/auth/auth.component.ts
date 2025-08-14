@@ -4,22 +4,29 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AuthenticationResponse } from 'src/app/interfaces/user';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthModalService } from 'src/app/services/auth-modal.service';
 import { AuthService } from 'src/app/services/auth.service';
+
+declare const FB: any;
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
+
 export class AuthComponent {
   isLoginMode = true;
+  showResetPassword = false;
   loginForm: FormGroup;
   registerForm: FormGroup;
+  resetForm: FormGroup;
   isOpen = false;
   showPassword = false;
   user: SocialUser | null = null;
+
 
   constructor(
     private fb: FormBuilder,
@@ -46,6 +53,12 @@ export class AuthComponent {
       password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/)]],
       role: ['CLIENT', [Validators.required]],
     });
+    this.googleSignIn();
+    this.resetForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]]
+    });
+
+
   }
 
   ngOnInit() {
@@ -58,6 +71,65 @@ export class AuthComponent {
 
   toggleMode() {
     this.isLoginMode = !this.isLoginMode;
+  }
+
+  googleSignIn() {
+    this.socialAuthService.authState.subscribe({
+      next: (user: SocialUser) => {
+        if (user) {
+          this.authService.loginWithGoogle(user.idToken).subscribe({
+            next: (response) => {
+              if (response.status === 'SUCCESS') {
+                this.alertService.showAlert(response.message, 'success');
+                setTimeout(() => {
+                  this.close();
+                  this.loginForm.reset();
+                }, 1000);
+              } else if (response.status === 'BANNED') {
+                this.alertService.showAlert(response.message, 'banned');
+              } else {
+                this.alertService.showAlert(response.message, 'error');
+              }
+            },
+            error: (error) => {
+              this.alertService.showAlert(error.message || 'An error occurred during login.', 'error');
+            }
+          });
+        }
+      },
+
+    });
+  }
+
+  signInWithFacebook() {
+    FB.login(
+      (response: any) => {
+        if (response.authResponse) {
+          const accessToken = response.authResponse.accessToken;
+          this.authService.loginWithFacebook(accessToken).subscribe({
+            next: (response) => {
+              if (response.status === 'SUCCESS') {
+                this.alertService.showAlert(response.message, 'success');
+                setTimeout(() => {
+                  this.close();
+                  this.loginForm.reset();
+                }, 1000);
+              } else if (response.status === 'BANNED') {
+                this.alertService.showAlert(response.message, 'banned');
+              } else {
+                this.alertService.showAlert(response.message, 'error');
+              }
+            },
+            error: (error) => {
+              this.alertService.showAlert(error.message || 'An error occurred during login.', 'error');
+            }
+          });
+        } else {
+          console.error('Facebook login failed or was canceled');
+        }
+      },
+      { scope: 'email,public_profile' }
+    );
   }
 
   onLogin() {
@@ -100,40 +172,10 @@ export class AuthComponent {
     }
   }
 
-  loginWithGoogle(): void {
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then((user: SocialUser) => {
-      const accessToken = user.idToken;
-      this.handleSocialLogin(accessToken, (token) => this.authService.loginWithGoogleToken(token));
-    });
-  }
 
-  loginWithFacebook(): void {
-    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID).then((user: SocialUser) => {
-      const accessToken = user.authToken;
-      this.handleSocialLogin(accessToken, (token) => this.authService.loginWithFacebookToken(token));
-    });
-  }
 
-  private handleSocialLogin(token: string, loginMethod: (token: string) => Observable<any>): void {
-    loginMethod(token).subscribe({
-      next: (response) => {
-        if (response.status === 'SUCCESS') {
-          this.alertService.showAlert(response.message, 'success');
-          setTimeout(() => {
-            this.close();
-            this.router.navigate(['/dashboard']);
-          }, 1000);
-        } else if (response.status === 'BANNED') {
-          this.alertService.showAlert(response.message, 'banned');
-        } else {
-          this.alertService.showAlert(response.message, 'error');
-        }
-      },
-      error: (err) => {
-        this.alertService.showAlert(err.message || 'An error occurred during social login.', 'error');
-      }
-    });
-  }
+
+
 
   isTouchedAndDirtyWithError(form: FormGroup, controlName: string, error: string): boolean {
     const control = form.get(controlName);
@@ -210,4 +252,29 @@ export class AuthComponent {
   resetPasswordVisibility() {
     this.showPassword = false;
   }
+
+  onResetPassword() {
+    if (this.resetForm.valid) {
+      this.authService.requestReset(this.resetForm.value.email).subscribe({
+        next: (response: any) => {
+          this.alertService.showAlert(response.message, 'success');
+          this.resetForm.reset();
+          this.closeResetPassword();
+        },
+        error: (error) => {
+          this.alertService.showAlert(error.message || 'An error occurred while requesting password reset.', 'error');
+        }
+      });
+    }
+  }
+
+  openResetPassword() {
+    this.showResetPassword = true;
+  }
+
+  closeResetPassword() {
+    this.showResetPassword = false;
+  }
+
+
 }

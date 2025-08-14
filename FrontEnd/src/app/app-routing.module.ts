@@ -13,6 +13,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { PaypalComponent } from './components/paypal/paypal.component';
 import { PaimentListComponent } from './components/paiment-list/paiment-list.component';
 import { PaimentDetailsComponent } from './components/paiment-details/paiment-details.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 const routes: Routes = [
   { path: 'boats',component:BoatListComponent},
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'favorite', canActivate:[AuthGuard], component:FavoriteBoatsComponent},
   { path: 'profile', canActivate:[AuthGuard],component:UserProfileComponent},
   {path : 'paiment/paypal',canActivate:[AuthGuard],component:PaypalComponent},
+  { path: 'reset-password', component: ResetPasswordComponent },
   { path: '', component: HomeComponent },
   { path: '**',component:NotFoundComponent}
   

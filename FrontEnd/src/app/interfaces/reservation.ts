@@ -9,6 +9,7 @@ export interface Reservation {
     status: string;
     utilisateur:User;
     bateau : Boat;
+    paiementId: number;
   }
   export interface ReservationAdd {
     date : Date ;

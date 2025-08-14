@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthModalService } from 'src/app/services/auth-modal.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { ContactUsService } from 'src/app/services/contact-us.service';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class NavbarComponent {
   isMenuOpen = false;
   isLoggedIn = false; 
-  constructor(private router: Router,private authModalService: AuthModalService,private authService:AuthService) {}
+  constructor(private router: Router,private authModalService: AuthModalService,private authService:AuthService,private contactUsService:ContactUsService) {}
   ngOnInit(): void {
     this.authService.authState$.subscribe(loggedIn => {
       this.isLoggedIn = loggedIn;
@@ -26,6 +27,10 @@ export class NavbarComponent {
 
   openAuth() {
     this.authModalService.open();
+  }
+  openContactUs() {
+    this.authModalService.close();
+    this.contactUsService.open();
   }
   
   

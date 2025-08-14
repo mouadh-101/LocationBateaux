@@ -5,6 +5,7 @@ import { Reservation, ReservationStatus } from '../../interfaces/reservation';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/services/alert.service';
+import { ContactUsService } from 'src/app/services/contact-us.service';
 
 @Component({
   selector: 'app-reservation-details',
@@ -29,7 +30,8 @@ export class ReservationDetailsComponent implements OnInit {
     private reservationService: ReservationService,
     private authService: AuthService,
     private fb: FormBuilder,
-    private alertService:AlertService
+    private alertService:AlertService,
+    private contactUsService: ContactUsService
   ) { 
     this.modifyForm = this.fb.group({
       date: ['', Validators.required],
@@ -147,10 +149,6 @@ export class ReservationDetailsComponent implements OnInit {
       this.router.navigate(['/boat-details', this.reservation.bateau.bateauxId]);
     }
   }
-  contactSupport() {
-    console.log('Contact du support...');
-    alert('Redirection vers le support (à implémenter)');
-  }
   calculateTotalPrice(typeReservation:string): number {
     if(typeReservation=="DEMI_JOURNEE")
       {
@@ -183,5 +181,16 @@ export class ReservationDetailsComponent implements OnInit {
   }
   isReservationTypeEnabled(typeName: string): boolean {
     return !!this.reservation?.bateau?.reservationTypeSettings?.[typeName as keyof typeof this.reservation.bateau.reservationTypeSettings];
+  }
+  openContactUs() {
+    this.contactUsService.open();
+  }
+  onPay() {
+    if (this.reservation && this.reservation.status === 'ACCEPTER') {
+      alert(this.reservation.paiementId)
+      this.router.navigate(['/paiment-details', this.reservation.paiementId]);
+    } else {
+      this.alertService.showAlert('La réservation n\'est pas acceptée ou n\'existe pas.', 'error');
+    }
   }
 }

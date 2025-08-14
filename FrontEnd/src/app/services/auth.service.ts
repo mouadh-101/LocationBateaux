@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
-import { User, UserLogin, JwtPayload } from '../interfaces/user';
+import { User, UserLogin, JwtPayload, AuthenticationResponse } from '../interfaces/user';
 import { ErrorHandlerUtil } from 'src/util/errorHandlerUtil';
 
 @Injectable({
@@ -39,7 +39,7 @@ export class AuthService {
   }
 
   private handleAuthSuccess(token: string) {
-    if(!token) {
+    if (!token) {
       return;
     }
     localStorage.setItem('token', token);
@@ -116,24 +116,44 @@ export class AuthService {
   emitAuthState() {
     this.authState.next(this.isLoggedIn());
   }
-  loginWithGoogleToken(token: string): Observable<any> {
-    return this.http.post<{ token: string }>('http://localhost:8081/api/auth/google', {
-      idToken: token
-    }).pipe(
+  loginWithGoogle(idToken: string): Observable<AuthenticationResponse> {
+    return this.http.post<AuthenticationResponse>(`${this.baseUrl}/google`, { idToken })
+      .pipe(
+        tap(response => {
+          if (response.status === 'SUCCESS' && response.token) {
+            this.handleAuthSuccess(response.token);
+          } else {
+            console.error('Login failed:', response.message);
+          }
+        }),
+        catchError(ErrorHandlerUtil.handleError)
+      );
+  }
+  loginWithFacebook(accessToken: string): Observable<AuthenticationResponse> {
+    return this.http.post<AuthenticationResponse>(`${this.baseUrl}/facebook`, { accessToken })
+      .pipe(
+        tap(response => {
+          if (response.status === 'SUCCESS' && response.token) {
+            this.handleAuthSuccess(response.token);
+          } else {
+            console.error('Login failed:', response.message);
+          }
+        }),
+        catchError(ErrorHandlerUtil.handleError)
+      )
+  }
+  requestReset(email: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/forgot-password`, { email :email });
+  }
+  resetPassword(token: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/reset-password`, { token, password }).pipe(
       tap(response => {
-        this.handleAuthSuccess(response.token);
+        if (response.status === 'SUCCESS') {
+          this.handleAuthSuccess(response.token);
+        }
       }),
       catchError(ErrorHandlerUtil.handleError)
     );
   }
-  loginWithFacebookToken(token: string): Observable<any> {
-    return this.http.post<{ token: string }>('http://localhost:8081/api/auth/facebook', {
-      accessToken: token
-    }).pipe(
-      tap(response => {
-        this.handleAuthSuccess(response.token);
-      }),
-      catchError(ErrorHandlerUtil.handleError)
-    );
-  }
+
 }
