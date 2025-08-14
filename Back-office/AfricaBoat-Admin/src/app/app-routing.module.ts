@@ -18,6 +18,7 @@ import { ReservationsListComponent } from './components/reservation/list-reserva
 import { EditReservationComponent } from './components/reservation/edit-reservation/edit-reservation.component';
 import { ReservationDetailsComponent } from './components/reservation/reservation-details/reservation-details.component';
 import { HistoriquePaiementComponent } from './components/payment-history/payment-history.component';
+import { AddUserComponent } from './components/user/add-user/add-user.component';
 
 
 const routes: Routes = [
@@ -39,7 +40,7 @@ const routes: Routes = [
   { path: 'reservations/edit/:id', component: EditReservationComponent },
   { path: 'reservation-details/:id', component: ReservationDetailsComponent },
   { path: 'paiements', component: HistoriquePaiementComponent },
-
+  { path: 'users/add', component: AddUserComponent },
   { path: '**', redirectTo: '' }
 
 ];

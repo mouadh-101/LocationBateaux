@@ -27,6 +27,7 @@ import { ReservationsListComponent } from './components/reservation/list-reserva
 import { ReservationDetailsComponent } from './components/reservation/reservation-details/reservation-details.component';
 import { HistoriquePaiementComponent } from './components/payment-history/payment-history.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AddUserComponent } from './components/user/add-user/add-user.component';
 
 
 
@@ -52,7 +53,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AddPartnerComponent,
     EditPartnerComponent,
     ReservationDetailsComponent,
-    HistoriquePaiementComponent
+    HistoriquePaiementComponent,
+    AddUserComponent
 
 
 

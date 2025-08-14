@@ -1,32 +1,37 @@
 <div class="dashboard-container">
- <h2 class="text-center text-[28px] sm:text-[36px] font-semibold text-blue-600 mb-6 leading-tight tracking-tight italic">
-  Tableau De Bord
-</h2> <br>
+  <h2
+    class="text-center text-[28px] sm:text-[36px] font-semibold text-blue-600 mb-6 leading-tight tracking-tight italic">
+    Tableau De Bord
+  </h2> <br>
 
   <div class="stats-grid">
 
     <!-- Utilisateurs -->
+     <li *ngIf="authService.isAdmin()">
     <div class="stat-card card-1">
       <i class="fas fa-users icon"></i>
       <p class="label">Total des Utilisateurs</p>
       <h3>{{ totalUsers }}</h3>
     </div>
-
+     </li>
     <!-- Utilisateurs Actifs -->
+      <li *ngIf="authService.isAdmin()">
     <div class="stat-card card-7">
       <i class="fas fa-user-check icon text-green-600"></i>
       <p class="label">Utilisateurs Actifs</p>
       <h3>{{ activeUsers }}</h3>
     </div>
-
+      </li>
     <!-- Utilisateurs Bannis -->
+     <li *ngIf="authService.isAdmin()">
     <div class="stat-card card-6">
       <i class="fas fa-user-slash icon text-red-600"></i>
       <p class="label">Utilisateurs Bannis</p>
       <h3>{{ bannedUsers }}</h3>
     </div>
-
+     </li>
     <!-- Bateaux -->
+     
     <div class="stat-card card-1">
       <i class="fas fa-ship icon"></i>
       <p class="label">Total des Bateaux</p>
@@ -76,11 +81,12 @@
     </div>
 
     <!-- Partenaires -->
+     <li *ngIf="authService.isAdmin()">
     <div class="stat-card card-8">
       <i class="fas fa-handshake icon text-purple-600"></i>
       <p class="label">Partenaires</p>
       <h3>{{ totalPartners }}</h3>
     </div>
-
+     </li>
   </div>
 </div>

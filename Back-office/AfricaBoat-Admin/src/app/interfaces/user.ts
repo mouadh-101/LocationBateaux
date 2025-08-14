@@ -23,3 +23,12 @@ export interface JwtPayload {
     role: string;
     exp: number;
   }
+
+  export interface UserRegister {
+    name: string;
+    email: string;
+    password: string;
+    role: string;
+    phone: string; // ✅ ajouté pour correspondre au backend
+}
+
