@@ -28,6 +28,13 @@ public class UserController {
         return ResponseEntity.status(201).body(created);
     }
 
+    @PostMapping("/random-password")
+    public ResponseEntity<User> createUserWithRandomPassword(@RequestBody RegisterRequest request) {
+        User savedUser = userService.createUserWithRandomPassword(request);
+        return ResponseEntity.ok(savedUser);
+    }
+
+
     @GetMapping
     @PreAuthorize("hasRole('ADMIN') or hasRole('GESTIONNAIRE')")
     public ResponseEntity<List<UserDataWithName>> getAllUsers() {

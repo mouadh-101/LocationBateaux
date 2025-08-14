@@ -1,0 +1,254 @@
+<h2 class="text-center text-[28px] sm:text-[36px] font-semibold text-blue-600 mb-6 leading-tight tracking-tight italic">
+  Ajouter Un Bateau
+</h2>
+
+
+
+
+<button type="button"
+  class="mb-6 px-5 py-2.5 bg-gray-200 text-gray-700 font-semibold rounded-lg shadow hover:bg-gray-300 transition duration-300"
+  (click)="goBack()">
+  ← Retour à la liste
+</button>
+
+<!-- Barre de progression des étapes -->
+<div class="max-w-4xl mx-auto mb-6 px-4">
+  <div class="flex items-center">
+    <div *ngFor="let stepNum of [1,2,3,4,5]" class="flex-1">
+      <div
+        class="relative mb-2 flex justify-center items-center w-8 h-8 mx-auto rounded-full text-white font-bold cursor-default"
+        [ngClass]="{
+          'bg-custom-blue': step >= stepNum,
+          'bg-gray-300': step < stepNum
+        }">
+        {{ stepNum }}
+      </div>
+      <div class="text-center text-xs font-semibold" [ngClass]="{
+        'text-custom-blue': step === stepNum,
+        'text-gray-500': step !== stepNum
+      }">
+        Étape {{ stepNum }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Ligne de progression -->
+  <div class="relative mt-1 h-1 bg-gray-300 rounded">
+    <div class="absolute top-0 left-0 h-1 bg-custom-blue rounded transition-all duration-300 ease-in-out"
+      [style.width.%]="(step - 1) / 4 * 100">
+    </div>
+  </div>
+</div>
+
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+
+  <form #form="ngForm" (ngSubmit)="saveBoat()" class="space-y-6" novalidate>
+
+    <!-- Step 1 -->
+    <div *ngIf="isStep(1)" [@stepTransition]>
+      <h3 class="text-xl font-semibold mb-4 text-custom-blue">Informations du bateau</h3>
+
+      <label for="nom" class="block mb-1 font-medium text-gray-700">Nom du bateau</label>
+      <input type="text" id="nom" [(ngModel)]="boat.nom" name="nom" #nom="ngModel" required minlength="3" maxlength="50"
+        class="w-full px-4 py-2 border border-gray-300 rounded focus-ring-custom-blue" />
+      <div *ngIf="nom.invalid && nom.touched" class="text-red-600 text-sm mt-1">
+        <small *ngIf="nom.errors?.['required']">Le nom est obligatoire.</small>
+        <small *ngIf="nom.errors?.['minlength']">Minimum 3 caractères.</small>
+        <small *ngIf="nom.errors?.['maxlength']">Maximum 50 caractères.</small>
+      </div>
+
+      <label for="description" class="block mt-4 mb-1 font-medium text-gray-700">Description</label>
+      <textarea id="description" [(ngModel)]="boat.description" name="description" #description="ngModel" required
+        minlength="10" maxlength="500"
+        class="w-full px-4 py-2 border border-gray-300 rounded focus-ring-custom-blue"></textarea>
+      <div *ngIf="description.invalid && description.touched" class="text-red-600 text-sm mt-1">
+        <small *ngIf="description.errors?.['required']">La description est obligatoire.</small>
+        <small *ngIf="description.errors?.['minlength']">Minimum 10 caractères.</small>
+        <small *ngIf="description.errors?.['maxlength']">Maximum 300 caractères.</small>
+      </div>
+
+      <label for="prix" class="block mt-4 mb-1 font-medium text-gray-700">Prix (TND)</label>
+      <input type="number" id="prix" [(ngModel)]="boat.prix" name="prix" #prix="ngModel" min="1" required
+        class="w-full px-4 py-2 border border-gray-300 rounded focus-ring-custom-blue" />
+      <div *ngIf="prix.invalid && prix.touched" class="text-red-600 text-sm mt-1">
+        <small *ngIf="prix.errors?.['required']">Le prix est obligatoire.</small>
+        <small *ngIf="prix.errors?.['min']">Le prix doit être positif ou nul.</small>
+      </div>
+
+      <div *ngIf="admin">
+        <label for="commission" class="block mt-4 mb-1 font-medium text-gray-700">Commission %</label>
+        <input type="number" id="commission" [(ngModel)]="boat.commission" name="commission" #commission="ngModel"
+          min="1" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus-ring-custom-blue" />
+        <div *ngIf="commission.invalid && commission.touched" class="text-red-600 text-sm mt-1">
+          <small *ngIf="commission.errors?.['required']">La commission est obligatoire.</small>
+          <small *ngIf="commission.errors?.['min']">La commission doit être positive ou nulle.</small>
+        </div>
+      </div>
+
+      <label for="port" class="block mt-4 mb-1 font-medium text-gray-700">Port</label>
+      <select id="port" [(ngModel)]="selectedPort" name="port" #port="ngModel" required (change)="onPortChange($event)"
+        class="w-full px-4 py-2 border border-gray-300 rounded focus-ring-custom-blue">
+        <option *ngFor="let p of ports" [value]="p.nom">{{ p.nom }}</option>
+        <option value="autre">Autre</option>
+      </select>
+      <div *ngIf="selectedPort === 'autre'">
+        <input type="text" [(ngModel)]="boat.port.nom" name="newPort" #newPort="ngModel" required minlength="2"
+          maxlength="50" class="w-full px-4 py-2 mt-4 mb-1  border border-gray-300 rounded focus-ring-custom-blue"
+          placeholder="Entrez le nom du port" />
+
+        <div *ngIf="newPort.invalid && newPort.touched" class="error-msg">
+          <small *ngIf="newPort.errors?.['required']">Le port est obligatoire.</small>
+          <small *ngIf="newPort.errors?.['minlength']">Minimum 2 caractères.</small>
+          <small *ngIf="newPort.errors?.['maxlength']">Maximum 50 caractères.</small>
+        </div>
+      </div>
+    </div>
+    <!-- Step 2 -->
+    <div *ngIf="isStep(2)" [@stepTransition]>
+      <h3 class="text-xl font-semibold mb-4 text-custom-blue">Caractéristiques du bateau</h3>
+
+      <fieldset class="border border-gray-300 rounded p-4 space-y-4">
+        <legend class="font-semibold text-custom-blue mb-2">Détails techniques</legend>
+
+        <label for="capacite" class="block font-medium text-gray-700">Capacité</label>
+        <input type="number" id="capacite" [(ngModel)]="boat.carecteristique.capacite" name="caracteristique.capacite"
+          #capacite="ngModel" min="1" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus-ring-custom-blue" />
+        <div *ngIf="capacite.invalid && capacite.touched" class="text-red-600 text-sm mt-1">
+          <small *ngIf="capacite.errors?.['required']">La capacité est obligatoire.</small>
+          <small *ngIf="capacite.errors?.['min']">Doit être au moins 1.</small>
+        </div>
+
+        <label for="longueur" class="block font-medium text-gray-700">Longueur (m)</label>
+        <input type="number" step="0.1" id="longueur" [(ngModel)]="boat.carecteristique.longueur"
+          name="caracteristique.longueur" #longueur="ngModel" min="0.1" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus-ring-custom-blue" />
+        <div *ngIf="longueur.invalid && longueur.touched" class="text-red-600 text-sm mt-1">
+          <small *ngIf="longueur.errors?.['required']">La longueur est obligatoire.</small>
+          <small *ngIf="longueur.errors?.['min']">Doit être positive.</small>
+        </div>
+
+        <label for="largeur" class="block font-medium text-gray-700">Largeur (m)</label>
+        <input type="number" step="0.1" id="largeur" [(ngModel)]="boat.carecteristique.largeur"
+          name="caracteristique.largeur" #largeur="ngModel" min="0.1" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus-ring-custom-blue" />
+        <div *ngIf="largeur.invalid && largeur.touched" class="text-red-600 text-sm mt-1">
+          <small *ngIf="largeur.errors?.['required']">La largeur est obligatoire.</small>
+          <small *ngIf="largeur.errors?.['min']">Doit être positive.</small>
+        </div>
+
+        <label for="nombreMoteurs" class="block font-medium text-gray-700">Nombre de moteurs</label>
+        <input type="number" id="nombreMoteurs" [(ngModel)]="boat.carecteristique.nombreMoteurs"
+          name="caracteristique.nombreMoteurs" #nombreMoteurs="ngModel" min="0" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus-ring-custom-blue" />
+        <div *ngIf="nombreMoteurs.invalid && nombreMoteurs.touched" class="text-red-600 text-sm mt-1">
+          <small *ngIf="nombreMoteurs.errors?.['required']">Le nombre de moteurs est obligatoire.</small>
+          <small *ngIf="nombreMoteurs.errors?.['min']">Ne peut pas être négatif.</small>
+        </div>
+
+        <label for="type" class="block font-medium text-gray-700">Type de bateau</label>
+        <select id="type" [(ngModel)]="boat.carecteristique.type" name="caracteristique.type" #type="ngModel" required
+          class="w-full px-4 py-2 rounded border-2 border-custom-blue bg-gradient-to-r from-blue-100 to-blue-50 text-custom-blue shadow-md hover:border-blue-700 focus-ring-custom-blue transition duration-300 ease-in-out cursor-pointer">
+          <option value="" disabled>-- Choisir un type --</option>
+          <option value="YACHT">Yacht</option>
+          <option value="VOILIER">Voilier</option>
+          <option value="CATAMARAN">Catamaran</option>
+          <option value="SPORT">Sport</option>
+          <option value="AUTRE">Autre</option>
+        </select>
+        <div *ngIf="type.invalid && type.touched" class="text-red-600 text-sm mt-1">
+          <small>Le type de bateau est obligatoire.</small>
+        </div>
+      </fieldset>
+    </div>
+
+    <!-- Step 3 -->
+    <div *ngIf="isStep(3)" [@stepTransition]>
+      <h3 class="text-xl font-semibold mb-4 text-custom-blue">Services disponibles</h3>
+
+      <label class="font-medium mb-2 block">Sélectionnez les services inclus</label>
+
+      <div class="space-y-2 mb-4">
+        <label *ngFor="let service of servicesDisponibles" class="inline-flex items-center space-x-2 cursor-pointer">
+          <input type="checkbox" [checked]="isServiceSelected(service)" (change)="toggleService(service)"
+            class="form-checkbox text-custom-blue" />
+          <span class="text-gray-700">{{ service.nom }}</span>
+        </label>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <input type="text" id="newService" [(ngModel)]="newServiceName" name="newServiceName"
+          placeholder="Ajouter un nouveau service"
+          class="flex-grow px-4 py-2 border border-gray-300 rounded focus-ring-custom-blue" />
+        <button type="button" (click)="addNewService()"
+          class="px-4 py-2 bg-custom-blue text-white rounded hover-bg-custom-blue transition">Ajouter</button>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div *ngIf="isStep(4)" [@stepTransition]>
+      <h3 class="text-xl font-semibold mb-4 text-custom-blue">Types de réservation et tarifs</h3>
+
+      <fieldset class="space-y-4">
+
+        <label class="inline-flex items-center space-x-2 cursor-pointer">
+          <input type="checkbox" [(ngModel)]="boat.reservationTypeSettings.full_day_enabled" name="reservation.fullDay"
+            class="form-checkbox text-custom-blue" />
+          <span>Journée complète</span>
+        </label>
+        <div *ngIf="boat.reservationTypeSettings.full_day_enabled">
+          <input type="number" [(ngModel)]="boat.reservationTypeSettings.fullDayPrice"
+            placeholder="Prix pour une journée complète (TND)" name="reservation.fullDayPrice"
+            class="w-full mt-1 px-4 py-2 border border-gray-300 rounded focus-ring-custom-blue" min="0" required />
+        </div>
+
+        <label class="inline-flex items-center space-x-2 cursor-pointer">
+          <input type="checkbox" [(ngModel)]="boat.reservationTypeSettings.half_day_enabled" name="reservation.halfDay"
+            class="form-checkbox text-custom-blue" />
+          <span>Demi-journée</span>
+        </label>
+        <div *ngIf="boat.reservationTypeSettings.half_day_enabled">
+          <input type="number" [(ngModel)]="boat.reservationTypeSettings.halfDayPrice"
+            placeholder="Prix pour une demi-journée (TND)" name="reservation.halfDayPrice"
+            class="w-full mt-1 px-4 py-2 border border-gray-300 rounded focus-ring-custom-blue" min="0" required />
+        </div>
+
+        <label class="inline-flex items-center space-x-2 cursor-pointer">
+          <input type="checkbox" [(ngModel)]="boat.reservationTypeSettings.two_hours_enabled"
+            name="reservation.twoHours" class="form-checkbox text-custom-blue" />
+          <span>2 heures</span>
+        </label>
+        <div *ngIf="boat.reservationTypeSettings.two_hours_enabled">
+          <input type="number" [(ngModel)]="boat.reservationTypeSettings.twoHoursPrice"
+            placeholder="Prix pour 2 heures (TND)" name="reservation.twoHoursPrice"
+            class="w-full mt-1 px-4 py-2 border border-gray-300 rounded focus-ring-custom-blue" min="0" required />
+        </div>
+
+      </fieldset>
+    </div>
+
+    <!-- Step 5 -->
+    <div *ngIf="isStep(5)" [@stepTransition]>
+      <h3 class="text-xl font-semibold mb-4 text-custom-blue">Images du bateau</h3>
+      <app-image-upload [initialImages]="boat.images" #imageUploader></app-image-upload>
+    </div>
+
+    <!-- Navigation buttons -->
+    <div class="flex justify-between mt-8">
+      <button type="button" (click)="prevStep()" *ngIf="step > 1"
+        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition">Précédent</button>
+
+      <button type="button" (click)="nextStep()" *ngIf="step < 5" [disabled]="!isFormStepValid()"
+        class="px-4 py-2 bg-custom-blue text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover-bg-custom-blue transition">
+        Suivant
+      </button>
+
+      <button type="submit" *ngIf="step === 5" [disabled]="!isFormStepValid()"
+        class="px-6 py-2 bg-custom-blue text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-800 transition">
+        Enregistrer
+      </button>
+
+    </div>
+  </form>
+</div>

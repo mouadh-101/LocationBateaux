@@ -1,0 +1,356 @@
+.form-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #007bff;
+  font-weight: bold;
+  margin-bottom: 30px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Card container */
+.card-form {
+  max-width: 600px;
+  margin: 20px auto 40px;
+  padding: 30px 35px;
+  border-radius: 15px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Form style */
+.form-card {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
+.form-card label {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+  font-size: 15px;
+}
+
+/* Inputs and Textarea */
+.form-card input[type="text"],
+.form-card input[type="number"],
+.form-card textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-card input[type="text"]:focus,
+.form-card input[type="number"]:focus,
+.form-card textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+  outline: none;
+}
+
+.form-card textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+.form-card select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  appearance: none; /* removes default OS styling */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20fill%3D%22%23666%22%20height%3D%2210%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2210%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M7%2010l5%205%205-5z%22/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+}
+
+.form-card select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+  outline: none;
+}
+
+
+/* Wrapper for image URL input and button */
+.image-input-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+/* Small button next to image URL input */
+.btn-mini {
+  padding: 8px 14px;
+  background-color: #00b4d8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-mini:hover {
+  background-color: #0096c7;
+}
+
+/* List of images added */
+.images-list {
+  margin-top: 20px;
+}
+
+.images-list h4 {
+  margin-bottom: 12px;
+  color: #007bff;
+  font-weight: 600;
+}
+
+.images-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.images-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f1f1f1;
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  word-break: break-word; /* couper longue URL */
+}
+
+/* Delete image button */
+.btn-delete {
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  color: #dc3545;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.btn-delete:hover {
+  color: #a71d2a;
+}
+
+/* Container for form submit button */
+.form-actions {
+  margin-top: 30px;
+  text-align: center;
+}
+
+/* Submit button */
+.btn-primary {
+  background-color: #28a745;
+  color: white;
+  padding: 12px 36px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Ligne décorative sous le titre h2 */
+
+
+.btn-primary {
+  background-color: #2563eb;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #1e40af;
+}
+
+.btn-secondary {
+  background-color: #6b7280;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: #4b5563;
+}
+
+
+.error-msg {
+  color: #dc2626; /* rouge */
+  font-size: 0.85rem;
+  margin-top: 0.15rem;
+  margin-bottom: 0.5rem;
+}
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+  border-color: #dc2626;
+}
+
+
+/* Style pour la section types de réservation */
+.reservation-types-section label {
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-top: 12px;
+}
+
+/* Cacher la checkbox native */
+.reservation-types-section input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Carré personnalisé */
+.reservation-types-section label span::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 20px;
+  width: 20px;
+  border: 2px solid #007bff;
+  border-radius: 4px;
+  background-color: white;
+  box-sizing: border-box;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+/* Coche quand checked */
+.reservation-types-section input[type="checkbox"]:checked + span::before {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.reservation-types-section input[type="checkbox"]:checked + span::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+}
+
+/* Hover */
+.reservation-types-section label:hover span::before {
+  border-color: #0056b3;
+}
+
+
+.input {
+  @apply w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+.btn-primary {
+  @apply bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow;
+}
+
+.btn-secondary {
+  @apply bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-2 rounded-lg;
+}
+
+.btn-success {
+  @apply bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg;
+}
+
+
+.text-custom-blue {
+  color: #2563eb !important;
+}
+
+.bg-custom-blue {
+  background-color: #2563eb !important;
+}
+
+.border-custom-blue {
+  border-color: #2563eb !important;
+}
+
+.focus-ring-custom-blue:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #2563eb;
+}
+
+.hover-bg-custom-blue:hover {
+  background-color: #1e4db7; /* bleu plus foncé au hover */
+}
+
+
+h2 {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #2563eb;
+  /* Bleu vif */
+  letter-spacing: 3px;
+  text-align: center;
+  position: relative;
+  padding-bottom: 14px;
+  margin-bottom: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2::after {
+  content: '';
+  width: 140px;
+  height: 5px;
+  background: linear-gradient(90deg, #2563eb, #60a5fa);
+  display: block;
+  margin: 0 auto;
+  border-radius: 4px;
+  box-shadow: 0 0 12px #60a5fa;
+  transition: width 0.4s ease;
+}
+
+h2:hover::after {
+  width: 600px;
+}
