@@ -77,7 +77,6 @@ Key updated tables:
 /LocationBateaux
 ├── /BackEnd --> Spring Boot (REST API, Entities, Repositories, Services, Controllers)
 └── /FrontEnd --> Angular (Components, Services, Routing, Styles, Tests)
-└──/Back-office/AfricaBoat-Admin --> Angular (Components, Services, Routing, Styles, Tests)
 
 
 ---
@@ -102,6 +101,7 @@ Key updated tables:
 ---
 
 > This README will be regularly updated as the project progresses.
+
 
 
 
