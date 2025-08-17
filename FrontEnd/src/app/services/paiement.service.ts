@@ -40,6 +40,13 @@ export class PaiementService {
   createPaypalOrder(paimentId: number): Observable<{ approvalUrl: string }> {
   return this.http.get<{ approvalUrl: string }>(`${this.baseUrl}/${paimentId}/paypal-order`);
 }
+getAllPaiements(): Observable<Paiment[]> {
+    return this.http.get<Paiment[]>(`${this.baseUrl}/list`);
+  }
+
+  getPaiementsForGestionnaire(): Observable<Paiment[]> {
+    return this.http.get<Paiment[]>(`${this.baseUrl}/Paie-gest`);
+  }
 
   
 }

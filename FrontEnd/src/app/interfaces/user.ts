@@ -5,6 +5,7 @@ export interface User {
     password: string,
     name: string,
     role: string
+    isActive: boolean,
 }
 export interface UserLogin {
     email: string,
@@ -27,4 +28,11 @@ export interface AuthenticationResponse {
     status: string;
     message: string;
     token?: string;
+}
+export interface UserRegister {
+    name: string;
+    email: string;
+    password: string;
+    role: string;
+    phone: string; // ✅ ajouté pour correspondre au backend
 }

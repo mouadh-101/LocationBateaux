@@ -1,6 +1,7 @@
 package org.nst.bateaux.service.Interface;
 
 import jakarta.mail.MessagingException;
+import org.nst.bateaux.dto.contact.ContactMessageDto;
 import org.nst.bateaux.entity.Bateaux;
 
 import java.time.LocalDateTime;
@@ -40,4 +41,7 @@ public interface IMailService {
             String clientEmail,
             String clientPhone
     );
+
+    void sendContactMessageToAdmins(ContactMessageDto contactMessageDto) throws MessagingException;
+
 }

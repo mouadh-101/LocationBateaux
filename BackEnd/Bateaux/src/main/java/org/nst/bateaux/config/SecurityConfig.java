@@ -73,7 +73,9 @@ public class SecurityConfig {
                                 "/api/ports",
                                 "/uploads/**",
                                 "/api/partner/**",
-                                "/login/oauth2/code/google"
+                                "/login/oauth2/code/google",
+                                "/api/contact"
+
                         ).permitAll()
                         .anyRequest().authenticated()
                 );

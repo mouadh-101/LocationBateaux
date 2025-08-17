@@ -1,5 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,13 +8,26 @@ import { BehaviorSubject } from 'rxjs';
 export class ContactUsService {
 
   private modalState = new BehaviorSubject<boolean>(false);
-    modalState$ = this.modalState.asObservable();
+  modalState$ = this.modalState.asObservable();
+
+  open() {
+    this.modalState.next(true);
+  }
+
+  close() {
+    this.modalState.next(false);
+  }
+  private apiUrl = 'http://localhost:8081/api/contact';
   
-    open() {
-      this.modalState.next(true);
-    }
+    constructor(private http: HttpClient) {}
   
-    close() {
-      this.modalState.next(false);
+    sendMessage(contactMessage: ContactMessage): Observable<any> {
+      return this.http.post(this.apiUrl, contactMessage);
     }
+}
+export interface ContactMessage {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
 }

@@ -15,6 +15,10 @@ export class AuthService {
   private authState = new BehaviorSubject<boolean>(this.isLoggedIn());
 
   authState$ = this.authState.asObservable();
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  currentUser$ = this.currentUserSubject.asObservable();
+
+  private userLoaded = false;
 
   constructor(private http: HttpClient, private router: Router) {
     this.loadUserFromStorage();
@@ -99,10 +103,10 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    return this.role === 'admin';
+    return this.role === 'ADMIN';
   }
 
-  private loadUserFromStorage() {
+  loadUserFromStorage() {
     const token = this.token;
     if (token && !this.isTokenExpired(token)) {
       const role = this.decodeRoleFromToken(token);
@@ -110,8 +114,17 @@ export class AuthService {
         localStorage.setItem('role', role);
       }
       this.authState.next(true);
+      
     }
   }
+  setCurrentUser(user: User) {
+    this.currentUserSubject.next(user);
+  }
+
+  getCurrentUser(): User | null {
+    return this.currentUserSubject.value;
+  }
+
 
   emitAuthState() {
     this.authState.next(this.isLoggedIn());
@@ -143,7 +156,7 @@ export class AuthService {
       )
   }
   requestReset(email: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/forgot-password`, { email :email });
+    return this.http.post<any>(`${this.baseUrl}/forgot-password`, { email: email });
   }
   resetPassword(token: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/reset-password`, { token, password }).pipe(
@@ -155,5 +168,9 @@ export class AuthService {
       catchError(ErrorHandlerUtil.handleError)
     );
   }
+  isGestionnaire(): boolean {
+    return this.role === 'GESTIONNAIRE';
+  }
+
 
 }

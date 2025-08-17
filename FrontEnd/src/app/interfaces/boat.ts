@@ -62,4 +62,9 @@ export interface BoatFilter {
   date:Date;
   nbPersonnes:number ;
 }
+export interface Image {
+  imageId?: number;
+  url: string;
+}
+
 
