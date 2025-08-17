@@ -17,4 +17,21 @@ export class PartnerService {
       catchError(ErrorHandlerUtil.handleError)
     );
   }
+  getPartnerById(id: number): Observable<Partner> {
+    return this.http.get<Partner>(`${this.baseUrl }/${id}`);
+  }
+
+addPartner(partnerData: FormData): Observable<Partner> {
+  // NE PAS mettre de headers ici, laisser Angular gérer Content-Type et boundary
+  return this.http.post<Partner>(`${this.baseUrl}`, partnerData);
+}
+updatePartner(id: number, formData: FormData): Observable<Partner> {
+  return this.http.put<Partner>(`${this.baseUrl}/${id}`, formData);
+}
+
+
+
+  deletePartner(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl }?id=${id}`);
+  }
 }

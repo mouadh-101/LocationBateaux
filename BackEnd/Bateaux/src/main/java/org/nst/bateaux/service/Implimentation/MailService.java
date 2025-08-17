@@ -3,14 +3,19 @@ package org.nst.bateaux.service.Implimentation;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.nst.bateaux.dto.contact.ContactMessageDto;
 import org.nst.bateaux.entity.Bateaux;
+import org.nst.bateaux.repository.UserRepository;
 import org.nst.bateaux.service.Interface.IMailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +25,8 @@ public class MailService implements IMailService {
 
     @Value("${spring.mail.username}")
     private String fromEmail;
+    @Autowired
+    UserRepository userRepository;
     @Override
     public void sendPaiementConfirmation(
             String toEmailClient,
@@ -636,6 +643,19 @@ public class MailService implements IMailService {
                 contactBlock
         );
     }
+    @Override
+    public void sendContactMessageToAdmins(ContactMessageDto contactMessageDto) {
+        List<String> adminEmails = userRepository.findAllAdminEmails();
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        for (String adminEmail : adminEmails) {
+            mailMessage.setFrom(fromEmail);
+            mailMessage.setTo(adminEmail);
+            mailMessage.setSubject("[Contact] " + contactMessageDto.getSubject());
+            mailMessage.setText("From: " + contactMessageDto.getName() + " (" + contactMessageDto.getEmail() + ")\n\n" + contactMessageDto.getMessage());
+            mailSender.send(mailMessage);
+        }
+    }
+
 
 }
 

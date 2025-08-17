@@ -53,4 +53,10 @@ export class ReservationService {
       catchError(ErrorHandlerUtil.handleError)
     );
   }
+  getAllReservations(): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`${this.baseUrl}/list`);
+  }
+  getReservationsForGestionnaire(): Observable<Reservation[]> {
+  return this.http.get<Reservation[]>(`${this.baseUrl}/gestionnaire`);
+}
 }

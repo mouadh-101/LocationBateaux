@@ -29,5 +29,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
     WHERE u.id = :userId
 """)
     StatsUserProfile getUserStatsById(@Param("userId") Long userId);
+    @Query("select u.email from User u where u.role = 'ADMIN' and u.isDeleted = false")
+    List<String> findAllAdminEmails();
 
 }

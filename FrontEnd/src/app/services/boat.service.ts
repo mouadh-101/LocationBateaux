@@ -3,8 +3,9 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { Boat, BoatFilter } from '../interfaces/boat';
+import { Boat, BoatFilter, ServiceBoat } from '../interfaces/boat';
 import { ErrorHandlerUtil } from 'src/util/errorHandlerUtil';
+import { Port } from '../interfaces/port';
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +57,35 @@ export class BoatService {
   }
   private formatDate(date: Date): string {
     return date.toString()
+  }
+  getAllService(): Observable<ServiceBoat[]> {
+    return this.http.get<ServiceBoat[]>(`http://localhost:8081/api/services`);
+  }
+  getAllPorts(): Observable<Port[]> {
+    return this.http.get<Port[]>(`http://localhost:8081/api/ports`);
+  }
+  addBoat(boat: Boat): Observable<Boat> {
+    return this.http.post<Boat>(this.baseUrl, boat);
+  }
+
+  // Modifier un bateau (PUT)
+  editBoat(id: number, boat: Boat): Observable<Boat> {
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.put<Boat>(url, boat);
+  }
+
+  // Supprimer un bateau (DELETE)
+  deleteBoat(id: number): Observable<void> {
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.delete<void>(url);
+  }
+
+  updateBoat(id: number, boat: Boat): Observable<any> {
+    return this.http.put(`${this.baseUrl}/${id}`, boat);
+  }
+  getBoatsByUser(): Observable<Boat[]> {
+    return this.http.get<Boat[]>(`${this.baseUrl}/listBpU`);
+
   }
 
 }
